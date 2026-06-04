@@ -1,0 +1,350 @@
+<!DOCTYPE html><script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Ad Solutions Dashboard",
+  "schemaVersion": 1,
+  "description": "Ad Solutions Team daily analytics dashboard built from the Adobe Analytics PDF report. Brand performance, top stories, engagement, insights, and department recommendations (sales, marketing, product, ops + cross-brand) across 9 Crain properties. Auto-refreshed each morning."
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ad Solutions Team Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f2f5; color: #1a1a2e; }
+
+  .header { background: linear-gradient(135deg, #e8140b 0%, #c0392b 100%); color: white; padding: 24px 32px; }
+  .header h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.3px; }
+  .header p { font-size: 13px; opacity: 0.85; margin-top: 4px; }
+
+  .tabs { display: flex; background: white; border-bottom: 1px solid #e2e8f0; padding: 0 24px; gap: 4px; flex-wrap: wrap; }
+  .tab { padding: 12px 16px; font-size: 13px; font-weight: 500; color: #64748b; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.15s; }
+  .tab.active { color: #e8140b; border-bottom-color: #e8140b; }
+  .tab:hover:not(.active) { color: #334155; }
+
+  .page { display: none; padding: 24px; max-width: 1100px; margin: 0 auto; }
+  .page.active { display: block; }
+
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+  .kpi { background: white; border-radius: 12px; padding: 20px; border-left: 4px solid #e8140b; box-shadow: 0 1px 3px rgba(0,0,0,0.07); }
+  .kpi .label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #94a3b8; margin-bottom: 6px; }
+  .kpi .value { font-size: 28px; font-weight: 700; color: #1e293b; line-height: 1; }
+  .kpi .sub { font-size: 12px; color: #64748b; margin-top: 6px; }
+  .kpi.green { border-left-color: #10b981; }
+  .kpi.blue { border-left-color: #3b82f6; }
+  .kpi.purple { border-left-color: #8b5cf6; }
+
+  .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+  .chart-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.07); }
+  .chart-card.full { grid-column: 1 / -1; }
+  .chart-card h3 { font-size: 14px; font-weight: 600; color: #334155; margin-bottom: 16px; }
+  .chart-card canvas { width: 100% !important; }
+
+  .brand-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .brand-table th { background: #f8fafc; text-align: left; padding: 10px 14px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; color: #64748b; border-bottom: 1px solid #e2e8f0; }
+  .brand-table td { padding: 11px 14px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+  .brand-table tr:last-child td { border-bottom: none; }
+  .brand-table tr:hover td { background: #fafbfc; }
+  .bar-cell { display: flex; align-items: center; gap: 8px; }
+  .bar-bg { flex: 1; height: 6px; background: #f1f5f9; border-radius: 3px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 3px; background: #e8140b; }
+  .bar-fill.green { background: #10b981; }
+  .rank-badge { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: #fef2f2; color: #e8140b; font-size: 11px; font-weight: 700; }
+  .rank-badge.gold { background: #fef9c3; color: #b45309; }
+  .rank-badge.silver { background: #f1f5f9; color: #475569; }
+  .rank-badge.bronze { background: #fff7ed; color: #c2410c; }
+  .time-pill { background: #f0fdf4; color: #166534; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; display: inline-block; }
+  .time-pill.warn { background: #fff7ed; color: #c2410c; }
+
+  .insight-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .insight-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.07); }
+  .insight-card h3 { font-size: 13px; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .icon { font-size: 16px; }
+  .insight-item { display: flex; gap: 10px; margin-bottom: 11px; align-items: flex-start; }
+  .insight-item:last-child { margin-bottom: 0; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #e8140b; flex-shrink: 0; margin-top: 5px; }
+  .dot.green { background: #10b981; }
+  .dot.blue { background: #3b82f6; }
+  .dot.orange { background: #f59e0b; }
+  .insight-item p { font-size: 13px; color: #374151; line-height: 1.45; }
+  .insight-item strong { color: #1e293b; }
+
+  .story-list { list-style: none; }
+  .story-item { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid #f1f5f9; align-items: flex-start; }
+  .story-item:last-child { border-bottom: none; }
+  .story-num { font-size: 20px; font-weight: 800; color: #e2e8f0; line-height: 1; flex-shrink: 0; width: 28px; }
+  .story-info { flex: 1; min-width: 0; }
+  .story-title { font-size: 13px; font-weight: 600; color: #1e293b; margin-bottom: 4px; line-height: 1.4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .story-meta { display: flex; gap: 10px; flex-wrap: wrap; }
+  .meta-tag { font-size: 11px; color: #64748b; display: flex; align-items: center; gap: 3px; }
+  .brand-pill { font-size: 10px; font-weight: 600; padding: 1px 7px; border-radius: 20px; background: #fef2f2; color: #e8140b; }
+
+  .focus-card { background: white; border-radius: 12px; padding: 22px; box-shadow: 0 1px 3px rgba(0,0,0,0.07); }
+  .focus-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .focus-brand { font-size: 15px; font-weight: 700; color: #1e293b; }
+  .focus-signal { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+  .signal-hot { background: #fef2f2; color: #e8140b; }
+  .signal-growing { background: #f0fdf4; color: #166534; }
+  .signal-steady { background: #eff6ff; color: #1d4ed8; }
+  .focus-topics { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .topic-tag { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; }
+  .topic-tag.hot { background: #fef2f2; color: #b91c1c; border-color: #fecaca; }
+  .focus-pitch { font-size: 12px; color: #374151; line-height: 1.55; border-top: 1px solid #f1f5f9; padding-top: 12px; }
+  .focus-pitch strong { color: #1e293b; }
+  .focus-stat { font-size: 11px; color: #64748b; margin-top: 8px; display: flex; gap: 12px; flex-wrap: wrap; }
+  .focus-stat span { display: flex; align-items: center; gap: 3px; }
+
+  .section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: #94a3b8; margin-bottom: 12px; margin-top: 4px; }
+  .dept-label { font-size: 13px; font-weight: 700; color: #1e293b; margin: 26px 0 12px; display: flex; align-items: center; gap: 8px; padding-bottom: 8px; border-bottom: 2px solid #f1f5f9; }
+  .dept-label:first-of-type { margin-top: 4px; }
+  .dept-label .tagline { font-size: 11px; font-weight: 500; color: #94a3b8; }
+
+  .rec-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .rec-card { background: white; border-radius: 12px; padding: 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.07); border-top: 3px solid #3b82f6; }
+  .rec-card.green-top { border-top-color: #10b981; }
+  .rec-card.orange-top { border-top-color: #f59e0b; }
+  .rec-card.purple-top { border-top-color: #8b5cf6; }
+  .rec-card h4 { font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 8px; }
+  .rec-card p { font-size: 12px; color: #374151; line-height: 1.5; }
+  .rec-card .priority { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #3b82f6; margin-bottom: 6px; }
+  .rec-card.green-top .priority { color: #10b981; }
+  .rec-card.orange-top .priority { color: #f59e0b; }
+  .rec-card.purple-top .priority { color: #8b5cf6; }
+  @media (max-width: 760px) { .kpi-grid, .chart-grid, .rec-grid, #brand-focus-grid { grid-template-columns: 1fr !important; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📊 Ad Solutions Team · Daily Analytics Dashboard</h1>
+  <p>Adobe Analytics · Updated Jun 4, 2026 · Yesterday (Jun 3, Wed) + Last 7 Days (May 28–Jun 3)</p>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="showPage('overview')">Overview</div>
+  <div class="tab" onclick="showPage('brands')">By Brand</div>
+  <div class="tab" onclick="showPage('stories')">Top Stories</div>
+  <div class="tab" onclick="showPage('insights')">Insights & Recs</div>
+  <div class="tab" onclick="showPage('focus')">Brand Focus</div>
+</div>
+
+<div class="page active" id="page-overview">
+  <div class="kpi-grid">
+    <div class="kpi"><div class="label">Visits · Yesterday (Wed)</div><div class="value">3,958</div><div class="sub">All 9 brands · Jun 3</div></div>
+    <div class="kpi green"><div class="label">Visits · Last 7 Days</div><div class="value">29,388</div><div class="sub">↓ 2.0% vs last report (29,979)</div></div>
+    <div class="kpi blue"><div class="label">#1 Brand Yesterday</div><div class="value">Ad Age</div><div class="sub">1,284 visits · edged Mod. HC (1,161)</div></div>
+    <div class="kpi purple"><div class="label">Best Engagement</div><div class="value">4:50</div><div class="sub">Mod. HC 7-day avg · MSK story 6:18 🔥</div></div>
+  </div>
+  <div class="chart-grid">
+    <div class="chart-card"><h3>Visits by Brand · Yesterday</h3><canvas id="chartYesterdayBar" height="220"></canvas></div>
+    <div class="chart-card"><h3>Visits by Brand · Last 7 Days</h3><canvas id="chart7DayBar" height="220"></canvas></div>
+    <div class="chart-card full"><h3>Average Time on Site · All Brands (Last 7 Days)</h3><canvas id="chartEngagement" height="100"></canvas></div>
+  </div>
+</div>
+
+<div class="page" id="page-brands">
+  <div class="section-label">Yesterday Performance</div>
+  <div class="chart-card" style="margin-bottom:24px">
+    <table class="brand-table">
+      <thead><tr><th>#</th><th>Brand</th><th>Visits</th><th>Page Views</th><th>Avg Time on Site</th><th>Visit Share</th></tr></thead>
+      <tbody id="tbody-yesterday"></tbody>
+    </table>
+  </div>
+  <div class="section-label">Last 7 Days Performance</div>
+  <div class="chart-card">
+    <table class="brand-table">
+      <thead><tr><th>#</th><th>Brand</th><th>Visits</th><th>Page Views</th><th>Avg Time on Site</th><th>Visit Share</th></tr></thead>
+      <tbody id="tbody-7day"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="page" id="page-stories">
+  <div class="chart-grid">
+    <div class="chart-card full"><h3>🏆 Top 10 Stories by Visits · Last 7 Days (All Brands)</h3><ul class="story-list" id="top-stories-list"></ul></div>
+  </div>
+  <div class="chart-grid" style="margin-top:0">
+    <div class="chart-card"><h3>⏱ Highest Engagement Time Stories (7 days)</h3><ul class="story-list" id="engagement-stories-list"></ul></div>
+    <div class="chart-card"><h3>🔥 Content Format Breakdown (7-Day Visits)</h3><canvas id="chartFormats" height="250"></canvas></div>
+  </div>
+</div>
+
+<div class="page" id="page-focus">
+  <p style="font-size:13px;color:#64748b;margin-bottom:20px">What each audience is reading now — topics, formats, and angles to pitch this week.</p>
+  <div id="brand-focus-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:20px"></div>
+</div>
+
+<div class="page" id="page-insights">
+  <div class="insight-grid" style="margin-bottom:8px">
+    <div class="insight-card">
+      <h3><span class="icon">💡</span> Key Insights</h3>
+      <div class="insight-item"><div class="dot"></div><p><strong>Modern Healthcare leads</strong> — 9,338 visits (32% of total). IDR Proposed Rule #1 overall (1,772). Deepest dwell in the portfolio (MSK 6:18).</p></div>
+      <div class="insight-item"><div class="dot blue"></div><p><strong>Ad Age #1 yesterday</strong> (1,284) and 4 of the top 10 — all AI. AI Reshaping #2 (1,387), AI Video #3 (1,020).</p></div>
+      <div class="insight-item"><div class="dot green"></div><p><strong>Chicago strong</strong> — 3,500 visits. Wintrust fraud #5 (948), Gibson's Tavern #8 (670).</p></div>
+      <div class="insight-item"><div class="dot orange"></div><p><strong>Detroit steady</strong> — 2,897 visits. Energy Security #10 overall (651).</p></div>
+      <div class="insight-item"><div class="dot"></div><p><strong>Portfolio 29,388</strong> (−2.0% vs last report). Top 3 brands ≈ 69% of traffic.</p></div>
+    </div>
+    <div class="insight-card">
+      <h3><span class="icon">⚠️</span> Watch Areas</h3>
+      <div class="insight-item"><div class="dot green"></div><p><strong>Beachwood push working</strong> — 48→116 visits at 5:10 after a newsletter. Keep amplifying.</p></div>
+      <div class="insight-item"><div class="dot orange"></div><p><strong>High dwell, low reach</strong> — P&I Systematic Credit 5:06 (85), CNY Private Markets 4:54 (41), CNY Aero 5:01 (230). Amplify.</p></div>
+      <div class="insight-item"><div class="dot orange"></div><p><strong>CGR discovery leak</strong> — 22% of visits (191/866) hit the generic hub page, not content.</p></div>
+      <div class="insight-item"><div class="dot"></div><p><strong>Tracking check</strong> — CCL Horizons Journey shows 16:54 across only 16 visits. Verify before reporting.</p></div>
+      <div class="insight-item"><div class="dot blue"></div><p><strong>Attribution gaps</strong> — several top-10 stories tagged "Not listed." Clean tagging to enable upsell.</p></div>
+    </div>
+  </div>
+  <p style="font-size:12px;color:#64748b;margin:18px 0 6px">Recommendations by department — concrete plays from this week's data.</p>
+  <div id="recs"></div>
+</div>
+
+<script>
+const brands = [
+  { name: "Ad Age",            yVisits: 1284, yPV: 1421,  visits7: 7605,  pv7: 8877,  timeY: "1:45", time7: "1:20" },
+  { name: "Crain's Chicago",   yVisits: 362,  yPV: 421,   visits7: 3500,  pv7: 3653,  timeY: "2:51", time7: "2:59" },
+  { name: "Crain's Cleveland", yVisits: 121,  yPV: 128,   visits7: 682,   pv7: 774,   timeY: "1:57", time7: "3:09" },
+  { name: "Crain's Detroit",   yVisits: 293,  yPV: 351,   visits7: 2897,  pv7: 3291,  timeY: "2:36", time7: "3:22" },
+  { name: "Grand Rapids",      yVisits: 96,   yPV: 122,   visits7: 866,   pv7: 955,   timeY: "1:34", time7: "2:35" },
+  { name: "Crain's New York",  yVisits: 230,  yPV: 261,   visits7: 1242,  pv7: 1379,  timeY: "2:14", time7: "2:42" },
+  { name: "Hart Energy",       yVisits: 96,   yPV: 104,   visits7: 1190,  pv7: 1364,  timeY: "3:03", time7: "1:42" },
+  { name: "Modern Healthcare", yVisits: 1161, yPV: 1407,  visits7: 9338,  pv7: 11179, timeY: "4:54", time7: "4:50" },
+  { name: "P&I",               yVisits: 315,  yPV: 321,   visits7: 2068,  pv7: 2155,  timeY: "2:39", time7: "2:45" },
+];
+
+function timeToSec(t) { const [m, s] = t.split(':').map(Number); return m * 60 + s; }
+const colors = ['#e8140b','#f97316','#eab308','#22c55e','#06b6d4','#3b82f6','#8b5cf6','#ec4899','#14b8a6'];
+const shortNames = ["Ad Age","Chicago","Cleveland","Detroit","Gr. Rapids","New York","Hart Energy","Mod. HC","P&I"];
+
+new Chart(document.getElementById('chartYesterdayBar'), { type: 'bar',
+  data: { labels: shortNames, datasets: [{ label: 'Visits', data: brands.map(b => b.yVisits), backgroundColor: colors, borderRadius: 6 }] },
+  options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: '#f1f5f9' }, ticks: { font: { size: 11 } } }, x: { grid: { display: false }, ticks: { font: { size: 10 } } } } } });
+
+new Chart(document.getElementById('chart7DayBar'), { type: 'bar',
+  data: { labels: shortNames, datasets: [{ label: 'Visits (7 days)', data: brands.map(b => b.visits7), backgroundColor: colors, borderRadius: 6 }] },
+  options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: '#f1f5f9' }, ticks: { font: { size: 11 } } }, x: { grid: { display: false }, ticks: { font: { size: 10 } } } } } });
+
+const sortedByEngagement = [...brands].sort((a,b) => timeToSec(b.time7) - timeToSec(a.time7));
+new Chart(document.getElementById('chartEngagement'), { type: 'bar',
+  data: { labels: sortedByEngagement.map(b => b.name), datasets: [{ label: 'Avg Time on Site (seconds)', data: sortedByEngagement.map(b => timeToSec(b.time7)), backgroundColor: sortedByEngagement.map((b, i) => i === 0 ? '#e8140b' : '#93c5fd'), borderRadius: 6 }] },
+  options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => { const sec = ctx.raw; return ` ${Math.floor(sec/60)}:${String(sec%60).padStart(2,'0')} avg time`; } } } },
+    scales: { x: { beginAtZero: true, ticks: { callback: val => `${Math.floor(val/60)}:${String(val%60).padStart(2,'0')}`, font: { size: 11 } }, grid: { color: '#f1f5f9' } }, y: { grid: { display: false }, ticks: { font: { size: 12 } } } } } });
+
+const totalYest = brands.reduce((s, b) => s + b.yVisits, 0);
+const total7 = brands.reduce((s, b) => s + b.visits7, 0);
+const sortedY = [...brands].sort((a,b) => b.yVisits - a.yVisits);
+const sorted7 = [...brands].sort((a,b) => b.visits7 - a.visits7);
+function rankBadge(i) { const cls = i===0?'gold':i===1?'silver':i===2?'bronze':''; return `<span class="rank-badge ${cls}">${i+1}</span>`; }
+function barCell(val, max, color) { return `<div class="bar-cell"><div class="bar-bg"><div class="bar-fill ${color}" style="width:${Math.round(val/max*100)}%"></div></div><span style="font-size:12px;color:#64748b;width:34px;text-align:right">${val.toLocaleString()}</span></div>`; }
+
+document.getElementById('tbody-yesterday').innerHTML = sortedY.map((b,i) => `<tr><td>${rankBadge(i)}</td><td style="font-weight:600;font-size:13px">${b.name}</td><td>${barCell(b.yVisits, sortedY[0].yVisits, '')}</td><td style="font-size:13px;color:#334155">${b.yPV.toLocaleString()}</td><td><span class="time-pill ${timeToSec(b.timeY) >= 180 ? '' : 'warn'}">${b.timeY}</span></td><td style="font-size:12px;color:#64748b">${(b.yVisits/totalYest*100).toFixed(1)}%</td></tr>`).join('');
+document.getElementById('tbody-7day').innerHTML = sorted7.map((b,i) => `<tr><td>${rankBadge(i)}</td><td style="font-weight:600;font-size:13px">${b.name}</td><td>${barCell(b.visits7, sorted7[0].visits7, 'green')}</td><td style="font-size:13px;color:#334155">${b.pv7.toLocaleString()}</td><td><span class="time-pill ${timeToSec(b.time7) >= 180 ? '' : 'warn'}">${b.time7}</span></td><td style="font-size:12px;color:#64748b">${(b.visits7/total7*100).toFixed(1)}%</td></tr>`).join('');
+
+const topStories = [
+  { brand: "Mod. HC",    title: "IDR Proposed Rule – What Healthcare Leaders Need to Know",      visits: 1772, pv: 2179, time: "3:10", type: "Publishing Partner",     sponsor: "IDR",                  url: "https://www.modernhealthcare.com/content-studio/publishing-partner/idr-proposed-rule-what-healthcare-leaders-need-to-know/", trend: "" },
+  { brand: "Ad Age",     title: "AI Reshaping the $422 Billion Advertising Industry",            visits: 1387, pv: 1391, time: "1:07", type: "Publishing Partner",     sponsor: "Not listed",           url: "https://adage.com/studio-30/publishing-partners/aa-ai-reshaping-422-billion-industry/", trend: "↑" },
+  { brand: "Ad Age",     title: "AI Video Has a Production Problem",                             visits: 1020, pv: 1022, time: "1:16", type: "Publishing Partner",     sponsor: "Not listed",           url: "https://adage.com/studio-30/publishing-partners/aa-ai-video-has-a-production-problem/", trend: "↑" },
+  { brand: "Mod. HC",    title: "Rural Hospital NM Valencia County – Executive Conversation",    visits: 963,  pv: 1067, time: "5:15", type: "Executive Conversation", sponsor: "Valencia County (NM)", url: "https://www.modernhealthcare.com/content-studio/executive-conversation/mh-rural-hospital-new-mexico-valencia-county/", trend: "" },
+  { brand: "C. Chicago", title: "Account Takeover Fraud – Protecting Your Business (Wintrust)",  visits: 948,  pv: 948,  time: "3:46", type: "Publishing Partner",     sponsor: "Wintrust",             url: "https://www.chicagobusiness.com/crains-content-studio/publishing-partner/ccb-account-takover-fraud-wintrust/", trend: "" },
+  { brand: "Ad Age",     title: "Attention Economy – TV Ads Make Strongest Memories",            visits: 725,  pv: 725,  time: "2:31", type: "Publishing Partner",     sponsor: "Not listed",           url: "https://adage.com/studio-30/publishing-partners/aa-attention-economy-tv-ads-make-strongest-memories/", trend: "" },
+  { brand: "Ad Age",     title: "How Emotional Engagement Sets Gaming Apart",                    visits: 717,  pv: 717,  time: "1:18", type: "Publishing Partner",     sponsor: "Not listed",           url: "https://adage.com/studio-30/publishing-partners/aa-how-emotional-engagement-sets-gaming-apart/", trend: "" },
+  { brand: "C. Chicago", title: "Gibson's Tavern Chicago West Loop – Construction & Opening",    visits: 670,  pv: 671,  time: "3:50", type: "Publishing Partner",     sponsor: "Gibson's Restaurant Group", url: "https://www.chicagobusiness.com/crains-content-studio/publishing-partner/ccb-gibsons-tavern-chicago-west-loop-construction/", trend: "" },
+  { brand: "Mod. HC",    title: "Healthcare Automation & Agentic AI Future",                    visits: 653,  pv: 720,  time: "5:48", type: "Publishing Partner",     sponsor: "Not listed",           url: "https://www.modernhealthcare.com/content-studio/publishing-partner/mh-healthcare-automation-agentic-ai-future/", trend: "" },
+  { brand: "C. Detroit", title: "Energy Security & Resilient Infrastructure Investment",        visits: 651,  pv: 700,  time: "2:02", type: "Publishing Partner",     sponsor: "Not listed",           url: "https://www.crainsdetroit.com/crains-content-studio/publishing-partner/cdb-energy-security-resilient-infrastructure-investment/", trend: "" },
+];
+document.getElementById('top-stories-list').innerHTML = topStories.map((s,i) => `<li class="story-item"><div class="story-num">${i+1}</div><div class="story-info"><div class="story-title"><a href="${s.url}" target="_blank" rel="noopener" style="color:#1e293b;text-decoration:none;border-bottom:1px solid #cbd5e1;" onmouseover="this.style.color='#e8140b';this.style.borderBottomColor='#e8140b'" onmouseout="this.style.color='#1e293b';this.style.borderBottomColor='#cbd5e1'">${s.title} ↗</a>${s.trend ? `<span style="color:#10b981;font-size:12px;font-weight:700;margin-left:6px">${s.trend} Trending</span>` : ''}</div><div class="story-meta"><span class="brand-pill">${s.brand}</span><span class="meta-tag" style="color:${s.sponsor === 'Not listed' ? '#94a3b8' : '#0369a1'}">🏢 ${s.sponsor}</span><span class="meta-tag">👁 ${s.visits.toLocaleString()} visits</span><span class="meta-tag">📄 ${s.pv.toLocaleString()} PVs</span><span class="meta-tag">⏱ ${s.time} avg</span><span class="meta-tag" style="color:#8b5cf6">📌 ${s.type}</span></div></div></li>`).join('');
+
+const engStories = [
+  { brand: "Mod. HC",      title: "Enhancing Member Access to MSK Care",                visits: 579, time: "6:18", type: "Exec Conversation",  sponsor: "Not listed",          url: "https://www.modernhealthcare.com/content-studio/executive-conversation/mh-enhancing-member-access-msk-care/",        note: "🔥 Deepest meaningful dwell" },
+  { brand: "Mod. HC",      title: "Healthcare Automation & Agentic AI Future",          visits: 653, time: "5:48", type: "Publishing Partner", sponsor: "Not listed",          url: "https://www.modernhealthcare.com/content-studio/publishing-partner/mh-healthcare-automation-agentic-ai-future/",     note: "High volume + dwell" },
+  { brand: "Mod. HC",      title: "Rural Hospital NM Valencia County",                  visits: 963, time: "5:15", type: "Exec Conversation",  sponsor: "Valencia County (NM)", url: "https://www.modernhealthcare.com/content-studio/executive-conversation/mh-rural-hospital-new-mexico-valencia-county/", note: "#4 overall by visits" },
+  { brand: "C. Cleveland", title: "Beachwood Connector Road – Commercial",              visits: 116, time: "5:10", type: "Publishing Partner", sponsor: "Not listed",          url: "https://www.crainscleveland.com/crains-content-studio/publishing-partner/ccl-beachwood-connector-road-commercial/",  note: "🔥 48→116 — push working" },
+  { brand: "C. New York",  title: "Aero – Semi-Private Luxury Air Travel",              visits: 230, time: "5:01", type: "Publishing Partner", sponsor: "Aero",                url: "https://www.crainsnewyork.com/crains-content-studio/publishing-partner/cny-aero-semi-private-luxury-air-travel/",    note: "Premium fit" },
+  { brand: "C. Detroit",   title: "Advanced Primary Care – Detroit Employers",          visits: 265, time: "4:56", type: "Publishing Partner", sponsor: "Not listed",          url: "https://www.crainsdetroit.com/crains-content-studio/publishing-partner/cdb-advanced-primary-care-detroit-employers/", note: "Employer health" },
+  { brand: "Mod. HC",      title: "City of Hope – 50 Years of Bone Marrow Transplant",  visits: 580, time: "4:12", type: "Exec Conversation",  sponsor: "City of Hope",        url: "https://www.modernhealthcare.com/content-studio/executive-conversation/city-of-hope-50-years-bone-marrow-transplant/", note: "" },
+];
+document.getElementById('engagement-stories-list').innerHTML = engStories.map((s,i) => `<li class="story-item"><div class="story-num">${i+1}</div><div class="story-info"><div class="story-title"><a href="${s.url}" target="_blank" rel="noopener" style="color:#1e293b;text-decoration:none;border-bottom:1px solid #cbd5e1;" onmouseover="this.style.color='#e8140b';this.style.borderBottomColor='#e8140b'" onmouseout="this.style.color='#1e293b';this.style.borderBottomColor='#cbd5e1'">${s.title} ↗</a></div><div class="story-meta"><span class="brand-pill">${s.brand}</span><span class="meta-tag" style="color:${s.sponsor === 'Not listed' ? '#94a3b8' : '#0369a1'}">🏢 ${s.sponsor}</span><span class="meta-tag">⏱ <strong style="color:#166534">${s.time}</strong></span><span class="meta-tag">👁 ${s.visits.toLocaleString()} visits</span><span class="meta-tag" style="color:#8b5cf6">📌 ${s.type}</span>${s.note ? `<span class="meta-tag" style="color:#d97706;font-weight:600">${s.note}</span>` : ''}</div></div></li>`).join('');
+
+new Chart(document.getElementById('chartFormats'), { type: 'doughnut',
+  data: { labels: ['Publishing Partner', 'Executive Conversation', 'White Paper', 'Partner Content / Quick Take', 'Thought Leader Report', 'Ask the Expert / Other'], datasets: [{ data: [18000, 3200, 2400, 4000, 1000, 788], backgroundColor: ['#e8140b','#3b82f6','#8b5cf6','#22c55e','#f59e0b','#94a3b8'], borderWidth: 2, borderColor: '#fff' }] },
+  options: { responsive: true, plugins: { legend: { position: 'right', labels: { font: { size: 11 }, boxWidth: 12 } }, tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ~${ctx.raw.toLocaleString()} visits` } } }, cutout: '55%' } });
+
+const deptRecs = [
+  { dept: "🎯 Sales", tagline: "Where to sell now", cards: [
+    { tone: "", priority: "Bundle", title: "AI Multi-Brand Package", text: "AI leads Ad Age (#2 & #3 overall), Modern Healthcare (5:48 dwell) and Hart Energy. Sell guaranteed cross-brand reach to AI/tech advertisers (Microsoft, Google, Salesforce)." },
+    { tone: "green-top", priority: "Hot Vertical", title: "Financial Services & Fraud", text: "Wintrust (948), Rose Street and P&I credit are all performing. Pitch banks, fintech and insurers on fraud/risk content across Chicago, Grand Rapids and P&I." },
+    { tone: "orange-top", priority: "Premium", title: "Luxury & High-Net-Worth", text: "CNY Aero (5:01) and Cleveland luxury RE draw affluent, high-dwell readers. Pitch luxury travel, real estate and wealth-management brands." },
+  ]},
+  { dept: "📣 Marketing", tagline: "Amplify & prove", cards: [
+    { tone: "green-top", priority: "Replicate Win", title: "Run the Beachwood Playbook", text: "A newsletter push took Beachwood 48→116 at 5:10. Apply the same to P&I Systematic Credit (5:06), CNY Private Markets (4:54) and CNY Aero." },
+    { tone: "", priority: "Positioning", title: "Lead With Dwell Time", text: "MH stories read 5–6+ min. Make average time-on-site the headline metric in sales decks and sponsor case studies." },
+    { tone: "orange-top", priority: "Surface", title: "Promote Buried Winners", text: "High-dwell, low-volume stories signal quality with no reach. Feature them in newsletters and homepage modules to turn quality into volume." },
+  ]},
+  { dept: "🧱 Product", tagline: "Build & package", cards: [
+    { tone: "purple-top", priority: "New Product", title: "Research & White-Paper Hub", text: "Hart is 100% white-paper-driven; P&I research leads its brand. Build a gated/ungated hub with read, dwell and return analytics for finance & energy advertisers." },
+    { tone: "green-top", priority: "Productize", title: "Exec-Conversation Format", text: "MH exec conversations drive the deepest dwell (5–6 min). Package the format as a sellable product across health, finance and energy." },
+    { tone: "", priority: "Reporting", title: "Sponsor Engagement Dashboard", text: "Give sponsors a live dwell-time + return-visit view. Dwell is the portfolio's clearest differentiator — sell it as proof of value." },
+  ]},
+  { dept: "⚙️ Operations", tagline: "Fix the leaks", cards: [
+    { tone: "orange-top", priority: "Urgent Fix", title: "CGR Content Discovery", text: "22% of CGR traffic (191/866) lands on the generic hub page, not content — wasted sponsor spend. Add featured modules and newsletter deep-links." },
+    { tone: "orange-top", priority: "Data Integrity", title: "Verify Tracking Anomalies", text: "CCL Horizons Journey shows 16:54 across only 16 visits. Confirm it's a real read pattern before it reaches sponsor reporting." },
+    { tone: "", priority: "Standardize", title: "Clean Sponsor Tagging", text: "Several top-10 stories show \"Not listed.\" Consistent tagging unlocks accurate attribution and upsell conversations." },
+  ]},
+  { dept: "🤝 Cross-Brand Collaboration", tagline: "Multi-brand plays", cards: [
+    { tone: "", priority: "Co-Produce", title: "AI Series: Ad Age + MH + Hart", text: "AI is the #1 driver in all three. Co-produce an 'AI in [Industry]' series and sell it as a single multi-brand buy with guaranteed reach." },
+    { tone: "green-top", priority: "Replicate", title: "Place-Based Economic Dev", text: "Detroit + Chicago prove the model (energy, infrastructure, fraud). Replicate to Cleveland, Grand Rapids and New York for utilities, EDCs and real estate." },
+    { tone: "orange-top", priority: "Package", title: "Fraud & Risk, Multi-Market", text: "Chicago (Wintrust) and Grand Rapids (Macatawa) already share the fraud theme. Package a multi-market bank/insurer buy across both." },
+  ]},
+];
+document.getElementById('recs').innerHTML = deptRecs.map(d => `<div class="dept-label">${d.dept} <span class="tagline">· ${d.tagline}</span></div><div class="rec-grid">${d.cards.map(c => `<div class="rec-card ${c.tone}"><div class="priority">${c.priority}</div><h4>${c.title}</h4><p>${c.text}</p></div>`).join('')}</div>`).join('');
+
+const brandFocus = [
+  { brand: "Modern Healthcare", signal: "🔥 Hot", signalClass: "signal-hot",
+    topics: [{label:"Healthcare Policy",hot:true},{label:"Agentic AI",hot:true},{label:"Rural Health",hot:false},{label:"Specialty Care",hot:false},{label:"Hospital Ops",hot:false}],
+    topStory: "IDR Proposed Rule (1,772, #1 overall)", bestEngagement: "MSK Care 6:18 (579); Agentic AI 5:48 (653); Rural Hospital 5:15 (963)",
+    pitch: "<strong>Pitch:</strong> Policy explainers to regulatory-adjacent sponsors (law firms, health IT, consultants); long-form AI thought leadership to tech vendors. 5–6 min dwell proves this audience reads everything.", visits7: 9338, avgTime: "4:50" },
+  { brand: "Ad Age", signal: "🔥 Hot", signalClass: "signal-hot",
+    topics: [{label:"AI in Advertising",hot:true},{label:"AI Video",hot:true},{label:"Attention Economy",hot:true},{label:"Gaming",hot:false},{label:"Creator Strategy",hot:false}],
+    topStory: "AI Reshaping $422B (1,387, #2 overall); AI Video (1,020, #3)", bestEngagement: "Attention Economy 2:31 (725); Brand & Creator 2:03 (602)",
+    pitch: "<strong>Pitch:</strong> Ad tech, platforms and agencies on AI campaign content, video tools and consumer-behavior research. 4 of the top 10 are AI — strong multi-story package.", visits7: 7605, avgTime: "1:20" },
+  { brand: "Crain's Chicago", signal: "🔥 Hot", signalClass: "signal-hot",
+    topics: [{label:"Financial Fraud",hot:true},{label:"Hospitality",hot:true},{label:"Food & Supply",hot:false},{label:"Climate",hot:false},{label:"Quantum",hot:false}],
+    topStory: "Wintrust Fraud (948, #5); Gibson's Tavern (670, #8)", bestEngagement: "Gibson's 3:50 (670); Wintrust 3:46 (948); uChicago Climate 4:11 (212)",
+    pitch: "<strong>Pitch:</strong> Banks, cybersecurity and insurers on financial-risk content; restaurants and developers on experiential builds.", visits7: 3500, avgTime: "2:59" },
+  { brand: "Crain's Detroit", signal: "📈 Growing", signalClass: "signal-growing",
+    topics: [{label:"Energy Infrastructure",hot:true},{label:"Economic Dev",hot:true},{label:"Employer Health",hot:false},{label:"Revitalization",hot:false},{label:"Small Business",hot:false}],
+    topStory: "Energy Security (651, #10); Mega Sites (569)", bestEngagement: "Advanced Primary Care 4:56 (265); Pontiac 3:41; Mega Sites 3:37",
+    pitch: "<strong>Pitch:</strong> Utilities (DTE, Consumers Energy), EDCs, commercial real estate and employer-benefits sponsors. Michigan's economic transformation is the theme.", visits7: 2897, avgTime: "3:22" },
+  { brand: "Pensions & Investments", signal: "📊 Steady", signalClass: "signal-steady",
+    topics: [{label:"Infrastructure",hot:true},{label:"Portfolio Strategy",hot:true},{label:"Climate/ESG",hot:false},{label:"Private Markets",hot:false},{label:"Credit",hot:false}],
+    topStory: "Granular View Infrastructure (417, #1); Rethinking Portfolios (402)", bestEngagement: "Systematic Credit 5:06 (85); Granular View 3:57; Rethinking Portfolios 3:33",
+    pitch: "<strong>Pitch:</strong> Asset managers, infrastructure funds and credit specialists on research-led content. Amplify the Systematic Credit quick-take (5:06, only 85 visits).", visits7: 2068, avgTime: "2:45" },
+  { brand: "Hart Energy", signal: "📊 Steady", signalClass: "signal-steady",
+    topics: [{label:"Energy Data",hot:true},{label:"AI Field Ops",hot:true},{label:"HPC/Cloud",hot:false},{label:"Gas Imaging",hot:false},{label:"Reservoir Sim",hot:false}],
+    topStory: "Energy Data Unification (471, #1)", bestEngagement: "HPC Orchestrator/AWS 2:31 (196); AI Field Ops 2:26 (291)",
+    pitch: "<strong>Pitch:</strong> Energy-tech vendors, data platforms, AWS/cloud and energy-exposed financials on white papers. 100% white-paper-driven; AI+energy is fastest-growing.", visits7: 1190, avgTime: "1:42" },
+  { brand: "Crain's New York", signal: "📈 Growing", signalClass: "signal-growing",
+    topics: [{label:"Infrastructure",hot:true},{label:"Luxury Travel",hot:true},{label:"Private Markets",hot:false},{label:"Trades",hot:false},{label:"Union Labor",hot:false}],
+    topStory: "NY First Soccer Stadium (369, #1)", bestEngagement: "Aero 5:01 (230) 🔥; Private Markets 4:54 (41); JFK Terminal 2:26 (209)",
+    pitch: "<strong>Pitch:</strong> Luxury travel and high-end hospitality on Aero; construction firms, unions and transit on stadium/JFK infrastructure.", visits7: 1242, avgTime: "2:42" },
+  { brand: "Crain's Grand Rapids", signal: "📈 Growing", signalClass: "signal-growing",
+    topics: [{label:"Financial Services",hot:true},{label:"Behavioral Health",hot:false},{label:"Real Estate",hot:false},{label:"Local Econ Dev",hot:false}],
+    topStory: "Rose Street Advisors (286, #1 at 3:16)", bestEngagement: "Rose Street 3:16 (286); Pine Rest 2:31 (97)",
+    pitch: "<strong>Pitch:</strong> Financial-services, behavioral-health and real-estate sponsors. Fix the hub-page leak (22% of visits) to improve sponsor ROI.", visits7: 866, avgTime: "2:35" },
+  { brand: "Crain's Cleveland", signal: "📊 Steady", signalClass: "signal-steady",
+    topics: [{label:"Commercial RE",hot:true},{label:"ESOP",hot:false},{label:"Healthcare Gov",hot:false},{label:"Luxury RE",hot:false}],
+    topStory: "Beachwood Connector (116, #1)", bestEngagement: "Beachwood 5:10 (116) 🔥 up from 48; Horizons Journey 16:54 (16, anomaly)",
+    pitch: "<strong>Pitch:</strong> Commercial-RE developers, construction firms and EDCs on Beachwood. Verify and amplify the Horizons ESOP story.", visits7: 682, avgTime: "3:09" },
+];
+document.getElementById('brand-focus-grid').innerHTML = brandFocus.map(b => `<div class="focus-card"><div class="focus-header"><span class="focus-brand">${b.brand}</span><span class="focus-signal ${b.signalClass}">${b.signal}</span></div><div class="focus-topics">${b.topics.map(t => `<span class="topic-tag ${t.hot ? 'hot' : ''}">${t.hot ? '🔥 ' : ''}${t.label}</span>`).join('')}</div><div class="focus-stat"><span>📈 ${b.visits7.toLocaleString()} visits / 7 days</span><span>⏱ ${b.avgTime} avg</span></div><div class="focus-pitch" style="margin-top:12px"><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;color:#94a3b8;margin-bottom:4px">Top story: ${b.topStory}</div><div style="font-size:11px;color:#64748b;margin-bottom:8px">Best dwell: ${b.bestEngagement}</div>${b.pitch}</div></div>`).join('');
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>
