@@ -1,8 +1,8 @@
 <!DOCTYPE html><script type="application/json" id="cowork-artifact-meta">
 {
-  "name": "Ad Solutions Dashboard",
+  "name": "Ad Solutions Team Dashboard",
   "schemaVersion": 1,
-  "description": "Ad Solutions Team daily analytics dashboard built from the Adobe Analytics PDF report. Brand performance, top stories, engagement, insights, and department recommendations (sales, marketing, product, ops + cross-brand) across 9 Crain properties. Auto-refreshed each morning."
+  "description": "Ad Solutions Team daily analytics dashboard built from the Adobe Analytics PDF report emailed each morning. KPI cards, brand performance tables (yesterday + 7-day), top 10 stories by visits, top 7 by engagement time, insights, recommendations, and brand-focus pitch cards across all 9 Crain properties. Auto-refreshed daily at 8 AM from the latest Adobe report email. Currently showing the June 5, 2026 report (period: Jun 4 + May 29–Jun 4)."
 }
 </script>
 <html lang="en">
@@ -120,7 +120,7 @@
 
 <div class="header">
   <h1>📊 Ad Solutions Team · Daily Analytics Dashboard</h1>
-  <p>Adobe Analytics · Updated Jun 4, 2026 · Yesterday (Jun 3, Wed) + Last 7 Days (May 28–Jun 3)</p>
+  <p>Adobe Analytics · Updated Jun 5, 2026 · Yesterday (Jun 4, Thu) + Last 7 Days (May 29–Jun 4)</p>
 </div>
 
 <div class="tabs">
@@ -133,10 +133,10 @@
 
 <div class="page active" id="page-overview">
   <div class="kpi-grid">
-    <div class="kpi"><div class="label">Visits · Yesterday (Wed)</div><div class="value">3,958</div><div class="sub">All 9 brands · Jun 3</div></div>
-    <div class="kpi green"><div class="label">Visits · Last 7 Days</div><div class="value">29,388</div><div class="sub">↓ 2.0% vs last report (29,979)</div></div>
-    <div class="kpi blue"><div class="label">#1 Brand Yesterday</div><div class="value">Ad Age</div><div class="sub">1,284 visits · edged Mod. HC (1,161)</div></div>
-    <div class="kpi purple"><div class="label">Best Engagement</div><div class="value">4:50</div><div class="sub">Mod. HC 7-day avg · MSK story 6:18 🔥</div></div>
+    <div class="kpi"><div class="label">Visits · Yesterday (Thu)</div><div class="value">3,874</div><div class="sub">All 9 brands · Jun 4</div></div>
+    <div class="kpi green"><div class="label">Visits · Last 7 Days</div><div class="value">29,085</div><div class="sub">↓ 1.0% vs last report (29,388)</div></div>
+    <div class="kpi blue"><div class="label">#1 Brand Yesterday</div><div class="value">Mod. HC</div><div class="sub">1,227 visits · edged Ad Age (1,099)</div></div>
+    <div class="kpi purple"><div class="label">Best Engagement</div><div class="value">4:55</div><div class="sub">Mod. HC 7-day avg · MSK story 6:57 🔥</div></div>
   </div>
   <div class="chart-grid">
     <div class="chart-card"><h3>Visits by Brand · Yesterday</h3><canvas id="chartYesterdayBar" height="220"></canvas></div>
@@ -181,18 +181,18 @@
   <div class="insight-grid" style="margin-bottom:8px">
     <div class="insight-card">
       <h3><span class="icon">💡</span> Key Insights</h3>
-      <div class="insight-item"><div class="dot"></div><p><strong>Modern Healthcare leads</strong> — 9,338 visits (32% of total). IDR Proposed Rule #1 overall (1,772). Deepest dwell in the portfolio (MSK 6:18).</p></div>
-      <div class="insight-item"><div class="dot blue"></div><p><strong>Ad Age #1 yesterday</strong> (1,284) and 4 of the top 10 — all AI. AI Reshaping #2 (1,387), AI Video #3 (1,020).</p></div>
-      <div class="insight-item"><div class="dot green"></div><p><strong>Chicago strong</strong> — 3,500 visits. Wintrust fraud #5 (948), Gibson's Tavern #8 (670).</p></div>
-      <div class="insight-item"><div class="dot orange"></div><p><strong>Detroit steady</strong> — 2,897 visits. Energy Security #10 overall (651).</p></div>
-      <div class="insight-item"><div class="dot"></div><p><strong>Portfolio 29,388</strong> (−2.0% vs last report). Top 3 brands ≈ 69% of traffic.</p></div>
+      <div class="insight-item"><div class="dot"></div><p><strong>Modern Healthcare leads</strong> — 9,353 visits (32% of total). IDR Proposed Rule #1 overall (1,590). Deepest dwell in the portfolio (MSK 6:57).</p></div>
+      <div class="insight-item"><div class="dot blue"></div><p><strong>Ad Age strong</strong> — 7,917 visits and 4 of the top 10, all AI/content. AI Reshaping #2 (1,237), AI Video #3 (1,116).</p></div>
+      <div class="insight-item"><div class="dot green"></div><p><strong>Chicago holds</strong> — 3,450 visits. Wintrust fraud #4 overall (998), Food Supply #2 in-brand (549).</p></div>
+      <div class="insight-item"><div class="dot orange"></div><p><strong>Detroit steady</strong> — 2,278 visits. Mega Sites (370) and Energy Security (323) lead.</p></div>
+      <div class="insight-item"><div class="dot"></div><p><strong>Portfolio 29,085</strong> (−1.0% vs last report). Top 3 brands ≈ 71% of traffic.</p></div>
     </div>
     <div class="insight-card">
       <h3><span class="icon">⚠️</span> Watch Areas</h3>
-      <div class="insight-item"><div class="dot green"></div><p><strong>Beachwood push working</strong> — 48→116 visits at 5:10 after a newsletter. Keep amplifying.</p></div>
-      <div class="insight-item"><div class="dot orange"></div><p><strong>High dwell, low reach</strong> — P&I Systematic Credit 5:06 (85), CNY Private Markets 4:54 (41), CNY Aero 5:01 (230). Amplify.</p></div>
-      <div class="insight-item"><div class="dot orange"></div><p><strong>CGR discovery leak</strong> — 22% of visits (191/866) hit the generic hub page, not content.</p></div>
-      <div class="insight-item"><div class="dot"></div><p><strong>Tracking check</strong> — CCL Horizons Journey shows 16:54 across only 16 visits. Verify before reporting.</p></div>
+      <div class="insight-item"><div class="dot green"></div><p><strong>Beachwood holding</strong> — 130 visits at 4:40, steady dwell. Keep amplifying.</p></div>
+      <div class="insight-item"><div class="dot orange"></div><p><strong>High dwell, low reach</strong> — P&I Systematic Credit 4:52 (106), CNY Aero 5:10 (271), CNY Private Markets 6:16 (45). Amplify.</p></div>
+      <div class="insight-item"><div class="dot orange"></div><p><strong>CGR discovery leak</strong> — 21% of visits (190/896) hit the generic hub page, not content.</p></div>
+      <div class="insight-item"><div class="dot"></div><p><strong>Tracking check</strong> — CCL Horizons Journey shows 16:54 across only 14 visits. Verify before reporting.</p></div>
       <div class="insight-item"><div class="dot blue"></div><p><strong>Attribution gaps</strong> — several top-10 stories tagged "Not listed." Clean tagging to enable upsell.</p></div>
     </div>
   </div>
@@ -202,15 +202,15 @@
 
 <script>
 const brands = [
-  { name: "Ad Age",            yVisits: 1284, yPV: 1421,  visits7: 7605,  pv7: 8877,  timeY: "1:45", time7: "1:20" },
-  { name: "Crain's Chicago",   yVisits: 362,  yPV: 421,   visits7: 3500,  pv7: 3653,  timeY: "2:51", time7: "2:59" },
-  { name: "Crain's Cleveland", yVisits: 121,  yPV: 128,   visits7: 682,   pv7: 774,   timeY: "1:57", time7: "3:09" },
-  { name: "Crain's Detroit",   yVisits: 293,  yPV: 351,   visits7: 2897,  pv7: 3291,  timeY: "2:36", time7: "3:22" },
-  { name: "Grand Rapids",      yVisits: 96,   yPV: 122,   visits7: 866,   pv7: 955,   timeY: "1:34", time7: "2:35" },
-  { name: "Crain's New York",  yVisits: 230,  yPV: 261,   visits7: 1242,  pv7: 1379,  timeY: "2:14", time7: "2:42" },
-  { name: "Hart Energy",       yVisits: 96,   yPV: 104,   visits7: 1190,  pv7: 1364,  timeY: "3:03", time7: "1:42" },
-  { name: "Modern Healthcare", yVisits: 1161, yPV: 1407,  visits7: 9338,  pv7: 11179, timeY: "4:54", time7: "4:50" },
-  { name: "P&I",               yVisits: 315,  yPV: 321,   visits7: 2068,  pv7: 2155,  timeY: "2:39", time7: "2:45" },
+  { name: "Ad Age",            yVisits: 1099, yPV: 1369,  visits7: 7917,  pv7: 9308,  timeY: "1:31", time7: "1:23" },
+  { name: "Crain's Chicago",   yVisits: 441,  yPV: 476,   visits7: 3450,  pv7: 3623,  timeY: "2:28", time7: "2:56" },
+  { name: "Crain's Cleveland", yVisits: 83,   yPV: 97,    visits7: 663,   pv7: 745,   timeY: "0:37", time7: "2:49" },
+  { name: "Crain's Detroit",   yVisits: 251,  yPV: 294,   visits7: 2278,  pv7: 2593,  timeY: "3:12", time7: "3:21" },
+  { name: "Grand Rapids",      yVisits: 108,  yPV: 120,   visits7: 896,   pv7: 987,   timeY: "3:36", time7: "2:43" },
+  { name: "Crain's New York",  yVisits: 197,  yPV: 232,   visits7: 1283,  pv7: 1437,  timeY: "4:49", time7: "3:13" },
+  { name: "Hart Energy",       yVisits: 115,  yPV: 135,   visits7: 1241,  pv7: 1426,  timeY: "1:56", time7: "1:45" },
+  { name: "Modern Healthcare", yVisits: 1227, yPV: 1478,  visits7: 9353,  pv7: 11223, timeY: "5:09", time7: "4:55" },
+  { name: "P&I",               yVisits: 353,  yPV: 368,   visits7: 2004,  pv7: 2095,  timeY: "4:19", time7: "3:11" },
 ];
 
 function timeToSec(t) { const [m, s] = t.split(':').map(Number); return m * 60 + s; }
@@ -242,53 +242,53 @@ document.getElementById('tbody-yesterday').innerHTML = sortedY.map((b,i) => `<tr
 document.getElementById('tbody-7day').innerHTML = sorted7.map((b,i) => `<tr><td>${rankBadge(i)}</td><td style="font-weight:600;font-size:13px">${b.name}</td><td>${barCell(b.visits7, sorted7[0].visits7, 'green')}</td><td style="font-size:13px;color:#334155">${b.pv7.toLocaleString()}</td><td><span class="time-pill ${timeToSec(b.time7) >= 180 ? '' : 'warn'}">${b.time7}</span></td><td style="font-size:12px;color:#64748b">${(b.visits7/total7*100).toFixed(1)}%</td></tr>`).join('');
 
 const topStories = [
-  { brand: "Mod. HC",    title: "IDR Proposed Rule – What Healthcare Leaders Need to Know",      visits: 1772, pv: 2179, time: "3:10", type: "Publishing Partner",     sponsor: "IDR",                  url: "https://www.modernhealthcare.com/content-studio/publishing-partner/idr-proposed-rule-what-healthcare-leaders-need-to-know/", trend: "" },
-  { brand: "Ad Age",     title: "AI Reshaping the $422 Billion Advertising Industry",            visits: 1387, pv: 1391, time: "1:07", type: "Publishing Partner",     sponsor: "Not listed",           url: "https://adage.com/studio-30/publishing-partners/aa-ai-reshaping-422-billion-industry/", trend: "↑" },
-  { brand: "Ad Age",     title: "AI Video Has a Production Problem",                             visits: 1020, pv: 1022, time: "1:16", type: "Publishing Partner",     sponsor: "Not listed",           url: "https://adage.com/studio-30/publishing-partners/aa-ai-video-has-a-production-problem/", trend: "↑" },
-  { brand: "Mod. HC",    title: "Rural Hospital NM Valencia County – Executive Conversation",    visits: 963,  pv: 1067, time: "5:15", type: "Executive Conversation", sponsor: "Valencia County (NM)", url: "https://www.modernhealthcare.com/content-studio/executive-conversation/mh-rural-hospital-new-mexico-valencia-county/", trend: "" },
-  { brand: "C. Chicago", title: "Account Takeover Fraud – Protecting Your Business (Wintrust)",  visits: 948,  pv: 948,  time: "3:46", type: "Publishing Partner",     sponsor: "Wintrust",             url: "https://www.chicagobusiness.com/crains-content-studio/publishing-partner/ccb-account-takover-fraud-wintrust/", trend: "" },
-  { brand: "Ad Age",     title: "Attention Economy – TV Ads Make Strongest Memories",            visits: 725,  pv: 725,  time: "2:31", type: "Publishing Partner",     sponsor: "Not listed",           url: "https://adage.com/studio-30/publishing-partners/aa-attention-economy-tv-ads-make-strongest-memories/", trend: "" },
-  { brand: "Ad Age",     title: "How Emotional Engagement Sets Gaming Apart",                    visits: 717,  pv: 717,  time: "1:18", type: "Publishing Partner",     sponsor: "Not listed",           url: "https://adage.com/studio-30/publishing-partners/aa-how-emotional-engagement-sets-gaming-apart/", trend: "" },
-  { brand: "C. Chicago", title: "Gibson's Tavern Chicago West Loop – Construction & Opening",    visits: 670,  pv: 671,  time: "3:50", type: "Publishing Partner",     sponsor: "Gibson's Restaurant Group", url: "https://www.chicagobusiness.com/crains-content-studio/publishing-partner/ccb-gibsons-tavern-chicago-west-loop-construction/", trend: "" },
-  { brand: "Mod. HC",    title: "Healthcare Automation & Agentic AI Future",                    visits: 653,  pv: 720,  time: "5:48", type: "Publishing Partner",     sponsor: "Not listed",           url: "https://www.modernhealthcare.com/content-studio/publishing-partner/mh-healthcare-automation-agentic-ai-future/", trend: "" },
-  { brand: "C. Detroit", title: "Energy Security & Resilient Infrastructure Investment",        visits: 651,  pv: 700,  time: "2:02", type: "Publishing Partner",     sponsor: "Not listed",           url: "https://www.crainsdetroit.com/crains-content-studio/publishing-partner/cdb-energy-security-resilient-infrastructure-investment/", trend: "" },
+  { brand: "Mod. HC",    title: "IDR Proposed Rule – What Healthcare Leaders Need to Know",      visits: 1590, pv: 1941, time: "3:08", type: "Publishing Partner",     sponsor: "IDR",                  url: "https://www.modernhealthcare.com/content-studio/publishing-partner/idr-proposed-rule-what-healthcare-leaders-need-to-know/", trend: "" },
+  { brand: "Ad Age",     title: "AI Reshaping the $422 Billion Advertising Industry",            visits: 1237, pv: 1242, time: "1:22", type: "Publishing Partner",     sponsor: "Not listed",           url: "https://adage.com/studio-30/publishing-partners/aa-ai-reshaping-422-billion-industry/", trend: "↑" },
+  { brand: "Ad Age",     title: "AI Video Has a Production Problem",                             visits: 1116, pv: 1118, time: "1:41", type: "Publishing Partner",     sponsor: "Not listed",           url: "https://adage.com/studio-30/publishing-partners/aa-ai-video-has-a-production-problem/", trend: "↑" },
+  { brand: "C. Chicago", title: "Account Takeover Fraud – Protecting Your Business (Wintrust)",  visits: 998,  pv: 998,  time: "3:20", type: "Publishing Partner",     sponsor: "Wintrust",             url: "https://www.chicagobusiness.com/crains-content-studio/publishing-partner/ccb-account-takover-fraud-wintrust/", trend: "" },
+  { brand: "Mod. HC",    title: "Rural Hospital NM Valencia County – Executive Conversation",    visits: 949,  pv: 1056, time: "6:03", type: "Executive Conversation", sponsor: "Valencia County (NM)", url: "https://www.modernhealthcare.com/content-studio/executive-conversation/mh-rural-hospital-new-mexico-valencia-county/", trend: "" },
+  { brand: "Ad Age",     title: "Attention Economy – TV Ads Make Strongest Memories",            visits: 779,  pv: 779,  time: "2:29", type: "Publishing Partner",     sponsor: "Not listed",           url: "https://adage.com/studio-30/publishing-partners/aa-attention-economy-tv-ads-make-strongest-memories/", trend: "" },
+  { brand: "Ad Age",     title: "How Emotional Engagement Sets Gaming Apart",                    visits: 751,  pv: 757,  time: "1:09", type: "Publishing Partner",     sponsor: "Not listed",           url: "https://adage.com/studio-30/publishing-partners/aa-how-emotional-engagement-sets-gaming-apart/", trend: "" },
+  { brand: "Ad Age",     title: "How Brand & Creator Content Works Harder Online",               visits: 690,  pv: 695,  time: "2:09", type: "Publishing Partner",     sponsor: "Not listed",           url: "https://adage.com/studio-30/publishing-partners/aa-how-brand-and-creator-content-works-harder-online/", trend: "" },
+  { brand: "Mod. HC",    title: "Healthcare Automation & Agentic AI Future",                    visits: 661,  pv: 730,  time: "5:31", type: "Publishing Partner",     sponsor: "Not listed",           url: "https://www.modernhealthcare.com/content-studio/publishing-partner/mh-healthcare-automation-agentic-ai-future/", trend: "" },
+  { brand: "Mod. HC",    title: "Enhancing Member Access to MSK Care",                          visits: 599,  pv: 718,  time: "6:57", type: "Executive Conversation", sponsor: "Not listed",           url: "https://www.modernhealthcare.com/content-studio/executive-conversation/mh-enhancing-member-access-msk-care/", trend: "" },
 ];
 document.getElementById('top-stories-list').innerHTML = topStories.map((s,i) => `<li class="story-item"><div class="story-num">${i+1}</div><div class="story-info"><div class="story-title"><a href="${s.url}" target="_blank" rel="noopener" style="color:#1e293b;text-decoration:none;border-bottom:1px solid #cbd5e1;" onmouseover="this.style.color='#e8140b';this.style.borderBottomColor='#e8140b'" onmouseout="this.style.color='#1e293b';this.style.borderBottomColor='#cbd5e1'">${s.title} ↗</a>${s.trend ? `<span style="color:#10b981;font-size:12px;font-weight:700;margin-left:6px">${s.trend} Trending</span>` : ''}</div><div class="story-meta"><span class="brand-pill">${s.brand}</span><span class="meta-tag" style="color:${s.sponsor === 'Not listed' ? '#94a3b8' : '#0369a1'}">🏢 ${s.sponsor}</span><span class="meta-tag">👁 ${s.visits.toLocaleString()} visits</span><span class="meta-tag">📄 ${s.pv.toLocaleString()} PVs</span><span class="meta-tag">⏱ ${s.time} avg</span><span class="meta-tag" style="color:#8b5cf6">📌 ${s.type}</span></div></div></li>`).join('');
 
 const engStories = [
-  { brand: "Mod. HC",      title: "Enhancing Member Access to MSK Care",                visits: 579, time: "6:18", type: "Exec Conversation",  sponsor: "Not listed",          url: "https://www.modernhealthcare.com/content-studio/executive-conversation/mh-enhancing-member-access-msk-care/",        note: "🔥 Deepest meaningful dwell" },
-  { brand: "Mod. HC",      title: "Healthcare Automation & Agentic AI Future",          visits: 653, time: "5:48", type: "Publishing Partner", sponsor: "Not listed",          url: "https://www.modernhealthcare.com/content-studio/publishing-partner/mh-healthcare-automation-agentic-ai-future/",     note: "High volume + dwell" },
-  { brand: "Mod. HC",      title: "Rural Hospital NM Valencia County",                  visits: 963, time: "5:15", type: "Exec Conversation",  sponsor: "Valencia County (NM)", url: "https://www.modernhealthcare.com/content-studio/executive-conversation/mh-rural-hospital-new-mexico-valencia-county/", note: "#4 overall by visits" },
-  { brand: "C. Cleveland", title: "Beachwood Connector Road – Commercial",              visits: 116, time: "5:10", type: "Publishing Partner", sponsor: "Not listed",          url: "https://www.crainscleveland.com/crains-content-studio/publishing-partner/ccl-beachwood-connector-road-commercial/",  note: "🔥 48→116 — push working" },
-  { brand: "C. New York",  title: "Aero – Semi-Private Luxury Air Travel",              visits: 230, time: "5:01", type: "Publishing Partner", sponsor: "Aero",                url: "https://www.crainsnewyork.com/crains-content-studio/publishing-partner/cny-aero-semi-private-luxury-air-travel/",    note: "Premium fit" },
-  { brand: "C. Detroit",   title: "Advanced Primary Care – Detroit Employers",          visits: 265, time: "4:56", type: "Publishing Partner", sponsor: "Not listed",          url: "https://www.crainsdetroit.com/crains-content-studio/publishing-partner/cdb-advanced-primary-care-detroit-employers/", note: "Employer health" },
-  { brand: "Mod. HC",      title: "City of Hope – 50 Years of Bone Marrow Transplant",  visits: 580, time: "4:12", type: "Exec Conversation",  sponsor: "City of Hope",        url: "https://www.modernhealthcare.com/content-studio/executive-conversation/city-of-hope-50-years-bone-marrow-transplant/", note: "" },
+  { brand: "Mod. HC",      title: "Enhancing Member Access to MSK Care",                visits: 599, time: "6:57", type: "Exec Conversation",  sponsor: "Not listed",          url: "https://www.modernhealthcare.com/content-studio/executive-conversation/mh-enhancing-member-access-msk-care/",        note: "🔥 Deepest meaningful dwell" },
+  { brand: "Mod. HC",      title: "Rural Hospital NM Valencia County",                  visits: 949, time: "6:03", type: "Exec Conversation",  sponsor: "Valencia County (NM)", url: "https://www.modernhealthcare.com/content-studio/executive-conversation/mh-rural-hospital-new-mexico-valencia-county/", note: "#5 overall by visits" },
+  { brand: "Mod. HC",      title: "Healthcare Automation & Agentic AI Future",          visits: 661, time: "5:31", type: "Publishing Partner", sponsor: "Not listed",          url: "https://www.modernhealthcare.com/content-studio/publishing-partner/mh-healthcare-automation-agentic-ai-future/",     note: "High volume + dwell" },
+  { brand: "C. New York",  title: "Aero – Semi-Private Luxury Air Travel",              visits: 271, time: "5:10", type: "Publishing Partner", sponsor: "Aero",                url: "https://www.crainsnewyork.com/crains-content-studio/publishing-partner/cny-aero-semi-private-luxury-air-travel/",    note: "🔥 Premium fit, growing" },
+  { brand: "C. Detroit",   title: "Advanced Primary Care – Detroit Employers",          visits: 314, time: "4:57", type: "Publishing Partner", sponsor: "Not listed",          url: "https://www.crainsdetroit.com/crains-content-studio/publishing-partner/cdb-advanced-primary-care-detroit-employers/", note: "Employer health" },
+  { brand: "P&I",          title: "Systematic Credit Uncovers Differentiated Alpha",    visits: 106, time: "4:52", type: "Partner Content",    sponsor: "Not listed",          url: "https://www.pionline.com/partner-content/pi-quick-take-systematic-credit-uncovers-differentiated-alpha/",            note: "High-quality, low reach" },
+  { brand: "C. Detroit",   title: "MMTC – Manufacturing Legacy & AI",                   visits: 149, time: "4:46", type: "Publishing Partner", sponsor: "MMTC",                url: "https://www.crainsdetroit.com/crains-content-studio/publishing-partner/cdb-mmtc-manufacturing-legacy-ai/",           note: "" },
 ];
 document.getElementById('engagement-stories-list').innerHTML = engStories.map((s,i) => `<li class="story-item"><div class="story-num">${i+1}</div><div class="story-info"><div class="story-title"><a href="${s.url}" target="_blank" rel="noopener" style="color:#1e293b;text-decoration:none;border-bottom:1px solid #cbd5e1;" onmouseover="this.style.color='#e8140b';this.style.borderBottomColor='#e8140b'" onmouseout="this.style.color='#1e293b';this.style.borderBottomColor='#cbd5e1'">${s.title} ↗</a></div><div class="story-meta"><span class="brand-pill">${s.brand}</span><span class="meta-tag" style="color:${s.sponsor === 'Not listed' ? '#94a3b8' : '#0369a1'}">🏢 ${s.sponsor}</span><span class="meta-tag">⏱ <strong style="color:#166534">${s.time}</strong></span><span class="meta-tag">👁 ${s.visits.toLocaleString()} visits</span><span class="meta-tag" style="color:#8b5cf6">📌 ${s.type}</span>${s.note ? `<span class="meta-tag" style="color:#d97706;font-weight:600">${s.note}</span>` : ''}</div></div></li>`).join('');
 
 new Chart(document.getElementById('chartFormats'), { type: 'doughnut',
-  data: { labels: ['Publishing Partner', 'Executive Conversation', 'White Paper', 'Partner Content / Quick Take', 'Thought Leader Report', 'Ask the Expert / Other'], datasets: [{ data: [18000, 3200, 2400, 4000, 1000, 788], backgroundColor: ['#e8140b','#3b82f6','#8b5cf6','#22c55e','#f59e0b','#94a3b8'], borderWidth: 2, borderColor: '#fff' }] },
+  data: { labels: ['Publishing Partner', 'Executive Conversation', 'White Paper', 'Partner Content / Quick Take', 'Thought Leader Report', 'Ask the Expert / Other'], datasets: [{ data: [17600, 3300, 2400, 3900, 1100, 785], backgroundColor: ['#e8140b','#3b82f6','#8b5cf6','#22c55e','#f59e0b','#94a3b8'], borderWidth: 2, borderColor: '#fff' }] },
   options: { responsive: true, plugins: { legend: { position: 'right', labels: { font: { size: 11 }, boxWidth: 12 } }, tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ~${ctx.raw.toLocaleString()} visits` } } }, cutout: '55%' } });
 
 const deptRecs = [
   { dept: "🎯 Sales", tagline: "Where to sell now", cards: [
-    { tone: "", priority: "Bundle", title: "AI Multi-Brand Package", text: "AI leads Ad Age (#2 & #3 overall), Modern Healthcare (5:48 dwell) and Hart Energy. Sell guaranteed cross-brand reach to AI/tech advertisers (Microsoft, Google, Salesforce)." },
-    { tone: "green-top", priority: "Hot Vertical", title: "Financial Services & Fraud", text: "Wintrust (948), Rose Street and P&I credit are all performing. Pitch banks, fintech and insurers on fraud/risk content across Chicago, Grand Rapids and P&I." },
-    { tone: "orange-top", priority: "Premium", title: "Luxury & High-Net-Worth", text: "CNY Aero (5:01) and Cleveland luxury RE draw affluent, high-dwell readers. Pitch luxury travel, real estate and wealth-management brands." },
+    { tone: "", priority: "Bundle", title: "AI Multi-Brand Package", text: "AI leads Ad Age (#2 & #3 overall), Modern Healthcare (5:31 dwell) and Hart Energy. Sell guaranteed cross-brand reach to AI/tech advertisers (Microsoft, Google, Salesforce)." },
+    { tone: "green-top", priority: "Hot Vertical", title: "Financial Services & Fraud", text: "Wintrust (998), Rose Street and P&I credit are all performing. Pitch banks, fintech and insurers on fraud/risk content across Chicago, Grand Rapids and P&I." },
+    { tone: "orange-top", priority: "Premium", title: "Luxury & High-Net-Worth", text: "CNY Aero (5:10) and Cleveland luxury RE draw affluent, high-dwell readers. Pitch luxury travel, real estate and wealth-management brands." },
   ]},
   { dept: "📣 Marketing", tagline: "Amplify & prove", cards: [
-    { tone: "green-top", priority: "Replicate Win", title: "Run the Beachwood Playbook", text: "A newsletter push took Beachwood 48→116 at 5:10. Apply the same to P&I Systematic Credit (5:06), CNY Private Markets (4:54) and CNY Aero." },
-    { tone: "", priority: "Positioning", title: "Lead With Dwell Time", text: "MH stories read 5–6+ min. Make average time-on-site the headline metric in sales decks and sponsor case studies." },
+    { tone: "green-top", priority: "Replicate Win", title: "Run the Beachwood Playbook", text: "Newsletter pushes hold Beachwood at 130 visits / 4:40. Apply the same to P&I Systematic Credit (4:52), CNY Private Markets (6:16) and CNY Aero." },
+    { tone: "", priority: "Positioning", title: "Lead With Dwell Time", text: "MH stories read 5–7 min. Make average time-on-site the headline metric in sales decks and sponsor case studies." },
     { tone: "orange-top", priority: "Surface", title: "Promote Buried Winners", text: "High-dwell, low-volume stories signal quality with no reach. Feature them in newsletters and homepage modules to turn quality into volume." },
   ]},
   { dept: "🧱 Product", tagline: "Build & package", cards: [
     { tone: "purple-top", priority: "New Product", title: "Research & White-Paper Hub", text: "Hart is 100% white-paper-driven; P&I research leads its brand. Build a gated/ungated hub with read, dwell and return analytics for finance & energy advertisers." },
-    { tone: "green-top", priority: "Productize", title: "Exec-Conversation Format", text: "MH exec conversations drive the deepest dwell (5–6 min). Package the format as a sellable product across health, finance and energy." },
+    { tone: "green-top", priority: "Productize", title: "Exec-Conversation Format", text: "MH exec conversations drive the deepest dwell (6–7 min). Package the format as a sellable product across health, finance and energy." },
     { tone: "", priority: "Reporting", title: "Sponsor Engagement Dashboard", text: "Give sponsors a live dwell-time + return-visit view. Dwell is the portfolio's clearest differentiator — sell it as proof of value." },
   ]},
   { dept: "⚙️ Operations", tagline: "Fix the leaks", cards: [
-    { tone: "orange-top", priority: "Urgent Fix", title: "CGR Content Discovery", text: "22% of CGR traffic (191/866) lands on the generic hub page, not content — wasted sponsor spend. Add featured modules and newsletter deep-links." },
-    { tone: "orange-top", priority: "Data Integrity", title: "Verify Tracking Anomalies", text: "CCL Horizons Journey shows 16:54 across only 16 visits. Confirm it's a real read pattern before it reaches sponsor reporting." },
+    { tone: "orange-top", priority: "Urgent Fix", title: "CGR Content Discovery", text: "21% of CGR traffic (190/896) lands on the generic hub page, not content — wasted sponsor spend. Add featured modules and newsletter deep-links." },
+    { tone: "orange-top", priority: "Data Integrity", title: "Verify Tracking Anomalies", text: "CCL Horizons Journey shows 16:54 across only 14 visits. Confirm it's a real read pattern before it reaches sponsor reporting." },
     { tone: "", priority: "Standardize", title: "Clean Sponsor Tagging", text: "Several top-10 stories show \"Not listed.\" Consistent tagging unlocks accurate attribution and upsell conversations." },
   ]},
   { dept: "🤝 Cross-Brand Collaboration", tagline: "Multi-brand plays", cards: [
@@ -302,40 +302,40 @@ document.getElementById('recs').innerHTML = deptRecs.map(d => `<div class="dept-
 const brandFocus = [
   { brand: "Modern Healthcare", signal: "🔥 Hot", signalClass: "signal-hot",
     topics: [{label:"Healthcare Policy",hot:true},{label:"Agentic AI",hot:true},{label:"Rural Health",hot:false},{label:"Specialty Care",hot:false},{label:"Hospital Ops",hot:false}],
-    topStory: "IDR Proposed Rule (1,772, #1 overall)", bestEngagement: "MSK Care 6:18 (579); Agentic AI 5:48 (653); Rural Hospital 5:15 (963)",
-    pitch: "<strong>Pitch:</strong> Policy explainers to regulatory-adjacent sponsors (law firms, health IT, consultants); long-form AI thought leadership to tech vendors. 5–6 min dwell proves this audience reads everything.", visits7: 9338, avgTime: "4:50" },
+    topStory: "IDR Proposed Rule (1,590, #1 overall)", bestEngagement: "MSK Care 6:57 (599); Rural Hospital 6:03 (949); Automation 5:31 (661)",
+    pitch: "<strong>Pitch:</strong> Policy explainers to regulatory-adjacent sponsors (law firms, health IT, consultants); long-form AI thought leadership to tech vendors. 5–7 min dwell proves this audience reads everything.", visits7: 9353, avgTime: "4:55" },
   { brand: "Ad Age", signal: "🔥 Hot", signalClass: "signal-hot",
     topics: [{label:"AI in Advertising",hot:true},{label:"AI Video",hot:true},{label:"Attention Economy",hot:true},{label:"Gaming",hot:false},{label:"Creator Strategy",hot:false}],
-    topStory: "AI Reshaping $422B (1,387, #2 overall); AI Video (1,020, #3)", bestEngagement: "Attention Economy 2:31 (725); Brand & Creator 2:03 (602)",
-    pitch: "<strong>Pitch:</strong> Ad tech, platforms and agencies on AI campaign content, video tools and consumer-behavior research. 4 of the top 10 are AI — strong multi-story package.", visits7: 7605, avgTime: "1:20" },
+    topStory: "AI Reshaping $422B (1,237, #2 overall); AI Video (1,116, #3)", bestEngagement: "Attention Economy 2:29 (779); Brand & Creator 2:09 (690)",
+    pitch: "<strong>Pitch:</strong> Ad tech, platforms and agencies on AI campaign content, video tools and consumer-behavior research. 4 of the top 10 are Ad Age — strong multi-story package.", visits7: 7917, avgTime: "1:23" },
   { brand: "Crain's Chicago", signal: "🔥 Hot", signalClass: "signal-hot",
     topics: [{label:"Financial Fraud",hot:true},{label:"Hospitality",hot:true},{label:"Food & Supply",hot:false},{label:"Climate",hot:false},{label:"Quantum",hot:false}],
-    topStory: "Wintrust Fraud (948, #5); Gibson's Tavern (670, #8)", bestEngagement: "Gibson's 3:50 (670); Wintrust 3:46 (948); uChicago Climate 4:11 (212)",
-    pitch: "<strong>Pitch:</strong> Banks, cybersecurity and insurers on financial-risk content; restaurants and developers on experiential builds.", visits7: 3500, avgTime: "2:59" },
+    topStory: "Wintrust Fraud (998, #4 overall); Food Supply (549)", bestEngagement: "Gibson's 4:15 (450); uChicago Climate 3:49 (279); Wintrust 3:20 (998)",
+    pitch: "<strong>Pitch:</strong> Banks, cybersecurity and insurers on financial-risk content; restaurants and developers on experiential builds.", visits7: 3450, avgTime: "2:56" },
   { brand: "Crain's Detroit", signal: "📈 Growing", signalClass: "signal-growing",
-    topics: [{label:"Energy Infrastructure",hot:true},{label:"Economic Dev",hot:true},{label:"Employer Health",hot:false},{label:"Revitalization",hot:false},{label:"Small Business",hot:false}],
-    topStory: "Energy Security (651, #10); Mega Sites (569)", bestEngagement: "Advanced Primary Care 4:56 (265); Pontiac 3:41; Mega Sites 3:37",
-    pitch: "<strong>Pitch:</strong> Utilities (DTE, Consumers Energy), EDCs, commercial real estate and employer-benefits sponsors. Michigan's economic transformation is the theme.", visits7: 2897, avgTime: "3:22" },
+    topics: [{label:"Economic Dev",hot:true},{label:"Energy Infrastructure",hot:true},{label:"Employer Health",hot:false},{label:"Manufacturing",hot:false},{label:"Affordability",hot:false}],
+    topStory: "Mega Sites (370, #1); Energy Security (323)", bestEngagement: "Advanced Primary Care 4:57 (314); MMTC 4:46 (149); Mega Sites 3:46 (370)",
+    pitch: "<strong>Pitch:</strong> Utilities (DTE, Consumers Energy), EDCs, commercial real estate and employer-benefits sponsors. Michigan's economic transformation is the theme.", visits7: 2278, avgTime: "3:21" },
   { brand: "Pensions & Investments", signal: "📊 Steady", signalClass: "signal-steady",
-    topics: [{label:"Infrastructure",hot:true},{label:"Portfolio Strategy",hot:true},{label:"Climate/ESG",hot:false},{label:"Private Markets",hot:false},{label:"Credit",hot:false}],
-    topStory: "Granular View Infrastructure (417, #1); Rethinking Portfolios (402)", bestEngagement: "Systematic Credit 5:06 (85); Granular View 3:57; Rethinking Portfolios 3:33",
-    pitch: "<strong>Pitch:</strong> Asset managers, infrastructure funds and credit specialists on research-led content. Amplify the Systematic Credit quick-take (5:06, only 85 visits).", visits7: 2068, avgTime: "2:45" },
+    topics: [{label:"Market Dislocation",hot:true},{label:"Climate/ESG",hot:true},{label:"Infrastructure",hot:false},{label:"Private Markets",hot:false},{label:"Credit",hot:false}],
+    topStory: "Amova Dislocation (453, #1); Climate (329)", bestEngagement: "Systematic Credit 4:52 (106); Quick-Take Rethinking 3:53 (320); Granular View 3:40 (323)",
+    pitch: "<strong>Pitch:</strong> Asset managers, infrastructure funds and credit specialists on research-led content. Amplify the Systematic Credit quick-take (4:52, only 106 visits).", visits7: 2004, avgTime: "3:11" },
   { brand: "Hart Energy", signal: "📊 Steady", signalClass: "signal-steady",
     topics: [{label:"Energy Data",hot:true},{label:"AI Field Ops",hot:true},{label:"HPC/Cloud",hot:false},{label:"Gas Imaging",hot:false},{label:"Reservoir Sim",hot:false}],
-    topStory: "Energy Data Unification (471, #1)", bestEngagement: "HPC Orchestrator/AWS 2:31 (196); AI Field Ops 2:26 (291)",
-    pitch: "<strong>Pitch:</strong> Energy-tech vendors, data platforms, AWS/cloud and energy-exposed financials on white papers. 100% white-paper-driven; AI+energy is fastest-growing.", visits7: 1190, avgTime: "1:42" },
+    topStory: "Energy Data Unification (480, #1)", bestEngagement: "HPC Orchestrator/AWS 2:31 (209); AI Field Ops 2:25 (327)",
+    pitch: "<strong>Pitch:</strong> Energy-tech vendors, data platforms, AWS/cloud and energy-exposed financials on white papers. 100% white-paper-driven; AI+energy is fastest-growing.", visits7: 1241, avgTime: "1:45" },
   { brand: "Crain's New York", signal: "📈 Growing", signalClass: "signal-growing",
     topics: [{label:"Infrastructure",hot:true},{label:"Luxury Travel",hot:true},{label:"Private Markets",hot:false},{label:"Trades",hot:false},{label:"Union Labor",hot:false}],
-    topStory: "NY First Soccer Stadium (369, #1)", bestEngagement: "Aero 5:01 (230) 🔥; Private Markets 4:54 (41); JFK Terminal 2:26 (209)",
-    pitch: "<strong>Pitch:</strong> Luxury travel and high-end hospitality on Aero; construction firms, unions and transit on stadium/JFK infrastructure.", visits7: 1242, avgTime: "2:42" },
+    topStory: "NY First Soccer Stadium (447, #1)", bestEngagement: "Aero 5:10 (271) 🔥; JFK Terminal 3:04 (150); Private Markets 6:16 (45)",
+    pitch: "<strong>Pitch:</strong> Luxury travel and high-end hospitality on Aero; construction firms, unions and transit on stadium/JFK infrastructure.", visits7: 1283, avgTime: "3:13" },
   { brand: "Crain's Grand Rapids", signal: "📈 Growing", signalClass: "signal-growing",
     topics: [{label:"Financial Services",hot:true},{label:"Behavioral Health",hot:false},{label:"Real Estate",hot:false},{label:"Local Econ Dev",hot:false}],
-    topStory: "Rose Street Advisors (286, #1 at 3:16)", bestEngagement: "Rose Street 3:16 (286); Pine Rest 2:31 (97)",
-    pitch: "<strong>Pitch:</strong> Financial-services, behavioral-health and real-estate sponsors. Fix the hub-page leak (22% of visits) to improve sponsor ROI.", visits7: 866, avgTime: "2:35" },
+    topStory: "Rose Street Advisors (308, #1 at 3:47)", bestEngagement: "Rose Street 3:47 (308); Pine Rest 1:25 (93)",
+    pitch: "<strong>Pitch:</strong> Financial-services, behavioral-health and real-estate sponsors. Fix the hub-page leak (21% of visits) to improve sponsor ROI.", visits7: 896, avgTime: "2:43" },
   { brand: "Crain's Cleveland", signal: "📊 Steady", signalClass: "signal-steady",
-    topics: [{label:"Commercial RE",hot:true},{label:"ESOP",hot:false},{label:"Healthcare Gov",hot:false},{label:"Luxury RE",hot:false}],
-    topStory: "Beachwood Connector (116, #1)", bestEngagement: "Beachwood 5:10 (116) 🔥 up from 48; Horizons Journey 16:54 (16, anomaly)",
-    pitch: "<strong>Pitch:</strong> Commercial-RE developers, construction firms and EDCs on Beachwood. Verify and amplify the Horizons ESOP story.", visits7: 682, avgTime: "3:09" },
+    topics: [{label:"Commercial RE",hot:true},{label:"Healthcare Gov",hot:false},{label:"Luxury RE",hot:false},{label:"ESOP",hot:false}],
+    topStory: "Beachwood Connector (130, #1)", bestEngagement: "Beachwood 4:40 (130); Horizons Journey 16:54 (14, anomaly)",
+    pitch: "<strong>Pitch:</strong> Commercial-RE developers, construction firms and EDCs on Beachwood. Verify and amplify the Horizons ESOP story.", visits7: 663, avgTime: "2:49" },
 ];
 document.getElementById('brand-focus-grid').innerHTML = brandFocus.map(b => `<div class="focus-card"><div class="focus-header"><span class="focus-brand">${b.brand}</span><span class="focus-signal ${b.signalClass}">${b.signal}</span></div><div class="focus-topics">${b.topics.map(t => `<span class="topic-tag ${t.hot ? 'hot' : ''}">${t.hot ? '🔥 ' : ''}${t.label}</span>`).join('')}</div><div class="focus-stat"><span>📈 ${b.visits7.toLocaleString()} visits / 7 days</span><span>⏱ ${b.avgTime} avg</span></div><div class="focus-pitch" style="margin-top:12px"><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;color:#94a3b8;margin-bottom:4px">Top story: ${b.topStory}</div><div style="font-size:11px;color:#64748b;margin-bottom:8px">Best dwell: ${b.bestEngagement}</div>${b.pitch}</div></div>`).join('');
 
