@@ -194,11 +194,11 @@
 
 <div class="page" id="page-live">
   <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr)">
-    <div class="kpi green"><div class="label">Pieces Live · Today (Jun 8)</div><div class="value" id="live-count">0</div><div class="sub">Status: Launched / Complete</div></div>
-    <div class="kpi blue"><div class="label">Booked Revenue · These Pieces</div><div class="value" id="live-rev">$0</div><div class="sub">Where revenue is recorded</div></div>
-    <div class="kpi purple"><div class="label">Brands Live</div><div class="value" id="live-brands">0</div><div class="sub">Distinct Crain brands</div></div>
+    <div class="kpi green"><div class="label">Projects · Today (Jun 8)</div><div class="value" id="live-count">0</div><div class="sub">All statuses · Digital or Print today</div></div>
+    <div class="kpi blue"><div class="label">Total Revenue · These Projects</div><div class="value" id="live-rev">$0</div><div class="sub">Where revenue is recorded</div></div>
+    <div class="kpi purple"><div class="label">Brands</div><div class="value" id="live-brands">0</div><div class="sub">Distinct brands today</div></div>
   </div>
-  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Content that went live today (Jun 8) — sources: Smartsheet "Digital- Today's Launches" + "Print- Today's Launches." Only items marked Launched or Complete are shown; Scheduled and In Progress are excluded. Channel tag shows Digital, Print, or both.</p>
+  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Every project with a Digital or Print Launch Date of today (Jun 8) — sources: Smartsheet "Digital- Today's Launches" + "Print- Today's Launches." All statuses are shown (Live/Complete, Launched, In Progress, Scheduled), sorted live-first. The channel tag shows Digital, Print, or both.</p>
   <div id="live-list"></div>
 </div>
 
@@ -369,22 +369,46 @@ const brandFocus = [
 ];
 document.getElementById('brand-focus-grid').innerHTML = brandFocus.map(b => `<div class="focus-card"><div class="focus-header"><span class="focus-brand">${b.brand}</span><span class="focus-signal ${b.signalClass}">${b.signal}</span></div><div class="focus-topics">${b.topics.map(t => `<span class="topic-tag ${t.hot ? 'hot' : ''}">${t.hot ? '🔥 ' : ''}${t.label}</span>`).join('')}</div><div class="focus-stat"><span>📈 ${b.visits7.toLocaleString()} visits / 7 days</span><span>⏱ ${b.avgTime} avg</span></div><div class="focus-pitch" style="margin-top:12px"><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;color:#94a3b8;margin-bottom:4px">Top story: ${b.topStory}</div><div style="font-size:11px;color:#64748b;margin-bottom:8px">Best dwell: ${b.bestEngagement}</div>${b.pitch}</div></div>`).join('');
 
-// ===== Went Live today (Jun 8) — Smartsheet "Digital- Today's Launches" + "Print- Today's Launches" =====
+// ===== Launching today (Jun 8) — Smartsheet "Digital- Today's Launches" + "Print- Today's Launches" =====
+// ALL projects whose Digital Launch Date (Digital report) or Print Launch Date (Print report) is today, regardless of status.
 const liveContent = [
-  { brand: "Mod. HC",        channel: "Digital",        product: "Gated White Paper",      client: "Med Metrix",                       status: "Launched", revenue: 26000, vertical: "Healthcare",                   owner: "Sammy Salettel",  url: "https://modernhealthcare.com/content-studio/white-paper/mh-provider-strategies-ama-payer-policy-concerns-revenue-cycle/" },
-  { brand: "Mod. HC",        channel: "Print",          product: "Executive Conversation", client: "Teladoc Health",                   status: "Launched", revenue: 20000, vertical: "Healthcare",                   owner: "Sammy Salettel",  url: "https://www.modernhealthcare.com/content-studio/executive-conversation/mh-virtual-care-quality-access-value-teladoc-health/" },
-  { brand: "Mod. HC",        channel: "Digital",        product: "Gated White Paper",      client: "Verifiable",                       status: "Launched", revenue: 16000, vertical: "Healthcare",                   owner: "Sammy Salettel",  url: "https://www.modernhealthcare.com/content-studio/white-paper/mh-payer-credentialing-efficiency-compliance-framework/" },
-  { brand: "Crain's NY",     channel: "Digital + Print", product: "Thought Leader Report",  client: "Hackensack Meridian Health",      status: "Complete", revenue: 12000, vertical: "Healthcare",                   owner: "Kathy Carr",      url: "https://www.crainsnewyork.com/crains-content-studio/thought-leader-report/cny-hackensack-new-era-accessible-healthcare/" },
-  { brand: "Mod. HC",        channel: "Digital",        product: "Sponsored Content Posting", client: "Wolters Kluwer",                status: "Launched", revenue: 11500, vertical: "Healthcare",                   owner: "Sammy Salettel",  url: "https://www.modernhealthcare.com/content-studio/publishing-partner/mh-healthcare-ai-adoption-trust-transparency-survey" },
-  { brand: "Auto News",      channel: "Digital",        product: "Up to Speed Video",      client: "Cars Commerce",                    status: "Complete", revenue: 8000,  vertical: "Automotive",                   owner: "Veronica Johnson", url: "" },
-  { brand: "Crain's Detroit",channel: "Digital",        product: "Digital (Crain's writes)", client: "Western Governors University",   status: "Launched", revenue: 7800,  vertical: "Professional Services/Energy", owner: "Jordan Dziura",   url: "https://www.crainsdetroit.com/crains-content-studio/publishing-partner/cdb-detroit-healthcare-careers-working-adults-wgu/" },
-  { brand: "Crain's Chicago",channel: "Digital",        product: "Digital (Client writes)", client: "Western Governors University",    status: "Launched", revenue: 5500,  vertical: "Professional Services/Energy", owner: "Jordan Dziura",   url: "https://www.chicagobusiness.com/crains-content-studio/publishing-partner/ccb-chicago-supply-chain-workforce-trends/" },
-  { brand: "Crain's Cleveland",channel: "Digital + Print", product: "Digital + Print (Client writes)", client: "COX Business Services", status: "Complete", revenue: 5075,  vertical: "Professional Services/Energy", owner: "Kathy Carr",      url: "https://www.crainscleveland.com/crains-content-studio/publishing-partner/ccl-20260601-cox-custom/" },
-  { brand: "Crain's Detroit",channel: "Digital",        product: "Digital (Client writes)", client: "DTE Energy",                      status: "Complete", revenue: 4080,  vertical: "Professional Services/Energy", owner: "Natalie Bonadeo", url: "https://www.crainsdetroit.com/crains-content-studio/publishing-partner/cdb-dte-data-centers-rate-stability-michigan/" },
-  { brand: "Crain's Cleveland",channel: "Digital",        product: "Digital (Client writes)", client: "Maloney & Novotny",            status: "Complete", revenue: 2900,  vertical: "Professional Services/Energy", owner: "Kathy Carr",      url: "https://www.crainscleveland.com/crains-content-studio/publishing-partner/ccl-maloneynovotny-business-valuations-worthy/" },
-  { brand: "Crain's Cleveland",channel: "Digital",        product: "Digital (Client writes)", client: "Northeast Ohio Medical University", status: "Complete", revenue: 2900, vertical: "Healthcare",                owner: "Kathy Carr",      url: "https://www.crainscleveland.com/crains-content-studio/publishing-partner/ccl-neomed-mcnairs-gift-dentistry" },
-  { brand: "Mod. HC",        channel: "Print",          product: "Sponsored Content Posting", client: "City of Hope",                  status: "Launched", revenue: 0,     vertical: "Healthcare",                   owner: "Shannon Mortland", url: "https://www.modernhealthcare.com/content-studio/publishing-partner/mh-leading-cancer-institutions-advance-microbiome-science/" },
+  // ---- Modern Healthcare ----
+  { brand: "Mod. HC",        channel: "Digital",        product: "Gated White Paper",         client: "Med Metrix",                        status: "Launched",    revenue: 26000, vertical: "Healthcare", owner: "Sammy Salettel",   url: "https://modernhealthcare.com/content-studio/white-paper/mh-provider-strategies-ama-payer-policy-concerns-revenue-cycle/" },
+  { brand: "Mod. HC",        channel: "Print",          product: "Executive Conversation",    client: "Teladoc Health",                    status: "Launched",    revenue: 20000, vertical: "Healthcare", owner: "Sammy Salettel",   url: "https://www.modernhealthcare.com/content-studio/executive-conversation/mh-virtual-care-quality-access-value-teladoc-health/" },
+  { brand: "Mod. HC",        channel: "Digital",        product: "Gated White Paper",         client: "Verifiable",                        status: "Launched",    revenue: 16000, vertical: "Healthcare", owner: "Sammy Salettel",   url: "https://www.modernhealthcare.com/content-studio/white-paper/mh-payer-credentialing-efficiency-compliance-framework/" },
+  { brand: "Mod. HC",        channel: "Digital",        product: "Sponsored Content Posting", client: "Wolters Kluwer",                    status: "Launched",    revenue: 11500, vertical: "Healthcare", owner: "Sammy Salettel",   url: "https://www.modernhealthcare.com/content-studio/publishing-partner/mh-healthcare-ai-adoption-trust-transparency-survey" },
+  { brand: "Mod. HC",        channel: "Print",          product: "Sponsored Content Posting", client: "City of Hope",                      status: "Launched",    revenue: 0,     vertical: "Healthcare", owner: "Shannon Mortland", url: "https://www.modernhealthcare.com/content-studio/publishing-partner/mh-leading-cancer-institutions-advance-microbiome-science/" },
+  { brand: "Mod. HC",        channel: "Digital",        product: "Live From - Q2 - Quick Take", client: "City of Hope",                    status: "In Progress", revenue: 25000, vertical: "Healthcare", owner: "Shannon Mortland", url: "" },
+  { brand: "Mod. HC",        channel: "Digital",        product: "White Paper Creation",      client: "Temple Univ. Health System (WP)",   status: "Scheduled",   revenue: 11000, vertical: "Healthcare", owner: "Shannon Mortland", url: "https://www.modernhealthcare.com/content-studio/publishing-partner/mh-expanding-access-to-lung-transplant-how-leading-health-systems-are-scaling-complex-care/" },
+  { brand: "Mod. HC",        channel: "Digital",        product: "Sponsored Content Posting", client: "Temple Univ. Health System (SCP)",  status: "Scheduled",   revenue: 9520,  vertical: "Healthcare", owner: "Shannon Mortland", url: "https://www.modernhealthcare.com/content-studio/publishing-partner/mh-expanding-access-to-lung-transplant-how-leading-health-systems-are-scaling-complex-care" },
+  // ---- P&I ----
+  { brand: "P&I",            channel: "Digital",        product: "Thought Leadership WP Program", client: "Allianz Life Insurance",        status: "Scheduled",   revenue: 12500, vertical: "Finance",    owner: "Shelly Maldonado", url: "" },
+  { brand: "P&I",            channel: "Digital",        product: "Thought Leadership WP Program", client: "S&P Global Market Intelligence", status: "Scheduled",   revenue: 6250,  vertical: "Finance",    owner: "Shelly Maldonado", url: "https://www.pionline.com/white-papers/pi-new-and-expanded-taxonomy-for-private-markets/" },
+  // ---- Ad Age ----
+  { brand: "Ad Age",         channel: "Digital",        product: "Pub Partner (CW)",          client: "Media Monks",                       status: "In Progress", revenue: 15000, vertical: "",           owner: "Sophia Juarez",    url: "http://adage.com/studio-30/publishing-partners/aa-anchoring-global-brand-moments-in-local-ritual-and-truths" },
+  // ---- Crain's City Brands ----
+  { brand: "Crain's Chicago",channel: "Digital",        product: "Digital (Client writes)",   client: "CBRE",                              status: "Scheduled",   revenue: 6000,  vertical: "Professional Services/Energy", owner: "Brittany Brown", url: "https://chicagobusiness.com/crains-content-studio/publishing-partner/ccb-cbre-report-chicago-is-everything/" },
+  { brand: "Crain's Chicago",channel: "Digital",        product: "Quick Take Video",          client: "Federal Home Loan Bank",            status: "Scheduled",   revenue: 6667,  vertical: "Finance",    owner: "Brittany Brown",   url: "http://chicagobusiness.com/crains-content-studio/quicktake/ccb-federal-home-loan-bank-mpf-affordable-housing/" },
+  { brand: "Crain's Chicago",channel: "Digital",        product: "Digital (Client writes)",   client: "Western Governors University",       status: "Launched",    revenue: 5500,  vertical: "Professional Services/Energy", owner: "Jordan Dziura", url: "https://www.chicagobusiness.com/crains-content-studio/publishing-partner/ccb-chicago-supply-chain-workforce-trends/" },
+  { brand: "Crain's Cleveland",channel: "Digital + Print", product: "Digital + Print (Client writes)", client: "COX Business Services",     status: "Complete",    revenue: 5075,  vertical: "Professional Services/Energy", owner: "Kathy Carr",   url: "https://www.crainscleveland.com/crains-content-studio/publishing-partner/ccl-20260601-cox-custom/" },
+  { brand: "Crain's Cleveland",channel: "Digital",      product: "Digital (Client writes)",   client: "Maloney & Novotny",                 status: "Complete",    revenue: 2900,  vertical: "Professional Services/Energy", owner: "Kathy Carr",   url: "https://www.crainscleveland.com/crains-content-studio/publishing-partner/ccl-maloneynovotny-business-valuations-worthy/" },
+  { brand: "Crain's Cleveland",channel: "Digital",      product: "Digital (Client writes)",   client: "Northeast Ohio Medical University",  status: "Complete",    revenue: 2900,  vertical: "Healthcare", owner: "Kathy Carr",       url: "https://www.crainscleveland.com/crains-content-studio/publishing-partner/ccl-neomed-mcnairs-gift-dentistry" },
+  { brand: "Crain's Cleveland",channel: "Digital + Print", product: "Notable Spotlight",     client: "Specified Technologies Inc.",        status: "Scheduled",   revenue: 5750,  vertical: "Professional Services/Energy", owner: "Brittany Brown", url: "https://www.crainscleveland.com/recognitions/notable/leaders-architecture-engineering-construction/2026/ccl-jeffery-molchan/" },
+  { brand: "Crain's Detroit",channel: "Digital",        product: "Digital (Client writes)",   client: "DTE Energy",                        status: "Complete",    revenue: 4080,  vertical: "Professional Services/Energy", owner: "Natalie Bonadeo", url: "https://www.crainsdetroit.com/crains-content-studio/publishing-partner/cdb-dte-data-centers-rate-stability-michigan/" },
+  { brand: "Crain's Detroit",channel: "Digital",        product: "Digital (Crain's writes)",  client: "Western Governors University",       status: "Launched",    revenue: 7800,  vertical: "Professional Services/Energy", owner: "Jordan Dziura", url: "https://www.crainsdetroit.com/crains-content-studio/publishing-partner/cdb-detroit-healthcare-careers-working-adults-wgu/" },
+  { brand: "Crain's NY",     channel: "Digital + Print", product: "Thought Leader Report",    client: "Hackensack Meridian Health",        status: "Complete",    revenue: 12000, vertical: "Healthcare", owner: "Kathy Carr",       url: "https://www.crainsnewyork.com/crains-content-studio/thought-leader-report/cny-hackensack-new-era-accessible-healthcare/" },
+  { brand: "Crain's NY",     channel: "Digital",        product: "Digital (Client writes)",   client: "TD Bank",                           status: "Scheduled",   revenue: 7200,  vertical: "Finance",    owner: "Brittany Brown",   url: "https://www.crainsnewyork.com/crains-content-studio/publishing-partner/cn-financial-preparedness-small-business-growth-td-bank" },
+  { brand: "Crain's NY",     channel: "Digital + Print", product: "Notable Spotlight",        client: "TPG Architecture",                  status: "Scheduled",   revenue: 9000,  vertical: "Professional Services/Energy", owner: "Brittany Brown", url: "https://www.crainsnewyork.com/recognitions/notables/leaders-architecture-engineering-construction/2026/cny-samantha-mccormack/" },
+  { brand: "Crain's NY",     channel: "Digital",        product: "Digital (Client writes)",   client: "Under Construction News",           status: "Scheduled",   revenue: 4200,  vertical: "Professional Services/Energy", owner: "Jennifer Keirn", url: "https://www.crainsnewyork.com/crains-content-studio/publishing-partner/ny-the-contractors-who-bring-ny-buildings-across-finish-line/" },
+  // ---- Automotive News ----
+  { brand: "Auto News",      channel: "Digital",        product: "Up to Speed Video",         client: "Cars Commerce",                     status: "Complete",    revenue: 8000,  vertical: "Automotive", owner: "Veronica Johnson", url: "" },
+  { brand: "Auto News",      channel: "Digital",        product: "Publishing Partner (CW)",   client: "Solera",                            status: "Scheduled",   revenue: 8800,  vertical: "Automotive", owner: "Veronica Johnson", url: "https://www.autonews.com/sponsored/publishing-partners/an-out-of-state-car-deals-without-back-office-fire-drill/" },
+  // ---- GenomeWeb ----
+  { brand: "GenomeWeb",      channel: "Digital",        product: "Custom Summary",            client: "Illumina (Molly)",                  status: "In Progress", revenue: 0,     vertical: "",           owner: "Colin O'Connor",   url: "" },
 ];
+// Sort: live/complete first, then launched, in progress, scheduled — each by revenue desc.
+const _statusRank = { "Complete": 0, "Launched": 1, "In Progress": 2, "Scheduled": 3 };
+liveContent.sort((a,b) => (_statusRank[a.status] ?? 9) - (_statusRank[b.status] ?? 9) || (b.revenue||0) - (a.revenue||0));
 
 const liveRevTotal = liveContent.reduce((s,x) => s + (x.revenue || 0), 0);
 document.getElementById('live-count').textContent = liveContent.length;
@@ -394,24 +418,33 @@ document.getElementById('live-brands').textContent = new Set(liveContent.map(x =
 if (liveContent.length === 0) {
   document.getElementById('live-list').innerHTML = `<div style="background:white;border-radius:12px;padding:28px;text-align:center;color:#94a3b8;font-size:13px;box-shadow:0 1px 3px rgba(0,0,0,0.07)">Nothing launched yesterday (Jun 7, Sunday). The report shows no items with a Jun 7 Digital Launch Date. Check back tomorrow.</div>`;
 } else {
-document.getElementById('live-list').innerHTML = liveContent.map(x => `
-  <div class="live-card">
+const _statusMeta = {
+  "Complete":    { label: "✅ Live",        css: "background:#eff6ff;color:#1d4ed8", border: "#10b981" },
+  "Launched":    { label: "🟢 Launched",    css: "background:#f0fdf4;color:#166534", border: "#10b981" },
+  "In Progress": { label: "⏳ In Progress", css: "background:#fff7ed;color:#c2410c", border: "#f59e0b" },
+  "Scheduled":   { label: "🗓 Scheduled",   css: "background:#f1f5f9;color:#475569", border: "#94a3b8" },
+};
+document.getElementById('live-list').innerHTML = liveContent.map(x => {
+  const sm = _statusMeta[x.status] || { label: x.status, css: "background:#f1f5f9;color:#475569", border: "#94a3b8" };
+  return `
+  <div class="live-card" style="border-left-color:${sm.border}">
     <div class="lc-main">
       <div class="lc-title">${x.product} — ${x.client}</div>
       <div class="lc-sub">${x.owner ? 'Owner: ' + x.owner : ''}</div>
       <div class="lc-meta">
         <span class="brand-pill">${x.brand}</span>
         ${x.channel ? `<span class="vert-tag" style="background:#eef2ff;color:#4338ca;border-color:#c7d2fe">${x.channel}</span>` : ''}
-        <span class="status-badge ${x.status === 'Complete' ? 'complete' : ''}">${x.status === 'Complete' ? '✅ Live' : '🟢 Launched'}</span>
+        <span class="status-badge" style="${sm.css}">${sm.label}</span>
         ${x.vertical ? `<span class="vert-tag">${x.vertical}</span>` : ''}
-        ${x.url ? `<a class="live-link" href="${x.url}" target="_blank" rel="noopener">View live ↗</a>` : `<span style="font-size:11px;color:#94a3b8">No public link</span>`}
+        ${x.url ? `<a class="live-link" href="${x.url}" target="_blank" rel="noopener">View ↗</a>` : `<span style="font-size:11px;color:#94a3b8">No public link</span>`}
       </div>
     </div>
     <div class="lc-right">
       <div class="lc-rev">${x.revenue ? '$' + x.revenue.toLocaleString() : '—'}</div>
       <div style="font-size:10px;color:#94a3b8;text-transform:uppercase;letter-spacing:0.4px">Revenue</div>
     </div>
-  </div>`).join('');
+  </div>`;
+}).join('');
 }
 
 function showPage(id) {
