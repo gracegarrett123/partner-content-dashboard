@@ -147,6 +147,7 @@
   <div class="tab" onclick="showPage('brands')">By Brand</div>
   <div class="tab" onclick="showPage('stories')">Top Stories</div>
   <div class="tab" onclick="showPage('live')">Went Live</div>
+  <div class="tab" onclick="showPage('today')">Going Live Today</div>
   <div class="tab" onclick="showPage('insights')">Insights &amp; Recs</div>
   <div class="tab" onclick="showPage('focus')">Brand Focus</div>
 </div>
@@ -205,6 +206,16 @@
   <p style="font-size:13px;color:#64748b;margin-bottom:16px">Content that went live yesterday (Jun 7) — source: Smartsheet "All Launches – Last 5 days." Items still in production are excluded.</p>
   <div id="live-list"></div>
   <p style="font-size:11px;color:#94a3b8;margin-top:18px;border-top:1px solid #f1f5f9;padding-top:12px">⚠️ <strong>Lead &amp; registrant counts</strong> surfaced anywhere in this dashboard are platform <strong>totals (unqualified)</strong> — raw JotForm / GlobalMeet numbers <em>before</em> brand teams remove Crain, client, and duplicate registrants. Final qualified numbers (from the monthly campaign databases Joyce/Nicole maintain) run lower and lag by days. Treat totals as directional, not as reportable figures.</p>
+</div>
+
+<div class="page" id="page-today">
+  <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr)">
+    <div class="kpi green"><div class="label">Pieces Going Live · Today (Jun 8)</div><div class="value" id="today-count">0</div><div class="sub">Digital Launch Date = today</div></div>
+    <div class="kpi blue"><div class="label">Booked Revenue · Today</div><div class="value" id="today-rev">$0</div><div class="sub">Sum of project revenue</div></div>
+    <div class="kpi purple"><div class="label">Brands Live Today</div><div class="value" id="today-brands">0</div><div class="sub">Distinct Crain brands</div></div>
+  </div>
+  <p style="font-size:13px;color:#64748b;margin-bottom:8px">Everything with a <strong>Digital Launch Date of today (Jun 8)</strong> — source: Smartsheet "All Launches – Last 5 days." Grouped by status: <span style="color:#1d4ed8;font-weight:600">Live</span> / <span style="color:#166534;font-weight:600">Launched</span> are on-site now; <span style="color:#b45309;font-weight:600">Scheduled</span> is queued for today; <span style="color:#475569;font-weight:600">In Progress</span> is still being finalized (at risk for today).</p>
+  <div id="today-list"></div>
 </div>
 
 <div class="page" id="page-focus"
@@ -409,6 +420,79 @@ document.getElementById('live-list').innerHTML = liveContent.map(x => `
     </div>
   </div>`).join('');
 }
+
+// ===== Going Live Today (Jun 8) — Smartsheet "All Launches – Last 5 days", Digital Launch Date = today =====
+const todayContent = [
+  // Live / Launched (on site now)
+  { brand:"Modern Healthcare", product:"Gated White Paper",                     client:"Med Metrix",                          status:"Launched", revenue:26000, owner:"Sammy Salettel" },
+  { brand:"Modern Healthcare", product:"Gated White Paper",                     client:"Verifiable",                          status:"Launched", revenue:16000, owner:"Sammy Salettel" },
+  { brand:"Modern Healthcare", product:"Sponsored Content Posting",             client:"Wolters Kluwer",                      status:"Launched", revenue:11500, owner:"Sammy Salettel" },
+  { brand:"Crain's Detroit",   product:"Digital · Crain's writes",             client:"Western Governors University",        status:"Launched", revenue:7800,  owner:"Jordan Dziura" },
+  { brand:"Crain's Chicago",   product:"Digital · Client writes",             client:"Western Governors University",        status:"Launched", revenue:5500,  owner:"Jordan Dziura" },
+  { brand:"Crain's New York",  product:"Thought Leader Report · Client writes", client:"Hackensack Meridian Health",          status:"Complete", revenue:12000, owner:"Kathy Carr" },
+  { brand:"Crain's Cleveland", product:"Digital + Print · Client writes",       client:"COX Business Services",               status:"Complete", revenue:5075,  owner:"Kathy Carr" },
+  { brand:"Crain's Detroit",   product:"Digital · Client writes",             client:"DTE Energy",                          status:"Complete", revenue:4080,  owner:"Natalie Bonadeo" },
+  { brand:"Crain's Cleveland", product:"Digital · Client writes",             client:"Maloney & Novotny",                   status:"Complete", revenue:2900,  owner:"Kathy Carr" },
+  { brand:"Crain's Cleveland", product:"Digital · Client writes",             client:"Northeast Ohio Medical University",   status:"Complete", revenue:2900,  owner:"Kathy Carr" },
+  // Scheduled for today
+  { brand:"P&I",               product:"Thought Leadership White Paper Program", client:"Allianz Life Insurance",            status:"Scheduled", revenue:12500, owner:"Shelly Maldonado" },
+  { brand:"Modern Healthcare", product:"White Paper Creation · Studio Writes",  client:"Temple University Health System",     status:"Scheduled", revenue:11000, owner:"Shannon Mortland" },
+  { brand:"Modern Healthcare", product:"Sponsored Content Posting",             client:"Temple University Health System",     status:"Scheduled", revenue:9520,  owner:"Shannon Mortland" },
+  { brand:"Crain's New York",  product:"Notable Spotlight",                    client:"TPG Architecture",                    status:"Scheduled", revenue:9000,  owner:"Brittany Brown" },
+  { brand:"Automotive News",   product:"Publishing Partner (CW)",              client:"Solera",                              status:"Scheduled", revenue:8800,  owner:"Veronica Johnson" },
+  { brand:"Automotive News",   product:"Up to Speed Video",                    client:"Cars Commerce",                       status:"Scheduled", revenue:8000,  owner:"Veronica Johnson" },
+  { brand:"Crain's New York",  product:"Digital · Client writes",             client:"TD Bank",                             status:"Scheduled", revenue:7200,  owner:"Brittany Brown" },
+  { brand:"Crain's Chicago",   product:"Quick Take Video",                     client:"Federal Home Loan Bank",              status:"Scheduled", revenue:6667,  owner:"Brittany Brown" },
+  { brand:"P&I",               product:"Thought Leadership White Paper Program", client:"S&P Global Market Intelligence",     status:"Scheduled", revenue:6250,  owner:"Shelly Maldonado" },
+  { brand:"Crain's Cleveland", product:"Notable Spotlight",                    client:"Specified Technologies Inc.",         status:"Scheduled", revenue:5750,  owner:"Brittany Brown" },
+  { brand:"Crain's New York",  product:"Digital · Client writes",             client:"Under Construction News",             status:"Scheduled", revenue:4200,  owner:"Jennifer Keirn" },
+  { brand:"Crain's Chicago",   product:"Digital · Client writes",             client:"CBRE",                                status:"Scheduled", revenue:6000,  owner:"Brittany Brown" },
+  // In progress — still finalizing (at risk for today)
+  { brand:"Modern Healthcare", product:"Live From Q2 · Quick Take (+ Multimedia)", client:"City of Hope",                    status:"In Progress", revenue:25000, owner:"Shannon Mortland" },
+  { brand:"Ad Age",            product:"Publishing Partner (CW)",              client:"Media Monks",                         status:"In Progress", revenue:15000, owner:"Sophia Juarez" },
+];
+
+const todayStatusMeta = {
+  "Launched":    { bg:"#f0fdf4", color:"#166534", label:"🟢 Launched", border:"#10b981" },
+  "Complete":    { bg:"#eff6ff", color:"#1d4ed8", label:"✅ Live",      border:"#3b82f6" },
+  "Scheduled":   { bg:"#fffbeb", color:"#b45309", label:"🗓 Scheduled", border:"#f59e0b" },
+  "In Progress": { bg:"#f8fafc", color:"#475569", label:"⏳ In Progress", border:"#94a3b8" },
+};
+const todayRevTotal = todayContent.reduce((s,x) => s + (x.revenue || 0), 0);
+document.getElementById('today-count').textContent = todayContent.length;
+document.getElementById('today-rev').textContent = '$' + todayRevTotal.toLocaleString();
+document.getElementById('today-brands').textContent = new Set(todayContent.map(x => x.brand)).size;
+
+const todayGroups = [
+  { keys: ["Complete","Launched"], label: "✅ Live on site now (Launched / Complete)" },
+  { keys: ["Scheduled"],            label: "🗓 Scheduled for today" },
+  { keys: ["In Progress"],          label: "⏳ In progress — finalizing (at risk for today)" },
+];
+let todayHtml = "";
+todayGroups.forEach(g => {
+  const items = todayContent.filter(x => g.keys.includes(x.status)).sort((a,b) => (b.revenue||0) - (a.revenue||0));
+  if (!items.length) return;
+  const groupRev = items.reduce((s,x) => s + (x.revenue||0), 0);
+  todayHtml += `<div class="section-label" style="margin-top:18px">${g.label} · ${items.length} piece${items.length>1?'s':''} · $${groupRev.toLocaleString()}</div>`;
+  todayHtml += items.map(x => {
+    const m = todayStatusMeta[x.status];
+    return `<div class="live-card" style="border-left-color:${m.border}">
+      <div class="lc-main">
+        <div class="lc-title">${x.product} — ${x.client}</div>
+        <div class="lc-sub">${x.owner ? 'Owner: ' + x.owner : ''}</div>
+        <div class="lc-meta">
+          <span class="brand-pill">${x.brand}</span>
+          <span class="status-badge" style="background:${m.bg};color:${m.color}">${m.label}</span>
+        </div>
+      </div>
+      <div class="lc-right">
+        <div class="lc-rev">${x.revenue ? '$' + x.revenue.toLocaleString() : '—'}</div>
+        <div style="font-size:10px;color:#94a3b8;text-transform:uppercase;letter-spacing:0.4px">Revenue</div>
+      </div>
+    </div>`;
+  }).join('');
+});
+document.getElementById('today-list').innerHTML = todayHtml;
 
 function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
