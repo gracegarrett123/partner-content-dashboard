@@ -194,11 +194,11 @@
 
 <div class="page" id="page-live">
   <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr)">
-    <div class="kpi green"><div class="label">Pieces Live · Yesterday (Jun 7)</div><div class="value" id="live-count">0</div><div class="sub">Status: Launched / Complete</div></div>
+    <div class="kpi green"><div class="label">Pieces Live · Today (Jun 8)</div><div class="value" id="live-count">0</div><div class="sub">Status: Launched / Complete</div></div>
     <div class="kpi blue"><div class="label">Booked Revenue · These Pieces</div><div class="value" id="live-rev">$0</div><div class="sub">Where revenue is recorded</div></div>
     <div class="kpi purple"><div class="label">Brands Live</div><div class="value" id="live-brands">0</div><div class="sub">Distinct Crain brands</div></div>
   </div>
-  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Content that went live yesterday (Jun 7) — source: Smartsheet "All Launches – Last 5 days." Items still in production are excluded.</p>
+  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Content that went live today (Jun 8) — source: Smartsheet "All Launches – Last 5 days." Only items marked Launched or Complete are shown; Scheduled and In Progress are excluded.</p>
   <div id="live-list"></div>
 </div>
 
@@ -369,8 +369,19 @@ const brandFocus = [
 ];
 document.getElementById('brand-focus-grid').innerHTML = brandFocus.map(b => `<div class="focus-card"><div class="focus-header"><span class="focus-brand">${b.brand}</span><span class="focus-signal ${b.signalClass}">${b.signal}</span></div><div class="focus-topics">${b.topics.map(t => `<span class="topic-tag ${t.hot ? 'hot' : ''}">${t.hot ? '🔥 ' : ''}${t.label}</span>`).join('')}</div><div class="focus-stat"><span>📈 ${b.visits7.toLocaleString()} visits / 7 days</span><span>⏱ ${b.avgTime} avg</span></div><div class="focus-pitch" style="margin-top:12px"><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;color:#94a3b8;margin-bottom:4px">Top story: ${b.topStory}</div><div style="font-size:11px;color:#64748b;margin-bottom:8px">Best dwell: ${b.bestEngagement}</div>${b.pitch}</div></div>`).join('');
 
-// ===== Went Live yesterday (Jun 7) — Smartsheet "All Launches – Last 5 days" =====
+// ===== Went Live today (Jun 8) — Smartsheet "All Launches – Last 5 days" =====
 const liveContent = [
+  { brand: "Mod. HC",        product: "Gated White Paper",      client: "Med Metrix",                       status: "Launched", revenue: 26000, vertical: "Healthcare",                   owner: "Sammy Salettel",  url: "https://modernhealthcare.com/content-studio/white-paper/mh-provider-strategies-ama-payer-policy-concerns-revenue-cycle/" },
+  { brand: "Mod. HC",        product: "Gated White Paper",      client: "Verifiable",                       status: "Launched", revenue: 16000, vertical: "Healthcare",                   owner: "Sammy Salettel",  url: "https://www.modernhealthcare.com/content-studio/white-paper/mh-payer-credentialing-efficiency-compliance-framework/" },
+  { brand: "Crain's NY",     product: "Thought Leader Report",  client: "Hackensack Meridian Health",       status: "Complete", revenue: 12000, vertical: "Healthcare",                   owner: "Kathy Carr",      url: "https://www.crainsnewyork.com/crains-content-studio/thought-leader-report/cny-hackensack-new-era-accessible-healthcare/" },
+  { brand: "Mod. HC",        product: "Sponsored Content Posting", client: "Wolters Kluwer",                status: "Launched", revenue: 11500, vertical: "Healthcare",                   owner: "Sammy Salettel",  url: "https://www.modernhealthcare.com/content-studio/publishing-partner/mh-healthcare-ai-adoption-trust-transparency-survey" },
+  { brand: "Auto News",      product: "Up to Speed Video",      client: "Cars Commerce",                    status: "Complete", revenue: 8000,  vertical: "Automotive",                   owner: "Veronica Johnson", url: "" },
+  { brand: "Crain's Detroit",product: "Digital (Crain's writes)", client: "Western Governors University",   status: "Launched", revenue: 7800,  vertical: "Professional Services/Energy", owner: "Jordan Dziura",   url: "https://www.crainsdetroit.com/crains-content-studio/publishing-partner/cdb-detroit-healthcare-careers-working-adults-wgu/" },
+  { brand: "Crain's Chicago",product: "Digital (Client writes)", client: "Western Governors University",    status: "Launched", revenue: 5500,  vertical: "Professional Services/Energy", owner: "Jordan Dziura",   url: "https://www.chicagobusiness.com/crains-content-studio/publishing-partner/ccb-chicago-supply-chain-workforce-trends/" },
+  { brand: "Crain's Cleveland",product: "Digital + Print (Client writes)", client: "COX Business Services", status: "Complete", revenue: 5075,  vertical: "Professional Services/Energy", owner: "Kathy Carr",      url: "https://www.crainscleveland.com/crains-content-studio/publishing-partner/ccl-20260601-cox-custom/" },
+  { brand: "Crain's Detroit",product: "Digital (Client writes)", client: "DTE Energy",                      status: "Complete", revenue: 4080,  vertical: "Professional Services/Energy", owner: "Natalie Bonadeo", url: "https://www.crainsdetroit.com/crains-content-studio/publishing-partner/cdb-dte-data-centers-rate-stability-michigan/" },
+  { brand: "Crain's Cleveland",product: "Digital (Client writes)", client: "Maloney & Novotny",            status: "Complete", revenue: 2900,  vertical: "Professional Services/Energy", owner: "Kathy Carr",      url: "https://www.crainscleveland.com/crains-content-studio/publishing-partner/ccl-maloneynovotny-business-valuations-worthy/" },
+  { brand: "Crain's Cleveland",product: "Digital (Client writes)", client: "Northeast Ohio Medical University", status: "Complete", revenue: 2900, vertical: "Healthcare",                owner: "Kathy Carr",      url: "https://www.crainscleveland.com/crains-content-studio/publishing-partner/ccl-neomed-mcnairs-gift-dentistry" },
 ];
 
 const liveRevTotal = liveContent.reduce((s,x) => s + (x.revenue || 0), 0);
