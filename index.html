@@ -148,6 +148,7 @@
   <div class="tab" onclick="showPage('stories')">Top Stories</div>
   <div class="tab" onclick="showPage('live')">Went Live</div>
   <div class="tab" onclick="showPage('today')">Going Live Today</div>
+  <div class="tab" onclick="showPage('next14')">Next 14 Days</div>
   <div class="tab" onclick="showPage('insights')">Insights &amp; Recs</div>
   <div class="tab" onclick="showPage('focus')">Brand Focus</div>
 </div>
@@ -216,6 +217,18 @@
   </div>
   <p style="font-size:13px;color:#64748b;margin-bottom:8px">Everything with a <strong>Digital Launch Date of today (Jun 8)</strong> — source: Smartsheet "All Launches – Last 5 days." Grouped by status: <span style="color:#1d4ed8;font-weight:600">Live</span> / <span style="color:#166534;font-weight:600">Launched</span> are on-site now; <span style="color:#b45309;font-weight:600">Scheduled</span> is queued for today; <span style="color:#475569;font-weight:600">In Progress</span> is still being finalized (at risk for today).</p>
   <div id="today-list"></div>
+</div>
+
+<div class="page" id="page-next14">
+  <div class="kpi-grid">
+    <div class="kpi"><div class="label">Upcoming Pieces · Next 14 Days</div><div class="value" id="next14-count">0</div><div class="sub">Jun 10–22 (today is on "Going Live Today")</div></div>
+    <div class="kpi green"><div class="label">Pipeline Revenue</div><div class="value" id="next14-rev">$0</div><div class="sub">Sum of recorded project revenue</div></div>
+    <div class="kpi blue"><div class="label">Brands in Pipeline</div><div class="value" id="next14-brands">0</div><div class="sub">Distinct Crain brands</div></div>
+    <div class="kpi purple"><div class="label">Biggest Launch Day</div><div class="value" id="next14-bigday">—</div><div class="sub" id="next14-bigday-sub">&nbsp;</div></div>
+  </div>
+  <p style="font-size:13px;color:#64748b;margin-bottom:8px">Forward pipeline from Smartsheet "All Launches – Next 14 Days," grouped by Digital Launch Date. Most are <span style="color:#475569;font-weight:600">In Progress</span> or <span style="color:#b45309;font-weight:600">Scheduled</span> — use it to spot crunch days and at-risk items. <strong>Jun 15</strong> (Delta Dental multi-brand + P&amp;I supplement) and <strong>Jun 22</strong> (Ad Age Cannes slate) are the heavy days.</p>
+  <div id="next14-list"></div>
+  <p style="font-size:11px;color:#94a3b8;margin-top:18px;border-top:1px solid #f1f5f9;padding-top:12px">Also in the source report but excluded above: <strong>Abbott</strong> UNIVANTS Supplement ($70K, MH) — digital launch Jul 13 (appears via its Jun 22 print date); and two Automotive News print supplements already digitally live — <strong>Evolution Metal</strong> ($14,850, prints Jun 22) and <strong>LexisNexis</strong> ($17,202, prints Jun 15).</p>
 </div>
 
 <div class="page" id="page-focus"
@@ -493,6 +506,143 @@ todayGroups.forEach(g => {
   }).join('');
 });
 document.getElementById('today-list').innerHTML = todayHtml;
+
+// ===== Next 14 Days pipeline (Jun 10–22) — Smartsheet "All Launches – Next 14 Days", by Digital Launch Date =====
+const pipeline = [
+  // Jun 10 (Wed)
+  { date:"Wed, Jun 10", key:"2026-06-10", brand:"P&I",               product:"Single-Sponsor Webinar · Evolving Alternatives Playbook", client:"RBC Global Asset Management", status:"Not Started", revenue:57500, owner:"Bethany Ford" },
+  { date:"Wed, Jun 10", key:"2026-06-10", brand:"Modern Healthcare", product:"Custom Research",                       client:"Waystar",                  status:"In Progress", revenue:30000, owner:"—" },
+  { date:"Wed, Jun 10", key:"2026-06-10", brand:"Ad Age",            product:"Pub Partner (CW)",                      client:"T-Mobile",                 status:"In Progress", revenue:15000, owner:"Shelly Maldonado" },
+  { date:"Wed, Jun 10", key:"2026-06-10", brand:"P&I",               product:"Thought Leadership White Paper Program", client:"Lazard Asset Management",   status:"Scheduled",  revenue:12500, owner:"Shelly Maldonado" },
+  { date:"Wed, Jun 10", key:"2026-06-10", brand:"P&I",               product:"Thought Leadership White Paper Program", client:"Gallagher GBS Financial",   status:"Scheduled",  revenue:12500, owner:"Shelly Maldonado" },
+  { date:"Wed, Jun 10", key:"2026-06-10", brand:"Automotive News",   product:"Publishing Partner (CW)",               client:"Taiwan Excellence",        status:"In Progress", revenue:null,  owner:"Veronica Johnson", note:"Revenue TBD" },
+  // Jun 11 (Thu)
+  { date:"Thu, Jun 11", key:"2026-06-11", brand:"Ad Age",            product:"White Paper Posting",                   client:"Basis",                    status:"In Progress", revenue:15000, owner:"Sophia Juarez" },
+  { date:"Thu, Jun 11", key:"2026-06-11", brand:"Automotive News",   product:"Custom Webinar (Full)",                 client:"Experian",                 status:"Launched",   revenue:14089, owner:"Jessica Leydet" },
+  { date:"Thu, Jun 11", key:"2026-06-11", brand:"Ad Age",            product:"Pub Partner (CW)",                      client:"YouTube",                  status:"In Progress", revenue:14000, owner:"Shelly Maldonado" },
+  { date:"Thu, Jun 11", key:"2026-06-11", brand:"Ad Age",            product:"Pub Partner (CW)",                      client:"Rankscale GmbH",           status:"In Progress", revenue:12000, owner:"Sophia Juarez" },
+  { date:"Thu, Jun 11", key:"2026-06-11", brand:"Automotive News",   product:"Lead Generation · Retail",              client:"CDK",                      status:"Complete",   revenue:5339,  owner:"Jessica Leydet" },
+  // Jun 12 (Fri)
+  { date:"Fri, Jun 12", key:"2026-06-12", brand:"Ad Age",            product:"Pub Partner (CW)",                      client:"V2 Communications",        status:"In Progress", revenue:15000, owner:"Shelly Maldonado" },
+  // Jun 15 (Mon)
+  { date:"Mon, Jun 15", key:"2026-06-15", brand:"P&I",               product:"Supplement (tip-in) & Webinar · Fixed Income", client:"Fidelity ICG, Morgan Stanley IM, Federated Hermes, MFS IM", status:"In Progress", revenue:182000, owner:"Corina Lewis", note:"Multi-sponsor" },
+  { date:"Mon, Jun 15", key:"2026-06-15", brand:"P&I",               product:"Investment Insights (1p)",              client:"Capital Fund Management",  status:"In Progress", revenue:38750, owner:"Corina Lewis" },
+  { date:"Mon, Jun 15", key:"2026-06-15", brand:"Cleveland",         product:"Executive Insights",                    client:"Delta Dental",             status:"In Progress", revenue:35000, owner:"Jennifer Keirn, Natalie Bonadeo" },
+  { date:"Mon, Jun 15", key:"2026-06-15", brand:"P&I",               product:"Executive Conversation (1p)",           client:"Baron Capital",            status:"In Progress", revenue:34500, owner:"Corina Lewis" },
+  { date:"Mon, Jun 15", key:"2026-06-15", brand:"Detroit",           product:"Executive Insights",                    client:"Delta Dental",             status:"In Progress", revenue:22000, owner:"Jennifer Keirn, Natalie Bonadeo" },
+  { date:"Mon, Jun 15", key:"2026-06-15", brand:"Grand Rapids",      product:"Executive Insights",                    client:"Delta Dental",             status:"In Progress", revenue:22000, owner:"Jennifer Keirn, Natalie Bonadeo" },
+  { date:"Mon, Jun 15", key:"2026-06-15", brand:"Detroit",           product:"Quick Take Video",                      client:"ITC",                      status:"In Progress", revenue:15000, owner:"Jennifer Keirn, Natalie Bonadeo" },
+  { date:"Mon, Jun 15", key:"2026-06-15", brand:"Chicago",           product:"Thought Leader Report",                 client:"Associated Agencies",      status:"In Progress", revenue:12000, owner:"Kathy Carr" },
+  { date:"Mon, Jun 15", key:"2026-06-15", brand:"Chicago",           product:"Thought Leader Report",                 client:"Thompson Hine",            status:"Scheduled",  revenue:12000, owner:"Natalie Bonadeo" },
+  { date:"Mon, Jun 15", key:"2026-06-15", brand:"Automotive News",   product:"Up to Speed Video",                     client:"Cox VinSolutions",         status:"In Progress", revenue:11500, owner:"Veronica Johnson" },
+  { date:"Mon, Jun 15", key:"2026-06-15", brand:"Automotive News",   product:"Publishing Partner (CW)",               client:"APCO",                     status:"Scheduled",  revenue:11000, owner:"Veronica Johnson" },
+  { date:"Mon, Jun 15", key:"2026-06-15", brand:"Detroit",           product:"Quick Take Video",                      client:"American Center for Mobility", status:"In Progress", revenue:10000, owner:"Jennifer Keirn, Natalie Bonadeo" },
+  { date:"Mon, Jun 15", key:"2026-06-15", brand:"Detroit",           product:"Quick Take Video",                      client:"DTE Energy",               status:"Scheduled",  revenue:10000, owner:"Jennifer Keirn, Natalie Bonadeo" },
+  { date:"Mon, Jun 15", key:"2026-06-15", brand:"Detroit",           product:"Quick Take Video",                      client:"Kettering University",     status:"In Progress", revenue:10000, owner:"Jennifer Keirn, Natalie Bonadeo" },
+  { date:"Mon, Jun 15", key:"2026-06-15", brand:"Detroit",           product:"Quick Take Video",                      client:"Michigan Credit Union League", status:"Scheduled", revenue:10000, owner:"Jennifer Keirn, Natalie Bonadeo" },
+  { date:"Mon, Jun 15", key:"2026-06-15", brand:"Detroit",           product:"Quick Take Video",                      client:"The Skillman Foundation",  status:"Scheduled",  revenue:10000, owner:"Jennifer Keirn, Natalie Bonadeo" },
+  { date:"Mon, Jun 15", key:"2026-06-15", brand:"Ad Age",            product:"Pub Partner (CW)",                      client:"Havas Media",              status:"In Progress", revenue:10000, owner:"Sophia Juarez" },
+  { date:"Mon, Jun 15", key:"2026-06-15", brand:"Automotive News",   product:"Up to Speed Video",                     client:"Cars Commerce",            status:"In Progress", revenue:8000,  owner:"Veronica Johnson" },
+  { date:"Mon, Jun 15", key:"2026-06-15", brand:"Chicago",           product:"Digital · Client writes",               client:"KeyBank",                  status:"In Progress", revenue:6000,  owner:"Brittany Brown" },
+  { date:"Mon, Jun 15", key:"2026-06-15", brand:"Grand Rapids",      product:"Quick Take Video",                      client:"ITC",                      status:"In Progress", revenue:4500,  owner:"Jennifer Keirn, Natalie Bonadeo" },
+  { date:"Mon, Jun 15", key:"2026-06-15", brand:"Grand Rapids",      product:"Quick Take Video",                      client:"Kettering University",     status:"In Progress", revenue:4500,  owner:"Jennifer Keirn, Natalie Bonadeo" },
+  { date:"Mon, Jun 15", key:"2026-06-15", brand:"Grand Rapids",      product:"Quick Take Video",                      client:"Independent Bank",         status:"In Progress", revenue:4500,  owner:"Brittany Brown" },
+  { date:"Mon, Jun 15", key:"2026-06-15", brand:"Grand Rapids",      product:"Thought Leader Report",                 client:"Pine Rest Christian Mental Health", status:"In Progress", revenue:4500, owner:"Natalie Bonadeo" },
+  { date:"Mon, Jun 15", key:"2026-06-15", brand:"New York",          product:"Digital · Client writes",               client:"Under Construction News",  status:"Not Started", revenue:4200,  owner:"Jennifer Keirn" },
+  { date:"Mon, Jun 15", key:"2026-06-15", brand:"Grand Rapids",      product:"Digital + Print · Client writes",       client:"FCC Construction",         status:"Scheduled",  revenue:3900,  owner:"Natalie Bonadeo" },
+  { date:"Mon, Jun 15", key:"2026-06-15", brand:"Grand Rapids",      product:"Digital · Client writes",               client:"Goodwill Industries GR",   status:"In Progress", revenue:3900,  owner:"Kathy Carr" },
+  { date:"Mon, Jun 15", key:"2026-06-15", brand:"Cleveland",         product:"White Paper · Client writes",           client:"Meaden & Moore",           status:"Scheduled",  revenue:3600,  owner:"Jordan Dziura" },
+  { date:"Mon, Jun 15", key:"2026-06-15", brand:"Grand Rapids",      product:"Digital + Print · Client writes",       client:"Harbor Hospice",           status:"Scheduled",  revenue:3500,  owner:"Kathy Carr" },
+  { date:"Mon, Jun 15", key:"2026-06-15", brand:"Automotive News",   product:"Resource Center Standard",              client:"Imagine360",               status:"Unknown",    revenue:2861,  owner:"Chris Davis" },
+  { date:"Mon, Jun 15", key:"2026-06-15", brand:"Grand Rapids",      product:"Ask the Expert · Studio writes",        client:"Greenleaf Trust",          status:"Scheduled",  revenue:2800,  owner:"Brittany Brown" },
+  { date:"Mon, Jun 15", key:"2026-06-15", brand:"Automotive News",   product:"Publishing Partner (CW)",               client:"Carfax Canada",            status:"In Progress", revenue:null,  owner:"Veronica Johnson", note:"C$4,800" },
+  { date:"Mon, Jun 15", key:"2026-06-15", brand:"Automotive News",   product:"Award & Plaque (129)",                  client:"Capital One Auto",         status:"In Progress", revenue:null,  owner:"Veronica Johnson", note:"Revenue TBD" },
+  { date:"Mon, Jun 15", key:"2026-06-15", brand:"Ad Age",            product:"Pub Partner (AAW)",                     client:"YouTube (A-List)",         status:"In Progress", revenue:0,     owner:"Shelly Maldonado" },
+  // Jun 16 (Tue)
+  { date:"Tue, Jun 16", key:"2026-06-16", brand:"Ad Age",            product:"Custom Webinar",                        client:"BIScience",                status:"In Progress", revenue:18000, owner:"Daniela Rubalcava", note:"Multimedia" },
+  { date:"Tue, Jun 16", key:"2026-06-16", brand:"Automotive News",   product:"Up to Speed Video",                     client:"RouteOne",                 status:"In Progress", revenue:11500, owner:"Veronica Johnson" },
+  { date:"Tue, Jun 16", key:"2026-06-16", brand:"Ad Age",            product:"Pub Partner (CW)",                      client:"Horizon Media",            status:"Not Started", revenue:10000, owner:"Sophia Juarez" },
+  { date:"Tue, Jun 16", key:"2026-06-16", brand:"Automotive News",   product:"Custom Services",                       client:"Dent Master, Inc.",        status:"In Progress", revenue:0,     owner:"Veronica Johnson" },
+  { date:"Tue, Jun 16", key:"2026-06-16", brand:"P&I",               product:"Digital Special Report (Banners) · Largest Money Managers", client:"PGIM", status:"In Progress", revenue:null, owner:"Shelly Maldonado", note:"Revenue TBD" },
+  // Jun 17 (Wed)
+  { date:"Wed, Jun 17", key:"2026-06-17", brand:"Ad Age",            product:"Interactive Report",                    client:"IAB",                      status:"In Progress", revenue:30000, owner:"Sophia Juarez" },
+  { date:"Wed, Jun 17", key:"2026-06-17", brand:"Automotive News",   product:"Custom Webinar (Mini)",                 client:"Protective",               status:"In Progress", revenue:null,  owner:"Jessica Leydet", note:"Revenue TBD" },
+  // Jun 18 (Thu)
+  { date:"Thu, Jun 18", key:"2026-06-18", brand:"Ad Age",            product:"Pub Partner (AAW)",                     client:"Cheil",                    status:"In Progress", revenue:15000, owner:"Shelly Maldonado" },
+  { date:"Thu, Jun 18", key:"2026-06-18", brand:"Automotive News",   product:"Lead Generation · Retail",              client:"Car Wars",                 status:"Creative Requested", revenue:7363, owner:"Jessica Leydet" },
+  // Jun 22 (Mon) — Ad Age Cannes slate + multi-brand
+  { date:"Mon, Jun 22", key:"2026-06-22", brand:"Ad Age",            product:"Event Panel",                           client:"Courage",                  status:"In Progress", revenue:40000, owner:"Shelly Maldonado", note:"Cannes · Platinum" },
+  { date:"Mon, Jun 22", key:"2026-06-22", brand:"Ad Age",            product:"Pub Partner (AAW)",                     client:"Locala",                   status:"Not Started", revenue:40000, owner:"Sophia Juarez", note:"Cannes" },
+  { date:"Mon, Jun 22", key:"2026-06-22", brand:"Ad Age",            product:"Custom Event Sponsorship",              client:"Affinity Solutions / Stackline", status:"In Progress", revenue:40000, owner:"Andrea Straw", note:"Cannes · Gold" },
+  { date:"Mon, Jun 22", key:"2026-06-22", brand:"Ad Age",            product:"Custom Conversation Video",             client:"Gratsy",                   status:"In Progress", revenue:35000, owner:"Leeza Rivkin", note:"Cannes" },
+  { date:"Mon, Jun 22", key:"2026-06-22", brand:"Ad Age",            product:"Custom Conversation Video",             client:"Roundel",                  status:"In Progress", revenue:35000, owner:"Leeza Rivkin", note:"Cannes · Platinum" },
+  { date:"Mon, Jun 22", key:"2026-06-22", brand:"Ad Age",            product:"Custom Conversation Video",             client:"DoorDash",                 status:"In Progress", revenue:30000, owner:"Leeza Rivkin", note:"Cannes · Platinum" },
+  { date:"Mon, Jun 22", key:"2026-06-22", brand:"Chicago",           product:"Digital + Print · Crain's writes",      client:"CIBC",                     status:"In Progress", revenue:28343, owner:"Brittany Brown" },
+  { date:"Mon, Jun 22", key:"2026-06-22", brand:"Ad Age",            product:"Custom Conversation Video",             client:"Paramount",                status:"In Progress", revenue:25000, owner:"Leeza Rivkin", note:"Cannes · Platinum" },
+  { date:"Mon, Jun 22", key:"2026-06-22", brand:"Ad Age",            product:"Custom Event Sponsorship",              client:"Tatari",                   status:"In Progress", revenue:20000, owner:"Andrea Straw", note:"Cannes" },
+  { date:"Mon, Jun 22", key:"2026-06-22", brand:"Automotive News",   product:"Executive Insight Q&A",                 client:"ABB Robotics",             status:"Complete",   revenue:14500, owner:"Veronica Johnson" },
+  { date:"Mon, Jun 22", key:"2026-06-22", brand:"Hart Energy",       product:"White Paper · Crain's writes",          client:"Honeywell",                status:"On Hold",    revenue:10500, owner:"Jordan Dziura" },
+  { date:"Mon, Jun 22", key:"2026-06-22", brand:"Modern Healthcare", product:"Sponsored Content Posting",             client:"FHAS",                     status:"In Progress", revenue:9666,  owner:"Sammy Salettel" },
+  { date:"Mon, Jun 22", key:"2026-06-22", brand:"Detroit",           product:"Digital + Print · Crain's writes",      client:"DTE Energy",               status:"In Progress", revenue:8550,  owner:"Jordan Dziura" },
+  { date:"Mon, Jun 22", key:"2026-06-22", brand:"Cleveland",         product:"Thought Leader Report",                 client:"Grey Fox Capital",         status:"In Progress", revenue:6840,  owner:"Kathy Carr" },
+  { date:"Mon, Jun 22", key:"2026-06-22", brand:"Detroit",           product:"Digital · Client writes",               client:"MAHP",                     status:"Scheduled",  revenue:6095,  owner:"Kathy Carr" },
+  { date:"Mon, Jun 22", key:"2026-06-22", brand:"Chicago",           product:"Digital · Client writes",               client:"KPMG",                     status:"In Progress", revenue:5400,  owner:"Natalie Bonadeo" },
+  { date:"Mon, Jun 22", key:"2026-06-22", brand:"Chicago",           product:"Digital · Client writes",               client:"The Chicago School",       status:"In Progress", revenue:6000,  owner:"Brittany Brown" },
+  { date:"Mon, Jun 22", key:"2026-06-22", brand:"Detroit",           product:"Luxury Home Spotlight",                 client:"The Villa at the District", status:"In Progress", revenue:3117, owner:"Natalie Bonadeo" },
+  { date:"Mon, Jun 22", key:"2026-06-22", brand:"Grand Rapids",      product:"Luxury Home Spotlight",                 client:"Lake District Flats",      status:"In Progress", revenue:1650,  owner:"Natalie Bonadeo" },
+  { date:"Mon, Jun 22", key:"2026-06-22", brand:"Grand Rapids",      product:"Digital · Client writes",               client:"MAHP",                     status:"Scheduled",  revenue:1500,  owner:"Kathy Carr" },
+  { date:"Mon, Jun 22", key:"2026-06-22", brand:"Hart Energy",       product:"Quick Take Video",                      client:"Honeywell",                status:"In Progress", revenue:0,     owner:"Jennifer Keirn, Jordan Dziura" },
+];
+
+const pipeStatusMeta = {
+  "Complete":          { bg:"#eff6ff", color:"#1d4ed8", label:"✅ Complete",  border:"#3b82f6" },
+  "Launched":          { bg:"#f0fdf4", color:"#166534", label:"🟢 Launched",  border:"#10b981" },
+  "Scheduled":         { bg:"#fffbeb", color:"#b45309", label:"🗓 Scheduled", border:"#f59e0b" },
+  "In Progress":       { bg:"#f8fafc", color:"#475569", label:"⏳ In Progress", border:"#94a3b8" },
+  "Not Started":       { bg:"#fef2f2", color:"#b91c1c", label:"⭕ Not Started", border:"#ef4444" },
+  "Creative Requested":{ bg:"#faf5ff", color:"#7c3aed", label:"✍️ Creative Req.", border:"#8b5cf6" },
+  "On Hold":           { bg:"#fff7ed", color:"#c2410c", label:"⏸ On Hold",    border:"#f97316" },
+  "Unknown":           { bg:"#f8fafc", color:"#94a3b8", label:"• Status TBD", border:"#cbd5e1" },
+};
+const brandLabel = b => ({ "Chicago":"Crain's Chicago","Cleveland":"Crain's Cleveland","Detroit":"Crain's Detroit","Grand Rapids":"Crain's Grand Rapids","New York":"Crain's New York" }[b] || b);
+
+const pipeRevTotal = pipeline.reduce((s,x) => s + (x.revenue || 0), 0);
+document.getElementById('next14-count').textContent = pipeline.length;
+document.getElementById('next14-rev').textContent = '$' + pipeRevTotal.toLocaleString();
+document.getElementById('next14-brands').textContent = new Set(pipeline.map(x => brandLabel(x.brand))).size;
+
+const pipeDays = [...new Set(pipeline.map(x => x.key))].sort();
+let bigDay = null, bigDayRev = -1;
+pipeDays.forEach(k => { const r = pipeline.filter(x => x.key === k).reduce((s,x)=>s+(x.revenue||0),0); if (r > bigDayRev) { bigDayRev = r; bigDay = k; } });
+const bigDayLabel = bigDay ? pipeline.find(x => x.key === bigDay).date : "—";
+document.getElementById('next14-bigday').textContent = bigDayLabel.replace(/^[A-Za-z]+, /,'');
+document.getElementById('next14-bigday-sub').textContent = bigDay ? `$${bigDayRev.toLocaleString()} · ${pipeline.filter(x=>x.key===bigDay).length} pieces` : '';
+
+let pipeHtml = "";
+pipeDays.forEach(k => {
+  const items = pipeline.filter(x => x.key === k).sort((a,b) => (b.revenue||0) - (a.revenue||0));
+  const dayRev = items.reduce((s,x) => s + (x.revenue||0), 0);
+  pipeHtml += `<div class="section-label" style="margin-top:18px">${items[0].date} · ${items.length} piece${items.length>1?'s':''} · $${dayRev.toLocaleString()}</div>`;
+  pipeHtml += items.map(x => {
+    const m = pipeStatusMeta[x.status] || pipeStatusMeta["Unknown"];
+    return `<div class="live-card" style="border-left-color:${m.border}">
+      <div class="lc-main">
+        <div class="lc-title">${x.product} — ${x.client}</div>
+        <div class="lc-sub">${x.owner && x.owner !== '—' ? 'Owner: ' + x.owner : 'Owner: unassigned'}</div>
+        <div class="lc-meta">
+          <span class="brand-pill">${brandLabel(x.brand)}</span>
+          <span class="status-badge" style="background:${m.bg};color:${m.color}">${m.label}</span>
+          ${x.note ? `<span class="vert-tag">${x.note}</span>` : ''}
+        </div>
+      </div>
+      <div class="lc-right">
+        <div class="lc-rev">${x.revenue ? '$' + x.revenue.toLocaleString() : '—'}</div>
+        <div style="font-size:10px;color:#94a3b8;text-transform:uppercase;letter-spacing:0.4px">Revenue</div>
+      </div>
+    </div>`;
+  }).join('');
+});
+document.getElementById('next14-list').innerHTML = pipeHtml;
 
 function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
