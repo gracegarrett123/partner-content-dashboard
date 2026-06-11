@@ -2,7 +2,7 @@
 {
   "name": "Ad Solutions Team Dashboard",
   "schemaVersion": 1,
-  "description": "Ad Solutions Team daily analytics dashboard built from the Adobe Analytics PDF report emailed each morning. KPI cards, brand performance tables (yesterday + 7-day), top 10 stories by visits, top 7 by engagement time, insights, recommendations, and brand-focus pitch cards across all 9 Crain properties. Auto-refreshed daily at 8 AM from the latest Adobe report email. Currently showing the June 10, 2026 report (period: Jun 9 + Jun 3–9).",
+  "description": "Ad Solutions Team daily analytics dashboard built from the Adobe Analytics PDF report emailed each morning. KPI cards, brand performance tables (yesterday + 7-day), top 10 stories by visits, top 7 by engagement time, insights, recommendations, and brand-focus pitch cards across all 9 Crain properties. Auto-refreshed daily at 8 AM from the latest Adobe report email. Currently showing the June 9, 2026 report (period: Jun 8 + Jun 2–8).",
   "mcpTools": [
     "mcp__09e4c9dd-00d9-44a0-94d7-573300fdabc9__get_report"
   ],
@@ -194,11 +194,11 @@
 
 <div class="page" id="page-live">
   <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr)">
-    <div class="kpi green"><div class="label">Projects · Today (Jun 10)</div><div class="value" id="live-count">0</div><div class="sub">All statuses · Digital or Print today</div></div>
+    <div class="kpi green"><div class="label">Projects · Today (Jun 11)</div><div class="value" id="live-count">0</div><div class="sub">All statuses · Digital or Print today</div></div>
     <div class="kpi blue"><div class="label">Total Revenue · These Projects</div><div class="value" id="live-rev">$0</div><div class="sub">Where revenue is recorded</div></div>
     <div class="kpi purple"><div class="label">Brands</div><div class="value" id="live-brands">0</div><div class="sub">Distinct brands today</div></div>
   </div>
-  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Every project with a Digital or Print Launch Date of today (Jun 10) — sources: Smartsheet "Digital- Today's Launches" + "Print- Today's Launches." All statuses are shown (Live/Complete, Launched, In Progress, Scheduled), sorted live-first. The channel tag shows Digital, Print, or both.</p>
+  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Every project with a Digital or Print Launch Date of today (Jun 11) — sources: Smartsheet "Digital- Today's Launches" + "Print- Today's Launches." All statuses are shown (Live/Complete, Launched, In Progress, Scheduled), sorted live-first. The channel tag shows Digital, Print, or both.</p>
   <div id="live-list"></div>
 </div>
 
@@ -373,15 +373,15 @@ const brandFocus = [
 ];
 document.getElementById('brand-focus-grid').innerHTML = brandFocus.map(b => `<div class="focus-card"><div class="focus-header"><span class="focus-brand">${b.brand}</span><span class="focus-signal ${b.signalClass}">${b.signal}</span></div><div class="focus-topics">${b.topics.map(t => `<span class="topic-tag ${t.hot ? 'hot' : ''}">${t.hot ? '🔥 ' : ''}${t.label}</span>`).join('')}</div><div class="focus-stat"><span>📈 ${b.visits7.toLocaleString()} visits / 7 days</span><span>⏱ ${b.avgTime} avg</span></div><div class="focus-pitch" style="margin-top:12px"><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;color:#94a3b8;margin-bottom:4px">Top story: ${b.topStory}</div><div style="font-size:11px;color:#64748b;margin-bottom:8px">Best dwell: ${b.bestEngagement}</div>${b.pitch}</div></div>`).join('');
 
-// ===== Launching today (Jun 10) — Smartsheet "Digital- Today's Launches" + "Print- Today's Launches" =====
+// ===== Launching today (Jun 11) — Smartsheet "Digital- Today's Launches" + "Print- Today's Launches" =====
 // ALL projects whose Digital Launch Date (Digital report) or Print Launch Date (Print report) is today, regardless of status.
 const liveContent = [
-  { brand: "P&I",                channel: "Digital", product: "Single-Sponsor Webinar — The Evolving Alternatives Playbook", client: "RBC Global Asset Management",       status: "Not Started", revenue: 57500, vertical: "", owner: "Bethany Ford",     url: "" },
-  { brand: "Modern Healthcare",  channel: "Digital", product: "Custom Research",                                            client: "Waystar",                          status: "In Progress", revenue: 30000, vertical: "", owner: "",               url: "" },
-  { brand: "Ad Age",             channel: "Digital", product: "Pub Partner (CW)",                                           client: "T-Mobile",                         status: "In Progress", revenue: 15000, vertical: "", owner: "Shelly Maldonado", url: "https://adage.com/studio-30/publishing-partners/aa-mobile-activity-is-rewriting-the-rules-of-audience-intelligence" },
-  { brand: "P&I",                channel: "Digital", product: "Thought Leadership White Paper Program",                    client: "Lazard Asset Management",          status: "Scheduled",   revenue: 12500, vertical: "", owner: "Shelly Maldonado", url: "https://www.pionline.com/white-papers/pi-extension-strategies-managing-complex-risk-to-uncover-greater-reward/" },
-  { brand: "P&I",                channel: "Digital", product: "Thought Leadership White Paper Program",                    client: "Gallagher GBS Financial (GALL#4924)", status: "Scheduled", revenue: 12500, vertical: "", owner: "Shelly Maldonado", url: "https://www.pionline.com/white-papers/pi-flavors-of-pensions-risk-transfer/" },
-  { brand: "Automotive News",    channel: "Digital", product: "Publishing Partner (CW)",                                   client: "Taiwan Excellence",                status: "In Progress", revenue: 0,     vertical: "", owner: "Veronica Johnson", url: "" },
+  { brand: "Automotive News",    channel: "Digital", product: "Lead Generation - Retail",  client: "CDK",           status: "Complete",    revenue: 5339.32,  vertical: "", owner: "Jessica Leydet",  url: "https://www.autonews.com/resource_center/cdk-global/an-how-ai-driven-crms-help-dealers-close-more-leads" },
+  { brand: "Automotive News",    channel: "Digital", product: "Custom Webinar Full",        client: "Experian",      status: "Launched",    revenue: 14088.75, vertical: "", owner: "Jessica Leydet",  url: "https://autonews.com/resource_center/Experian/an-ai-driven-car-buying-process-demands-accurate-data/" },
+  { brand: "Ad Age",             channel: "Digital", product: "White Paper Posting",        client: "Basis",         status: "In Progress", revenue: 15000,    vertical: "", owner: "Sophia Juarez",   url: "https://adage.com/studio-30/white-paper/aa-report-the-agency-inflection-point/" },
+  { brand: "Ad Age",             channel: "Digital", product: "Pub Partner (CW)",           client: "YouTube",       status: "In Progress", revenue: 14000,    vertical: "", owner: "Shelly Maldonado", url: "" },
+  { brand: "Ad Age",             channel: "Digital", product: "Pub Partner (CW)",           client: "Rankscale GmbH",status: "In Progress", revenue: 12000,    vertical: "", owner: "Sophia Juarez",   url: "https://adage.com/studio-30/publishing-partners/aa-why-the-customer-journey-is-fundamentally-changing" },
+  { brand: "GenomeWeb",          channel: "Digital", product: "Podcast",                    client: "Cellanome",     status: "In Progress", revenue: 6666.67,  vertical: "", owner: "Alison Caceres",  url: "" },
 ];
 // Sort: live/complete first, then launched, in progress, scheduled — each by revenue desc.
 const _statusRank = { "Complete": 0, "Launched": 1, "In Progress": 2, "Scheduled": 3 };
@@ -393,7 +393,7 @@ document.getElementById('live-rev').textContent = '$' + liveRevTotal.toLocaleStr
 document.getElementById('live-brands').textContent = new Set(liveContent.map(x => x.brand)).size;
 
 if (liveContent.length === 0) {
-  document.getElementById('live-list').innerHTML = `<div style="background:white;border-radius:12px;padding:28px;text-align:center;color:#94a3b8;font-size:13px;box-shadow:0 1px 3px rgba(0,0,0,0.07)">Nothing launching today (Jun 10). Neither the Digital nor Print report shows an item with a Jun 10 launch date. Check back tomorrow.</div>`;
+  document.getElementById('live-list').innerHTML = `<div style="background:white;border-radius:12px;padding:28px;text-align:center;color:#94a3b8;font-size:13px;box-shadow:0 1px 3px rgba(0,0,0,0.07)">Nothing launching today (Jun 11). Neither the Digital nor Print report shows an item with a Jun 11 launch date. Check back tomorrow.</div>`;
 } else {
 const _statusMeta = {
   "Complete":    { label: "✅ Live",        css: "background:#eff6ff;color:#1d4ed8", border: "#10b981" },
