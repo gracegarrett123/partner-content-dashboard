@@ -194,11 +194,11 @@
 
 <div class="page" id="page-live">
   <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr)">
-    <div class="kpi green"><div class="label">Projects · Today (Jun 12)</div><div class="value" id="live-count">0</div><div class="sub">All statuses · Digital or Print today</div></div>
+    <div class="kpi green"><div class="label">Projects · Today (Jun 14)</div><div class="value" id="live-count">0</div><div class="sub">All statuses · Digital or Print today</div></div>
     <div class="kpi blue"><div class="label">Total Revenue · These Projects</div><div class="value" id="live-rev">$0</div><div class="sub">Where revenue is recorded</div></div>
     <div class="kpi purple"><div class="label">Brands</div><div class="value" id="live-brands">0</div><div class="sub">Distinct brands today</div></div>
   </div>
-  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Every project with a Digital or Print Launch Date of today (Jun 12) — sources: Smartsheet "Digital- Today's Launches" + "Print- Today's Launches." All statuses are shown (Live/Complete, Launched, In Progress, Scheduled), sorted live-first. The channel tag shows Digital, Print, or both.</p>
+  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Every project with a Digital or Print Launch Date of today (Jun 14) — sources: Smartsheet "Digital- Today's Launches" + "Print- Today's Launches." All statuses are shown (Live/Complete, Launched, In Progress, Scheduled), sorted live-first. The channel tag shows Digital, Print, or both.</p>
   <div id="live-list"></div>
 </div>
 
@@ -373,11 +373,9 @@ const brandFocus = [
 ];
 document.getElementById('brand-focus-grid').innerHTML = brandFocus.map(b => `<div class="focus-card"><div class="focus-header"><span class="focus-brand">${b.brand}</span><span class="focus-signal ${b.signalClass}">${b.signal}</span></div><div class="focus-topics">${b.topics.map(t => `<span class="topic-tag ${t.hot ? 'hot' : ''}">${t.hot ? '🔥 ' : ''}${t.label}</span>`).join('')}</div><div class="focus-stat"><span>📈 ${b.visits7.toLocaleString()} visits / 7 days</span><span>⏱ ${b.avgTime} avg</span></div><div class="focus-pitch" style="margin-top:12px"><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;color:#94a3b8;margin-bottom:4px">Top story: ${b.topStory}</div><div style="font-size:11px;color:#64748b;margin-bottom:8px">Best dwell: ${b.bestEngagement}</div>${b.pitch}</div></div>`).join('');
 
-// ===== Launching today (Jun 12) — Smartsheet "Digital- Today's Launches" + "Print- Today's Launches" =====
+// ===== Launching today (Jun 14) — Smartsheet "Digital- Today's Launches" + "Print- Today's Launches" =====
 // ALL projects whose Digital Launch Date (Digital report) or Print Launch Date (Print report) is today, regardless of status.
 const liveContent = [
-  { brand: "Ad Age",             channel: "Digital", product: "Pub Partner (CW)",           client: "V2 Communications", status: "In Progress", revenue: 15000, vertical: "", owner: "Shelly Maldonado", url: "https://adage.com/studio-30/publishing-partners/aa-future-brand-influence-starts-ai-perception/" },
-  { brand: "GenomeWeb",          channel: "Digital", product: "Virtual Roundtable",         client: "Roche",             status: "In Progress", revenue: 30000, vertical: "", owner: "Ian Levenstein",   url: "" },
 ];
 // Sort: live/complete first, then launched, in progress, scheduled — each by revenue desc.
 const _statusRank = { "Complete": 0, "Launched": 1, "In Progress": 2, "Scheduled": 3 };
@@ -389,7 +387,7 @@ document.getElementById('live-rev').textContent = '$' + liveRevTotal.toLocaleStr
 document.getElementById('live-brands').textContent = new Set(liveContent.map(x => x.brand)).size;
 
 if (liveContent.length === 0) {
-  document.getElementById('live-list').innerHTML = `<div style="background:white;border-radius:12px;padding:28px;text-align:center;color:#94a3b8;font-size:13px;box-shadow:0 1px 3px rgba(0,0,0,0.07)">Nothing launching today (Jun 12). Neither the Digital nor Print report shows an item with a Jun 12 launch date. Check back tomorrow.</div>`;
+  document.getElementById('live-list').innerHTML = `<div style="background:white;border-radius:12px;padding:28px;text-align:center;color:#94a3b8;font-size:13px;box-shadow:0 1px 3px rgba(0,0,0,0.07)">Nothing launching today (Jun 14). Neither the Digital nor Print report shows an item with a Jun 14 launch date. Check back tomorrow.</div>`;
 } else {
 const _statusMeta = {
   "Complete":    { label: "✅ Live",        css: "background:#eff6ff;color:#1d4ed8", border: "#10b981" },
