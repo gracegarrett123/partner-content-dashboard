@@ -194,11 +194,11 @@
 
 <div class="page" id="page-live">
   <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr)">
-    <div class="kpi green"><div class="label">Projects · Today (Jun 14)</div><div class="value" id="live-count">0</div><div class="sub">All statuses · Digital or Print today</div></div>
+    <div class="kpi green"><div class="label">Projects · Today (Jun 15)</div><div class="value" id="live-count">0</div><div class="sub">All statuses · Digital or Print today</div></div>
     <div class="kpi blue"><div class="label">Total Revenue · These Projects</div><div class="value" id="live-rev">$0</div><div class="sub">Where revenue is recorded</div></div>
     <div class="kpi purple"><div class="label">Brands</div><div class="value" id="live-brands">0</div><div class="sub">Distinct brands today</div></div>
   </div>
-  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Every project with a Digital or Print Launch Date of today (Jun 14) — sources: Smartsheet "Digital- Today's Launches" + "Print- Today's Launches." All statuses are shown (Live/Complete, Launched, In Progress, Scheduled), sorted live-first. The channel tag shows Digital, Print, or both.</p>
+  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Every project with a Digital or Print Launch Date of today (Jun 15) — sources: Smartsheet "Digital- Today's Launches" + "Print- Today's Launches." All statuses are shown (Live/Complete, Launched, In Progress, Scheduled), sorted live-first. The channel tag shows Digital, Print, or both.</p>
   <div id="live-list"></div>
 </div>
 
@@ -373,9 +373,26 @@ const brandFocus = [
 ];
 document.getElementById('brand-focus-grid').innerHTML = brandFocus.map(b => `<div class="focus-card"><div class="focus-header"><span class="focus-brand">${b.brand}</span><span class="focus-signal ${b.signalClass}">${b.signal}</span></div><div class="focus-topics">${b.topics.map(t => `<span class="topic-tag ${t.hot ? 'hot' : ''}">${t.hot ? '🔥 ' : ''}${t.label}</span>`).join('')}</div><div class="focus-stat"><span>📈 ${b.visits7.toLocaleString()} visits / 7 days</span><span>⏱ ${b.avgTime} avg</span></div><div class="focus-pitch" style="margin-top:12px"><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;color:#94a3b8;margin-bottom:4px">Top story: ${b.topStory}</div><div style="font-size:11px;color:#64748b;margin-bottom:8px">Best dwell: ${b.bestEngagement}</div>${b.pitch}</div></div>`).join('');
 
-// ===== Launching today (Jun 14) — Smartsheet "Digital- Today's Launches" + "Print- Today's Launches" =====
+// ===== Launching today (Jun 15) — Smartsheet "Digital- Today's Launches" + "Print- Today's Launches" =====
 // ALL projects whose Digital Launch Date (Digital report) or Print Launch Date (Print report) is today, regardless of status.
 const liveContent = [
+  { brand: "P&I", channel: "Digital + Print", product: "Supplement (tip-in) & Webinar", client: "Fidelity ICG, Morgan Stanley, Federated Hermes, MFS IM", status: "In Progress", revenue: 182000, vertical: "Finance", owner: "Corina Lewis", url: "https://www.pionline.com/partner-content/pi-fixed-income-supportive-ballast/" },
+  { brand: "P&I", channel: "Digital + Print", product: "Investment Insights (1p)", client: "Capital Fund Management", status: "In Progress", revenue: 38750, vertical: "Finance", owner: "Corina Lewis", url: "https://www.pionline.com/partner-content/pi-systematic-global-macro-is-having-a-moment/" },
+  { brand: "P&I", channel: "Digital + Print", product: "Executive Conversation (1p)", client: "Baron Capital", status: "In Progress", revenue: 34500, vertical: "Finance", owner: "Corina Lewis", url: "https://www.pionline.com/partner-content/pi-how-a-long-only-growth-investor-navigates-the-ai-era/" },
+  { brand: "Automotive News", channel: "Print", product: "Publishing Partner (CW) + Print", client: "LexisNexis", status: "Complete", revenue: 17202, vertical: "Automotive", owner: "Veronica Johnson", url: "https://www.autonews.com/sponsored/publishing-partners/an-how-automakers-transforming-onboarding-safety-compliance/" },
+  { brand: "Modern Healthcare", channel: "Digital", product: "Sponsored Content Posting", client: "Temple University Health System SCP", status: "Launched", revenue: 9520, vertical: "Healthcare", owner: "Shannon Mortland", url: "https://www.modernhealthcare.com/content-studio/publishing-partner/mh-expanding-access-to-lung-transplant-how-leading-health-systems-are-scaling-complex-care" },
+  { brand: "GenomeWeb", channel: "Digital", product: "Topic Takeover", client: "ONT", status: "Complete", revenue: 15000, vertical: "Life Sciences", owner: "Adam Eggleston", url: "" },
+  { brand: "GenomeWeb", channel: "Digital", product: "Webinar", client: "Singular Genomics", status: "In Progress", revenue: 15000, vertical: "Life Sciences", owner: "Alison Caceres", url: "" },
+  { brand: "Automotive News", channel: "Digital", product: "Up to Speed Video", client: "Cox VinSolutions", status: "In Progress", revenue: 11500, vertical: "Automotive", owner: "Veronica Johnson", url: "" },
+  { brand: "Automotive News", channel: "Digital", product: "Publishing Partner (CW)", client: "APCO", status: "Complete", revenue: 11000, vertical: "Automotive", owner: "Veronica Johnson", url: "https://autonews.com/sponsored/publishing-partners/an-dealership-compliance-no-longer-reactive/" },
+  { brand: "Ad Age", channel: "Digital", product: "Pub Partner (CW)", client: "Havas Media", status: "In Progress", revenue: 10000, vertical: "Advertising", owner: "Sophia Juarez", url: "https://adage.com/studio-30/publishing-partners/aa-the-pivot-challenge-wellness-brands-must-navigate/" },
+  { brand: "Automotive News", channel: "Digital", product: "Up to Speed Video", client: "Cars Commerce", status: "Complete", revenue: 8000, vertical: "Automotive", owner: "Veronica Johnson", url: "" },
+  { brand: "Crain's Chicago", channel: "Digital", product: "Digital – Client writes", client: "KeyBank", status: "In Progress", revenue: 6000, vertical: "Financial Services", owner: "Brittany Brown, Natalie Bonadeo", url: "" },
+  { brand: "Automotive News", channel: "Digital", product: "Resource Center EBlast (Full Audience)", client: "Elektrobit Automotive N.A.", status: "In Progress", revenue: 5707.75, vertical: "Automotive", owner: "Jessica Leydet", url: "" },
+  { brand: "Crain's Cleveland", channel: "Digital", product: "White Paper – Client writes", client: "Meaden & Moore", status: "Scheduled", revenue: 3600, vertical: "Professional Services", owner: "Jordan Dziura", url: "https://www.crainscleveland.com/crains-content-studio/white-paper/ccl-erp-systems-for-long-term-growth/" },
+  { brand: "Automotive News", channel: "Digital", product: "Resource Center Standard", client: "Imagine360", status: "In Progress", revenue: 2860.90, vertical: "Automotive", owner: "Chris Davis", url: "" },
+  { brand: "Automotive News", channel: "Digital", product: "Custom framed \"baseball card\" & plaque", client: "Capital One Auto", status: "In Progress", revenue: 0, vertical: "Automotive", owner: "Veronica Johnson", url: "" },
+  { brand: "Ad Age", channel: "Digital", product: "Pub Partner (AAW)", client: "YouTube (A-List)", status: "Shift", revenue: 0, vertical: "Advertising", owner: "Shelly Maldonado", url: "" },
 ];
 // Sort: live/complete first, then launched, in progress, scheduled — each by revenue desc.
 const _statusRank = { "Complete": 0, "Launched": 1, "In Progress": 2, "Scheduled": 3 };
@@ -387,7 +404,7 @@ document.getElementById('live-rev').textContent = '$' + liveRevTotal.toLocaleStr
 document.getElementById('live-brands').textContent = new Set(liveContent.map(x => x.brand)).size;
 
 if (liveContent.length === 0) {
-  document.getElementById('live-list').innerHTML = `<div style="background:white;border-radius:12px;padding:28px;text-align:center;color:#94a3b8;font-size:13px;box-shadow:0 1px 3px rgba(0,0,0,0.07)">Nothing launching today (Jun 14). Neither the Digital nor Print report shows an item with a Jun 14 launch date. Check back tomorrow.</div>`;
+  document.getElementById('live-list').innerHTML = `<div style="background:white;border-radius:12px;padding:28px;text-align:center;color:#94a3b8;font-size:13px;box-shadow:0 1px 3px rgba(0,0,0,0.07)">Nothing launching today (Jun 15). Neither the Digital nor Print report shows an item with a Jun 15 launch date. Check back tomorrow.</div>`;
 } else {
 const _statusMeta = {
   "Complete":    { label: "✅ Live",        css: "background:#eff6ff;color:#1d4ed8", border: "#10b981" },
