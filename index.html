@@ -373,12 +373,12 @@ const brandFocus = [
 ];
 document.getElementById('brand-focus-grid').innerHTML = brandFocus.map(b => `<div class="focus-card"><div class="focus-header"><span class="focus-brand">${b.brand}</span><span class="focus-signal ${b.signalClass}">${b.signal}</span></div><div class="focus-topics">${b.topics.map(t => `<span class="topic-tag ${t.hot ? 'hot' : ''}">${t.hot ? '🔥 ' : ''}${t.label}</span>`).join('')}</div><div class="focus-stat"><span>📈 ${b.visits7.toLocaleString()} visits / 7 days</span><span>⏱ ${b.avgTime} avg</span></div><div class="focus-pitch" style="margin-top:12px"><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;color:#94a3b8;margin-bottom:4px">Top story: ${b.topStory}</div><div style="font-size:11px;color:#64748b;margin-bottom:8px">Best dwell: ${b.bestEngagement}</div>${b.pitch}</div></div>`).join('');
 
-// ===== Launching today (Jun 16) — Smartsheet "Digital- Today's Launches" + "Print- Today's Launches" =====
+// ===== Launching today (Jun 17) — Smartsheet "Digital- Today's Launches" + "Print- Today's Launches" =====
 // ALL projects whose Digital Launch Date (Digital report) or Print Launch Date (Print report) is today, regardless of status.
 const liveContent = [
   { brand: "Ad Age", channel: "Digital", product: "Interactive Report", client: "IAB", status: "In Progress", revenue: 30000, vertical: "Advertising", owner: "Sophia Juarez", url: "" },
   { brand: "GenomeWeb", channel: "Digital", product: "Virtual Lunch & Learns", client: "PathAI", status: "In Progress", revenue: 15000, vertical: "Life Sciences", owner: "Colin O'Connor", url: "" },
-  { brand: "Automotive News", channel: "Digital", product: "Custom Webinar Mini", client: "Protective", status: "Scheduled", revenue: 0, vertical: "Automotive", owner: "Jessica Leydet", url: "" },
+  { brand: "Automotive News", channel: "Digital", product: "Custom Webinar Mini", client: "Protective", status: "Launched", revenue: 0, vertical: "Automotive", owner: "Jessica Leydet", url: "" },
 ];
 // Sort: live/complete first, then launched, in progress, scheduled — each by revenue desc.
 const _statusRank = { "Complete": 0, "Launched": 1, "In Progress": 2, "Scheduled": 3 };
