@@ -380,7 +380,7 @@ const liveContent = [
   { brand: "Ad Age", channel: "Digital", product: "Custom Conversation Video", client: "Comcast (Xumo)", status: "In Progress", revenue: 45000, vertical: "", owner: "Leeza Rivkin", url: "" },
   { brand: "Ad Age", channel: "Digital", product: "Cannes - Leading Women Breakfast", client: "Canva", status: "In Progress", revenue: 25000, vertical: "", owner: "Andrea Straw", url: "" },
   { brand: "GenomeWeb", channel: "Digital", product: "Webinar", client: "Veracyte", status: "In Progress", revenue: 15000, vertical: "", owner: "Ian Levenstein", url: "" },
-  { brand: "Modern Healthcare", channel: "Digital", product: "Podcast", client: "Temple University Health System", status: "In Progress", revenue: 8160, vertical: "", owner: "Shannon Mortland", url: "https://www.modernhealthcare.com/content-studio/healthcare-insider-podcast/mh-foundational-research-cancer-immunotherapy/" },
+  { brand: "Modern Healthcare", channel: "Digital", product: "Podcast", client: "Temple University Health System", status: "Launched", revenue: 8160, vertical: "", owner: "Shannon Mortland", url: "https://www.modernhealthcare.com/content-studio/healthcare-insider-podcast/mh-foundational-research-cancer-immunotherapy/" },
   { brand: "Automotive News", channel: "Digital", product: "Custom Webinar Mini", client: "Dealer Merchant Services - PCA", status: "Scheduled", revenue: 8160, vertical: "", owner: "Jessica Leydet", url: "https://www.autonews.com/sponsored/webinars/an-recover-dealership-profits-compliant-surcharging/" },
 ];
 // Sort: live/complete first, then launched, in progress, scheduled — each by revenue desc.
@@ -393,7 +393,7 @@ document.getElementById('live-rev').textContent = '$' + liveRevTotal.toLocaleStr
 document.getElementById('live-brands').textContent = new Set(liveContent.map(x => x.brand)).size;
 
 if (liveContent.length === 0) {
-  document.getElementById('live-list').innerHTML = `<div style="background:white;border-radius:12px;padding:28px;text-align:center;color:#94a3b8;font-size:13px;box-shadow:0 1px 3px rgba(0,0,0,0.07)">Nothing launching today (Jun 23). Neither the Digital nor Print report shows an item with a Jun 23 launch date. Check back tomorrow.</div>`;
+  document.getElementById('live-list').innerHTML = `<div style="background:white;border-radius:12px;padding:28px;text-align:center;color:#94a3b8;font-size:13px;box-shadow:0 1px 3px rgba(0,0,0,0.07)">Nothing launching today (Jun 24). Neither the Digital nor Print report shows an item with a Jun 24 launch date. Check back tomorrow.</div>`;
 } else {
 const _statusMeta = {
   "Complete":    { label: "✅ Live",        css: "background:#eff6ff;color:#1d4ed8", border: "#10b981" },
