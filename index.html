@@ -210,7 +210,7 @@
 
 <div class="page" id="page-pi-pacing">
   <div class="section-label">P&amp;I — Content vs. Benchmark &amp; Delivery Pacing</div>
-  <p style="font-size:13px;color:#64748b;margin-bottom:16px"><strong>Left:</strong> each P&amp;I story in today's Adobe report vs. the Q1 2026 engagement benchmark for its content type. Benchmarks are 30-day page views, so they're window-normalized to the report's 7-day window (×7/30); within ±15% of expected = On Pace. <strong>Right:</strong> live ad-delivery pacing from Nikola Radovanovic's weekly PIO Pacing report (line-item pacing rate — &lt;90% behind, 90–110% on pace, &gt;110% ahead). Engagement and delivery measure different things; read them together. <span style="color:#94a3b8">Directional: a rolling 7-day window understates a story past its first weeks.</span></p>
+  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Grades P&amp;I custom content against benchmark three ways. <strong>Last 7 days</strong> — each story in today's Adobe report vs. its content-type benchmark (the 30-day benchmark prorated to 7 days; ±15% = On Pace). <strong>Past 30 days</strong> — stories published in the last month, actual pageviews vs. the 30-day benchmark prorated to days-live, so they can be graded in-flight. <strong>Delivery pacing</strong> — live line-item pacing from Nikola Radovanovic's weekly PIO Pacing report (&lt;90% behind, 90–110% on pace, &gt;110% ahead). Page views drive the engagement flags; avg time is context.</p>
   <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)">
     <div class="kpi green"><div class="label">Over Benchmark</div><div class="value" id="pi-over">0</div><div class="sub">≥ +15% vs 7-day expected</div></div>
     <div class="kpi blue"><div class="label">On Pace</div><div class="value" id="pi-onpace">0</div><div class="sub">within ±15%</div></div>
@@ -218,11 +218,20 @@
     <div class="kpi purple"><div class="label">Delivery Flags</div><div class="value" id="pi-delivery-flags">—</div><div class="sub" id="pi-delivery-sub">from latest PIO Pacing report</div></div>
   </div>
   <div class="chart-card" style="margin-bottom:20px">
-    <h3>📊 Engagement vs. Benchmark</h3>
+    <h3>📊 Engagement vs. Benchmark · Last 7 Days</h3>
     <table class="brand-table">
       <thead><tr><th>Headline</th><th>Type</th><th>Page Views (7d)</th><th>Pacing to Benchmark</th><th>Avg Time</th></tr></thead>
       <tbody id="pi-eng-tbody"></tbody>
     </table>
+  </div>
+  <div class="chart-card" style="margin-bottom:20px">
+    <h3>📅 Past 30 Days · by Publish Date (vs 30-day benchmark)</h3>
+    <p style="font-size:12px;color:#64748b;margin-bottom:12px">P&amp;I custom/sponsored stories published in the last 30 days, from the Sponsored Content cumulative master (as of the <span id="pi-month-asof">Jun 24</span> content extract). Actual pageviews vs. the 30-day benchmark prorated to each story's days-live, so a story can be graded mid-flight. ±15% = On Pace.</p>
+    <table class="brand-table">
+      <thead><tr><th>Headline</th><th>Published</th><th>Days Live</th><th>Page Views</th><th>Pacing to Benchmark</th></tr></thead>
+      <tbody id="pi-month-tbody"></tbody>
+    </table>
+    <p id="pi-month-note" style="font-size:11px;color:#94a3b8;margin-top:10px"></p>
   </div>
   <div class="chart-card">
     <h3>🚦 Delivery Pacing · PIO Pacing report</h3>
@@ -506,6 +515,33 @@ if (piPacing.length === 0) {
     </div>`;
   }).join('');
 }
+
+// ===== P&I Past 30 Days (by publish date) — from the Sponsored Content cumulative master =====
+// Cumulative pageviews per story vs the 30-day benchmark prorated to days-live (as of the latest content extract).
+// Benchmarks (Q1 2026, 30-day PV): Partner Content (default Investment Insights) = 1971; SCP = 2252. Band = ±15%.
+const piMonthAsOf = "Jun 24";
+const piMonth = [
+  { title: "Why Systematic Global Macro Is Having a Moment", pub: "Jun 15", daysLive: 9, pv: 1156, benchPV30: 1971, url: "https://www.pionline.com/partner-content/pi-systematic-global-macro-is-having-a-moment/" },
+  { title: "Fixed Income: A Supportive Ballast", pub: "Jun 15", daysLive: 9, pv: 835, benchPV30: 1971, url: "https://www.pionline.com/partner-content/pi-fixed-income-supportive-ballast/" },
+  { title: "How a Long-Only Growth Investor Navigates the AI Era", pub: "Jun 15", daysLive: 9, pv: 813, benchPV30: 1971, url: "https://www.pionline.com/partner-content/pi-how-a-long-only-growth-investor-navigates-the-ai-era/" },
+  { title: "Systematic Credit Uncovers Differentiated Alpha", pub: "Jun 1", daysLive: 23, pv: 689, benchPV30: 1971, url: "https://www.pionline.com/partner-content/pi-quick-take-systematic-credit-uncovers-differentiated-alpha/" },
+];
+const piMonthNote = "Excluded as too-new or low-signal: “Private Equity: Meeting the Moment” (published Jun 19, ~3 pageviews so far — too new to grade) and three May 29 entries with near-zero pageviews (likely just tagged or duplicate URLs).";
+document.getElementById('pi-month-asof').textContent = piMonthAsOf;
+document.getElementById('pi-month-tbody').innerHTML = piMonth.map(s => {
+  const exp = s.benchPV30 * Math.min(s.daysLive, 30) / 30;
+  const pct = s.pv / exp - 1;
+  const st = piStatus(pct);
+  const pctTxt = (pct >= 0 ? '+' : '') + Math.round(pct * 100) + '%';
+  return `<tr>
+    <td style="max-width:300px"><a href="${s.url}" target="_blank" rel="noopener" style="font-weight:600;font-size:13px;color:#1e293b;text-decoration:none;border-bottom:1px solid #cbd5e1">${s.title} ↗</a></td>
+    <td style="font-size:13px;color:#334155">${s.pub}</td>
+    <td style="font-size:13px;color:#334155">${s.daysLive}d</td>
+    <td style="font-size:13px;color:#334155">${s.pv.toLocaleString()} <span style="color:#94a3b8;font-size:11px">/ ~${Math.round(exp).toLocaleString()} exp</span></td>
+    <td><span class="status-badge" style="${st.css}">${st.label} ${pctTxt}</span></td>
+  </tr>`;
+}).join('');
+document.getElementById('pi-month-note').textContent = piMonthNote;
 
 function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
