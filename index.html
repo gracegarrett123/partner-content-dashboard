@@ -149,6 +149,7 @@
   <div class="tab" onclick="showPage('live')">Went Live</div>
   <div class="tab" onclick="showPage('insights')">Insights &amp; Recs</div>
   <div class="tab" onclick="showPage('focus')">Brand Focus</div>
+  <div class="tab" onclick="showPage('pi-pacing')">P&amp;I Pacing</div>
 </div>
 
 <div class="page active" id="page-overview">
@@ -205,6 +206,28 @@
 <div class="page" id="page-focus"
   <p style="font-size:13px;color:#64748b;margin-bottom:20px">What each audience is reading now — topics, formats, and angles to pitch this week.</p>
   <div id="brand-focus-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:20px"></div>
+</div>
+
+<div class="page" id="page-pi-pacing">
+  <div class="section-label">P&amp;I — Content vs. Benchmark &amp; Delivery Pacing</div>
+  <p style="font-size:13px;color:#64748b;margin-bottom:16px"><strong>Left:</strong> each P&amp;I story in today's Adobe report vs. the Q1 2026 engagement benchmark for its content type. Benchmarks are 30-day page views, so they're window-normalized to the report's 7-day window (×7/30); within ±15% of expected = On Pace. <strong>Right:</strong> live ad-delivery pacing from Nikola Radovanovic's weekly PIO Pacing report (line-item pacing rate — &lt;90% behind, 90–110% on pace, &gt;110% ahead). Engagement and delivery measure different things; read them together. <span style="color:#94a3b8">Directional: a rolling 7-day window understates a story past its first weeks.</span></p>
+  <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)">
+    <div class="kpi green"><div class="label">Over Benchmark</div><div class="value" id="pi-over">0</div><div class="sub">≥ +15% vs 7-day expected</div></div>
+    <div class="kpi blue"><div class="label">On Pace</div><div class="value" id="pi-onpace">0</div><div class="sub">within ±15%</div></div>
+    <div class="kpi" style="border-left-color:#f59e0b"><div class="label">Under Benchmark</div><div class="value" id="pi-under">0</div><div class="sub">≤ −15% vs 7-day expected</div></div>
+    <div class="kpi purple"><div class="label">Delivery Flags</div><div class="value" id="pi-delivery-flags">—</div><div class="sub" id="pi-delivery-sub">from latest PIO Pacing report</div></div>
+  </div>
+  <div class="chart-card" style="margin-bottom:20px">
+    <h3>📊 Engagement vs. Benchmark</h3>
+    <table class="brand-table">
+      <thead><tr><th>Headline</th><th>Type</th><th>Page Views (7d)</th><th>Pacing to Benchmark</th><th>Avg Time</th></tr></thead>
+      <tbody id="pi-eng-tbody"></tbody>
+    </table>
+  </div>
+  <div class="chart-card">
+    <h3>🚦 Delivery Pacing · PIO Pacing report</h3>
+    <div id="pi-pacing-list"></div>
+  </div>
 </div>
 
 <div class="page" id="page-insights">
@@ -416,6 +439,72 @@ document.getElementById('live-list').innerHTML = liveContent.map(x => {
     </div>
   </div>`;
 }).join('');
+}
+
+// ===== P&I Benchmark & Pacing (P&I only) =====
+// Engagement: each P&I story (from today's Adobe report) vs the Q1 2026 benchmark for its content type.
+// Benchmarks are 30-day page views; prorated to the report's 7-day window (×7/30). Band = ±15%.
+// Content-type benchmarks (Q1 2026, 30-day page views): SCP (sponsored-content slugs) = 2252;
+// Partner Content (partner-content slugs; default = Investment Insights) = 1971. Avg-time benchmarks: SCP 3:28, Partner Content 4:19.
+const PI_BAND = 0.15;
+const piEngagement = [
+  { title: "Amova – Navigating Market Dislocation",              type: "SCP",             benchPV30: 2252, pv7: 701, time: "1:21", benchTime: "3:28", url: "https://www.pionline.com/sponsored-content/pi-amova-market-dislocation/" },
+  { title: "Systematic Global Macro Is Having a Moment",         type: "Partner Content", benchPV30: 1971, pv7: 574, time: "1:52", benchTime: "4:19", url: "https://www.pionline.com/partner-content/pi-systematic-global-macro-is-having-a-moment/" },
+  { title: "How a Long-Only Growth Investor Navigates the AI Era", type: "Partner Content", benchPV30: 1971, pv7: 461, time: "4:53", benchTime: "4:19", url: "https://www.pionline.com/partner-content/pi-how-a-long-only-growth-investor-navigates-the-ai-era/" },
+  { title: "Fixed Income – Supportive Ballast",                  type: "Partner Content", benchPV30: 1971, pv7: 347, time: "2:55", benchTime: "4:19", url: "https://www.pionline.com/partner-content/pi-fixed-income-supportive-ballast/" },
+  { title: "Quick-Take – Systematic Credit Uncovers Alpha",      type: "Partner Content", benchPV30: 1971, pv7: 121, time: "3:27", benchTime: "4:19", url: "https://www.pionline.com/partner-content/pi-quick-take-systematic-credit-uncovers-differentiated-alpha/" },
+];
+// Delivery pacing from Nikola Radovanovic's latest "PIO Pacing - through - X.X" report (P&I).
+// Each item: { lineItem, advertiser, pacingRate (number %), contracted, endDate }. Status derived:
+// <90 behind, 90-110 on pace, >110 ahead. Leave [] until the first automated pull populates it.
+const piPacing = [];
+const piPacingMeta = { reportThrough: "6/18 (last received)", headline: "Populated automatically each run from Nikola Radovanovic's weekly PIO Pacing report. The 6/18 email flagged 1 line item pacing behind." };
+
+function piStatus(pct) {
+  if (pct > PI_BAND) return { label: "Overperforming", css: "background:#f0fdf4;color:#166534", dot: "#10b981" };
+  if (pct < -PI_BAND) return { label: "Underperforming", css: "background:#fff7ed;color:#c2410c", dot: "#f59e0b" };
+  return { label: "On Pace", css: "background:#eff6ff;color:#1d4ed8", dot: "#3b82f6" };
+}
+let piOver = 0, piOn = 0, piUnder = 0;
+document.getElementById('pi-eng-tbody').innerHTML = piEngagement.map(s => {
+  const exp7 = s.benchPV30 * 7 / 30;
+  const pct = s.pv7 / exp7 - 1;
+  const st = piStatus(pct);
+  if (pct > PI_BAND) piOver++; else if (pct < -PI_BAND) piUnder++; else piOn++;
+  const pctTxt = (pct >= 0 ? '+' : '') + Math.round(pct * 100) + '%';
+  return `<tr>
+    <td style="max-width:300px"><a href="${s.url}" target="_blank" rel="noopener" style="font-weight:600;font-size:13px;color:#1e293b;text-decoration:none;border-bottom:1px solid #cbd5e1">${s.title} ↗</a></td>
+    <td><span class="vert-tag">${s.type}</span></td>
+    <td style="font-size:13px;color:#334155">${s.pv7.toLocaleString()} <span style="color:#94a3b8;font-size:11px">/ ~${Math.round(exp7).toLocaleString()} exp</span></td>
+    <td><span class="status-badge" style="${st.css}">${st.label} ${pctTxt}</span></td>
+    <td><span class="time-pill ${timeToSec(s.time) >= 180 ? '' : 'warn'}">${s.time}</span> <span style="color:#94a3b8;font-size:11px">vs ${s.benchTime}</span></td>
+  </tr>`;
+}).join('');
+document.getElementById('pi-over').textContent = piOver;
+document.getElementById('pi-onpace').textContent = piOn;
+document.getElementById('pi-under').textContent = piUnder;
+
+if (piPacing.length === 0) {
+  document.getElementById('pi-delivery-flags').textContent = '—';
+  document.getElementById('pi-pacing-list').innerHTML = `<div style="background:#f8fafc;border:1px dashed #cbd5e1;border-radius:10px;padding:20px;color:#64748b;font-size:13px;line-height:1.5">${piPacingMeta.headline}<br><span style="font-size:11px;color:#94a3b8">Latest report through: ${piPacingMeta.reportThrough}</span></div>`;
+} else {
+  const behind = piPacing.filter(p => p.pacingRate < 90).length;
+  document.getElementById('pi-delivery-flags').textContent = behind;
+  document.getElementById('pi-delivery-sub').textContent = (behind === 1 ? 'line item behind' : 'line items behind');
+  document.getElementById('pi-pacing-list').innerHTML = piPacing.map(p => {
+    const st = p.pacingRate < 90 ? { label: "Behind", css: "background:#fff7ed;color:#c2410c", dot: "#f59e0b" }
+            : p.pacingRate > 110 ? { label: "Ahead", css: "background:#f0fdf4;color:#166534", dot: "#10b981" }
+            : { label: "On Pace", css: "background:#eff6ff;color:#1d4ed8", dot: "#3b82f6" };
+    return `<div class="live-card" style="border-left-color:${st.dot};display:block">
+      <div class="lc-title" style="margin-bottom:4px">${p.advertiser}</div>
+      <div class="lc-sub" style="font-size:11px;color:#94a3b8;word-break:break-all">${p.lineItem}</div>
+      <div class="lc-meta" style="margin-top:8px">
+        <span class="status-badge" style="${st.css}">${st.label} · ${p.pacingRate}%</span>
+        ${p.contracted ? `<span class="meta-tag">🎯 ${Number(p.contracted).toLocaleString()} imp</span>` : ''}
+        ${p.endDate ? `<span class="meta-tag">ends ${p.endDate}</span>` : ''}
+      </div>
+    </div>`;
+  }).join('');
 }
 
 function showPage(id) {
