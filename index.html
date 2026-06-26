@@ -150,6 +150,7 @@
   <div class="tab" onclick="showPage('insights')">Insights &amp; Recs</div>
   <div class="tab" onclick="showPage('focus')">Brand Focus</div>
   <div class="tab" onclick="showPage('pi-pacing')">P&amp;I Pacing</div>
+  <div class="tab" onclick="showPage('sponsored-extract')">Sponsored · Extract</div>
 </div>
 
 <div class="page active" id="page-overview">
@@ -236,6 +237,31 @@
   <div class="chart-card">
     <h3>🚦 Delivery Pacing · PIO Pacing report</h3>
     <div id="pi-pacing-list"></div>
+  </div>
+</div>
+
+<div class="page" id="page-sponsored-extract">
+  <div class="section-label">Sponsored Content · Content Extract (all brands)</div>
+  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Sponsored/custom content only, from the daily Tableau Content Extract — published in the last 30 days, across <strong>all brands</strong> (more than the Adobe report covers). Added alongside the Adobe views, not replacing them. Metrics are cumulative pageviews / visits / unique per story by publish date (the extract has no avg-time). Stories that also appear in the Adobe Top Stories are tagged by brand + headline. <span style="color:#94a3b8">As of the <span id="ext-asof">Jun 24</span> extract.</span></p>
+  <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)">
+    <div class="kpi"><div class="label">Sponsored Stories · 30d</div><div class="value" id="ext-stories">0</div><div class="sub">all brands</div></div>
+    <div class="kpi green"><div class="label">Total Pageviews</div><div class="value" id="ext-pv">0</div><div class="sub">across sponsored stories</div></div>
+    <div class="kpi blue"><div class="label">Brands</div><div class="value" id="ext-brands">0</div><div class="sub">with sponsored content</div></div>
+    <div class="kpi purple"><div class="label">Top Brand</div><div class="value" id="ext-top" style="font-size:18px">—</div><div class="sub" id="ext-top-sub"></div></div>
+  </div>
+  <div class="chart-card" style="margin-bottom:20px">
+    <h3>🏷 By Brand · Sponsored (last 30 days)</h3>
+    <table class="brand-table">
+      <thead><tr><th>Brand</th><th>Stories</th><th>Pageviews</th><th>Visits</th><th>Share</th></tr></thead>
+      <tbody id="ext-brand-tbody"></tbody>
+    </table>
+  </div>
+  <div class="chart-card">
+    <h3>🏆 Top Sponsored Stories (last 30 days, all brands)</h3>
+    <table class="brand-table">
+      <thead><tr><th>Brand</th><th>Headline</th><th>Published</th><th>Pageviews</th><th>Visits</th><th>Unique</th></tr></thead>
+      <tbody id="ext-story-tbody"></tbody>
+    </table>
   </div>
 </div>
 
@@ -542,6 +568,83 @@ document.getElementById('pi-month-tbody').innerHTML = piMonth.map(s => {
   </tr>`;
 }).join('');
 document.getElementById('pi-month-note').textContent = piMonthNote;
+
+// ===== Sponsored Content Extract (all brands) — incorporated alongside Adobe, matched by brand + headline =====
+const extractMeta = { asOf: "Jun 24", totalStories: 145, totalPV: 71150, brands: 13 };
+const extractBrands = [
+  { brand: "Automotive News", stories: 10, pv: 20320, visits: 19299 },
+  { brand: "Crain's Chicago", stories: 13, pv: 12853, visits: 11985 },
+  { brand: "Modern Healthcare", stories: 13, pv: 12542, visits: 11156 },
+  { brand: "Ad Age", stories: 9, pv: 7100, visits: 6475 },
+  { brand: "Crain's Detroit", stories: 22, pv: 4634, visits: 4220 },
+  { brand: "P&I", stories: 8, pv: 3509, visits: 3297 },
+  { brand: "Crain's Cleveland", stories: 23, pv: 3394, visits: 3008 },
+  { brand: "Crain's New York", stories: 18, pv: 2500, visits: 2259 },
+  { brand: "Plastics News", stories: 5, pv: 2090, visits: 2025 },
+  { brand: "Crain's Grand Rapids", stories: 20, pv: 1865, visits: 1684 },
+  { brand: "Hart Energy", stories: 2, pv: 230, visits: 155 },
+  { brand: "Automobilwoche", stories: 1, pv: 111, visits: 89 },
+  { brand: "Rubber News", stories: 1, pv: 2, visits: 1 },
+];
+const extractStories = [
+  { brand:"Automotive News",     pub:"Jun 15", pv:7134, v:7036, u:6972, title:"Dealership compliance can no longer be reactive" },
+  { brand:"Automotive News",     pub:"May 29", pv:5802, v:5191, u:4946, title:"The real fear isn’t Chinese EV competition" },
+  { brand:"Crain's Chicago",     pub:"Jun 8",  pv:2827, v:2675, u:2468, title:"Chicago is Everything: CBRE’s latest report" },
+  { brand:"Modern Healthcare",   pub:"Jun 3",  pv:2665, v:2391, u:2320, title:"Modernizing healthcare infrastructure in a high-cost environment" },
+  { brand:"Crain's Chicago",     pub:"Jun 22", pv:2210, v:1861, u:1732, title:"CIBC US Faces of Impact: Chicago Affordable Housing" },
+  { brand:"Modern Healthcare",   pub:"Jun 1",  pv:2169, v:1897, u:1800, title:"Creating a culture of safety" },
+  { brand:"Crain's Chicago",     pub:"Jun 15", pv:2111, v:2071, u:2046, title:"Formation structure in venture-backed companies" },
+  { brand:"Modern Healthcare",   pub:"Jun 1",  pv:1865, v:1674, u:1598, title:"How data-driven PBM models are improving pharmacy benefits" },
+  { brand:"Automotive News",     pub:"Jun 8",  pv:1754, v:1712, u:1685, title:"Out-of-state car deals without the back-office fire drills" },
+  { brand:"Automotive News",     pub:"Jun 1",  pv:1676, v:1620, u:1587, title:"Real-time ownership intelligence for automakers" },
+  { brand:"Ad Age",             pub:"Jun 3",  pv:1642, v:1549, u:1497, title:"Commerce media’s next phase will be defined by choice" },
+  { brand:"Modern Healthcare",   pub:"Jun 1",  pv:1483, v:1315, u:1264, title:"Reframing Continuing Education" },
+  { brand:"Automotive News",     pub:"Jun 1",  pv:1467, v:1373, u:1343, title:"Untapped potential: using AI to reach Spanish-speaking buyers" },
+  { brand:"Crain's Chicago",     pub:"Jun 8",  pv:1348, v:1326, u:1310, title:"Quick Take: How community lenders are competing" },
+  { brand:"Crain's Chicago",     pub:"Jun 1",  pv:1216, v:1212, u:1193, title:"Account takeover fraud: Take a proactive approach" },
+  { brand:"Plastics News",       pub:"Jun 5",  pv:1212, v:1164, u:1152, title:"BlueAlp and KraussMaffei Extrusion announce partnership" },
+  { brand:"Ad Age",             pub:"Jun 1",  pv:1169, v:1056, u:1037, title:"CTV isn’t losing. Social video is just growing faster" },
+  { brand:"P&I",                pub:"Jun 15", pv:1156, v:1096, u:1079, title:"Why Systematic Global Macro Is Having a Moment" },
+  { brand:"Modern Healthcare",   pub:"Jun 8",  pv:1084, v:961,  u:915,  title:"AI Has Entered the Exam Room. When Will Trust Follow?" },
+  { brand:"Crain's Cleveland",   pub:"Jun 16", pv:1044, v:943,  u:903,  title:"Cordelia chef Vinnie Cimino celebrates ‘awesome’ James Beard win" },
+  { brand:"Modern Healthcare",   pub:"Jun 8",  pv:1042, v:917,  u:874,  title:"What better health looks like in the digital era" },
+  { brand:"Automotive News",     pub:"Jun 12", pv:1027, v:957,  u:913,  title:"Taiwan Excellence Brings Trusted AI Innovation to ITS America" },
+  { brand:"Crain's Chicago",     pub:"Jun 1",  pv:879,  v:841,  u:810,  title:"Could food supply chain costs increase by 10%?" },
+  { brand:"P&I",                pub:"Jun 15", pv:835,  v:789,  u:770,  title:"Fixed Income: A Supportive Ballast" },
+];
+const _dashTitles = (typeof topStories !== 'undefined' ? topStories.map(s => s.title) : [])
+  .concat(typeof piMonth !== 'undefined' ? piMonth.map(s => s.title) : []);
+function _normT(s) { return (s || '').toLowerCase().replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ').trim(); }
+function matchedOnDash(title) {
+  const t = _normT(title);
+  return _dashTitles.some(d => { const dn = _normT(d); if (dn.length < 14 || !t) return false;
+    for (let i = 0; i + 14 <= dn.length; i++) { if (t.includes(dn.substr(i, 14))) return true; } return false; });
+}
+const extTotalPV = extractBrands.reduce((s, b) => s + b.pv, 0);
+document.getElementById('ext-stories').textContent = extractMeta.totalStories;
+document.getElementById('ext-pv').textContent = extractMeta.totalPV.toLocaleString();
+document.getElementById('ext-brands').textContent = extractMeta.brands;
+document.getElementById('ext-asof').textContent = extractMeta.asOf;
+document.getElementById('ext-top').textContent = extractBrands[0].brand;
+document.getElementById('ext-top-sub').textContent = extractBrands[0].pv.toLocaleString() + ' PV · ' + extractBrands[0].stories + ' stories';
+document.getElementById('ext-brand-tbody').innerHTML = extractBrands.map(b => `<tr>
+  <td style="font-weight:600;font-size:13px">${b.brand}</td>
+  <td style="font-size:13px;color:#334155">${b.stories}</td>
+  <td>${barCell(b.pv, extractBrands[0].pv, 'green')}</td>
+  <td style="font-size:13px;color:#334155">${b.visits.toLocaleString()}</td>
+  <td style="font-size:12px;color:#64748b">${(b.pv / extTotalPV * 100).toFixed(1)}%</td>
+</tr>`).join('');
+document.getElementById('ext-story-tbody').innerHTML = extractStories.map(s => {
+  const m = matchedOnDash(s.title);
+  return `<tr>
+    <td><span class="brand-pill">${s.brand}</span></td>
+    <td style="max-width:320px;font-weight:600;font-size:13px">${s.title}${m ? ' <span class="status-badge" style="background:#eff6ff;color:#1d4ed8">● on Top Stories</span>' : ''}</td>
+    <td style="font-size:13px;color:#334155">${s.pub}</td>
+    <td style="font-size:13px;color:#334155">${s.pv.toLocaleString()}</td>
+    <td style="font-size:13px;color:#334155">${s.v.toLocaleString()}</td>
+    <td style="font-size:13px;color:#334155">${s.u.toLocaleString()}</td>
+  </tr>`;
+}).join('');
 
 function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
