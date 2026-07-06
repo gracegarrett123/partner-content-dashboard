@@ -1,0 +1,662 @@
+<!DOCTYPE html><script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Ad Solutions Team Dashboard",
+  "schemaVersion": 1,
+  "description": "Ad Solutions Team daily analytics dashboard built from the Adobe Analytics PDF report emailed each morning. KPI cards, brand performance tables (yesterday + 7-day), top 10 stories by visits, top 7 by engagement time, insights, recommendations, and brand-focus pitch cards across all 9 Crain properties. Auto-refreshed daily at 8 AM from the latest Adobe report email. Currently showing the July 6, 2026 report (yesterday Jul 5 + 7-day Jun 29–Jul 5).",
+  "mcpTools": [
+    "mcp__09e4c9dd-00d9-44a0-94d7-573300fdabc9__get_report"
+  ],
+  "mcpServerNames": [
+    "Smartsheet"
+  ]
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ad Solutions Team Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f2f5; color: #1a1a2e; }
+
+  .header { background: linear-gradient(135deg, #e8140b 0%, #c0392b 100%); color: white; padding: 24px 32px; }
+  .header h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.3px; }
+  .header p { font-size: 13px; opacity: 0.85; margin-top: 4px; }
+
+  .tabs { display: flex; background: white; border-bottom: 1px solid #e2e8f0; padding: 0 24px; gap: 4px; flex-wrap: wrap; }
+  .tab { padding: 12px 16px; font-size: 13px; font-weight: 500; color: #64748b; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.15s; }
+  .tab.active { color: #e8140b; border-bottom-color: #e8140b; }
+  .tab:hover:not(.active) { color: #334155; }
+
+  .page { display: none; padding: 24px; max-width: 1100px; margin: 0 auto; }
+  .page.active { display: block; }
+
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+  .kpi { background: white; border-radius: 12px; padding: 20px; border-left: 4px solid #e8140b; box-shadow: 0 1px 3px rgba(0,0,0,0.07); }
+  .kpi .label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #94a3b8; margin-bottom: 6px; }
+  .kpi .value { font-size: 28px; font-weight: 700; color: #1e293b; line-height: 1; }
+  .kpi .sub { font-size: 12px; color: #64748b; margin-top: 6px; }
+  .kpi.green { border-left-color: #10b981; }
+  .kpi.blue { border-left-color: #3b82f6; }
+  .kpi.purple { border-left-color: #8b5cf6; }
+
+  .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+  .chart-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.07); }
+  .chart-card.full { grid-column: 1 / -1; }
+  .chart-card h3 { font-size: 14px; font-weight: 600; color: #334155; margin-bottom: 16px; }
+  .chart-card canvas { width: 100% !important; }
+
+  .brand-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .brand-table th { background: #f8fafc; text-align: left; padding: 10px 14px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; color: #64748b; border-bottom: 1px solid #e2e8f0; }
+  .brand-table td { padding: 11px 14px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+  .brand-table tr:last-child td { border-bottom: none; }
+  .brand-table tr:hover td { background: #fafbfc; }
+  .bar-cell { display: flex; align-items: center; gap: 8px; }
+  .bar-bg { flex: 1; height: 6px; background: #f1f5f9; border-radius: 3px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 3px; background: #e8140b; }
+  .bar-fill.green { background: #10b981; }
+  .rank-badge { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: #fef2f2; color: #e8140b; font-size: 11px; font-weight: 700; }
+  .rank-badge.gold { background: #fef9c3; color: #b45309; }
+  .rank-badge.silver { background: #f1f5f9; color: #475569; }
+  .rank-badge.bronze { background: #fff7ed; color: #c2410c; }
+  .time-pill { background: #f0fdf4; color: #166534; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; display: inline-block; }
+  .time-pill.warn { background: #fff7ed; color: #c2410c; }
+
+  .insight-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .insight-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.07); }
+  .insight-card h3 { font-size: 13px; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .icon { font-size: 16px; }
+  .insight-item { display: flex; gap: 10px; margin-bottom: 11px; align-items: flex-start; }
+  .insight-item:last-child { margin-bottom: 0; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #e8140b; flex-shrink: 0; margin-top: 5px; }
+  .dot.green { background: #10b981; }
+  .dot.blue { background: #3b82f6; }
+  .dot.orange { background: #f59e0b; }
+  .insight-item p { font-size: 13px; color: #374151; line-height: 1.45; }
+  .insight-item strong { color: #1e293b; }
+
+  .story-list { list-style: none; }
+  .story-item { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid #f1f5f9; align-items: flex-start; }
+  .story-item:last-child { border-bottom: none; }
+  .story-num { font-size: 20px; font-weight: 800; color: #e2e8f0; line-height: 1; flex-shrink: 0; width: 28px; }
+  .story-info { flex: 1; min-width: 0; }
+  .story-title { font-size: 13px; font-weight: 600; color: #1e293b; margin-bottom: 4px; line-height: 1.4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .story-meta { display: flex; gap: 10px; flex-wrap: wrap; }
+  .meta-tag { font-size: 11px; color: #64748b; display: flex; align-items: center; gap: 3px; }
+  .brand-pill { font-size: 10px; font-weight: 600; padding: 1px 7px; border-radius: 20px; background: #fef2f2; color: #e8140b; }
+
+  .focus-card { background: white; border-radius: 12px; padding: 22px; box-shadow: 0 1px 3px rgba(0,0,0,0.07); }
+  .focus-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .focus-brand { font-size: 15px; font-weight: 700; color: #1e293b; }
+  .focus-signal { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+  .signal-hot { background: #fef2f2; color: #e8140b; }
+  .signal-growing { background: #f0fdf4; color: #166534; }
+  .signal-steady { background: #eff6ff; color: #1d4ed8; }
+  .focus-topics { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .topic-tag { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; }
+  .topic-tag.hot { background: #fef2f2; color: #b91c1c; border-color: #fecaca; }
+  .focus-pitch { font-size: 12px; color: #374151; line-height: 1.55; border-top: 1px solid #f1f5f9; padding-top: 12px; }
+  .focus-pitch strong { color: #1e293b; }
+  .focus-stat { font-size: 11px; color: #64748b; margin-top: 8px; display: flex; gap: 12px; flex-wrap: wrap; }
+  .focus-stat span { display: flex; align-items: center; gap: 3px; }
+
+  .section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: #94a3b8; margin-bottom: 12px; margin-top: 4px; }
+  .dept-label { font-size: 13px; font-weight: 700; color: #1e293b; margin: 26px 0 12px; display: flex; align-items: center; gap: 8px; padding-bottom: 8px; border-bottom: 2px solid #f1f5f9; }
+  .dept-label:first-of-type { margin-top: 4px; }
+  .dept-label .tagline { font-size: 11px; font-weight: 500; color: #94a3b8; }
+
+  .rec-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .rec-card { background: white; border-radius: 12px; padding: 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.07); border-top: 3px solid #3b82f6; }
+  .rec-card.green-top { border-top-color: #10b981; }
+  .rec-card.orange-top { border-top-color: #f59e0b; }
+  .rec-card.purple-top { border-top-color: #8b5cf6; }
+  .rec-card h4 { font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 8px; }
+  .rec-card p { font-size: 12px; color: #374151; line-height: 1.5; }
+  .rec-card .priority { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #3b82f6; margin-bottom: 6px; }
+  .rec-card.green-top .priority { color: #10b981; }
+  .rec-card.orange-top .priority { color: #f59e0b; }
+  .rec-card.purple-top .priority { color: #8b5cf6; }
+  /* Went Live */
+  .live-card { background: white; border-radius: 12px; padding: 16px 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.07); border-left: 4px solid #10b981; display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 12px; }
+  .live-card .lc-main { flex: 1; min-width: 0; }
+  .live-card .lc-title { font-size: 14px; font-weight: 700; color: #1e293b; margin-bottom: 4px; }
+  .live-card .lc-sub { font-size: 12px; color: #64748b; }
+  .live-card .lc-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; align-items: center; }
+  .live-card .lc-right { text-align: right; flex-shrink: 0; }
+  .live-card .lc-rev { font-size: 16px; font-weight: 700; color: #166534; }
+  .status-badge { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; padding: 3px 9px; border-radius: 20px; background: #f0fdf4; color: #166534; }
+  .status-badge.complete { background: #eff6ff; color: #1d4ed8; }
+  .vert-tag { font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 20px; background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; }
+  .live-link { font-size: 12px; font-weight: 600; color: #e8140b; text-decoration: none; }
+  .live-link:hover { text-decoration: underline; }
+  @media (max-width: 760px) { .kpi-grid, .chart-grid, .rec-grid, #brand-focus-grid { grid-template-columns: 1fr !important; } .live-card { flex-direction: column; } .live-card .lc-right { text-align: left; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📊 Ad Solutions Team · Daily Analytics Dashboard</h1>
+  <p>Adobe Analytics · Updated Jul 6, 2026 · Yesterday (Jul 5, Sun) + Last 7 Days (Jun 29–Jul 5)</p>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="showPage('overview')">Overview</div>
+  <div class="tab" onclick="showPage('brands')">By Brand</div>
+  <div class="tab" onclick="showPage('stories')">Top Stories</div>
+  <div class="tab" onclick="showPage('live')">Went Live</div>
+  <div class="tab" onclick="showPage('insights')">Insights &amp; Recs</div>
+  <div class="tab" onclick="showPage('focus')">Brand Focus</div>
+  <div class="tab" onclick="showPage('pi-pacing')">P&amp;I Pacing</div>
+  <div class="tab" onclick="showPage('sponsored-extract')">Sponsored · Extract</div>
+</div>
+
+<div class="page active" id="page-overview">
+  <div class="kpi-grid">
+    <div class="kpi"><div class="label">Visits · Yesterday (Sun)</div><div class="value">3,715</div><div class="sub">All 9 brands · Jul 5</div></div>
+    <div class="kpi green"><div class="label">Visits · Last 7 Days</div><div class="value">30,245</div><div class="sub">↑ 2.8% vs last report (29,412)</div></div>
+    <div class="kpi blue"><div class="label">#1 Brand Yesterday</div><div class="value">Modern Healthcare</div><div class="sub">1,603 visits · ahead of Ad Age (1,491)</div></div>
+    <div class="kpi purple"><div class="label">Best Engagement</div><div class="value">2:59</div><div class="sub">Modern Healthcare 7-day avg · Chicago 2:10 next</div></div>
+  </div>
+  <div class="chart-grid">
+    <div class="chart-card"><h3>Visits by Brand · Yesterday</h3><canvas id="chartYesterdayBar" height="220"></canvas></div>
+    <div class="chart-card"><h3>Visits by Brand · Last 7 Days</h3><canvas id="chart7DayBar" height="220"></canvas></div>
+    <div class="chart-card full"><h3>Average Time on Site · All Brands (Last 7 Days)</h3><canvas id="chartEngagement" height="100"></canvas></div>
+  </div>
+</div>
+
+<div class="page" id="page-brands">
+  <div class="section-label">Yesterday Performance</div>
+  <div class="chart-card" style="margin-bottom:24px">
+    <table class="brand-table">
+      <thead><tr><th>#</th><th>Brand</th><th>Visits</th><th>Page Views</th><th>Avg Time on Site</th><th>Visit Share</th></tr></thead>
+      <tbody id="tbody-yesterday"></tbody>
+    </table>
+  </div>
+  <div class="section-label">Last 7 Days Performance</div>
+  <div class="chart-card">
+    <table class="brand-table">
+      <thead><tr><th>#</th><th>Brand</th><th>Visits</th><th>Page Views</th><th>Avg Time on Site</th><th>Visit Share</th></tr></thead>
+      <tbody id="tbody-7day"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="page" id="page-stories">
+  <div class="chart-grid">
+    <div class="chart-card full"><h3>🏆 Top 10 Stories by Visits · Last 7 Days (All Brands)</h3><ul class="story-list" id="top-stories-list"></ul></div>
+  </div>
+  <div class="chart-grid" style="margin-top:0">
+    <div class="chart-card"><h3>⏱ Highest Engagement Time Stories (7 days)</h3><ul class="story-list" id="engagement-stories-list"></ul></div>
+    <div class="chart-card"><h3>🔥 Content Format Breakdown (7-Day Visits)</h3><canvas id="chartFormats" height="250"></canvas></div>
+  </div>
+</div>
+
+<div class="page" id="page-live">
+  <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr)">
+    <div class="kpi green"><div class="label">Projects · Today (Jul 6)</div><div class="value" id="live-count">0</div><div class="sub">All statuses · Digital or Print today</div></div>
+    <div class="kpi blue"><div class="label">Total Revenue · These Projects</div><div class="value" id="live-rev">$0</div><div class="sub">Where revenue is recorded</div></div>
+    <div class="kpi purple"><div class="label">Brands</div><div class="value" id="live-brands">0</div><div class="sub">Distinct brands today</div></div>
+  </div>
+  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Every project with a Digital or Print Launch Date of today (Jul 6) — sources: Smartsheet "Digital- Today's Launches" + "Print- Today's Launches." All statuses are shown (Live/Complete, Launched, In Progress, Scheduled, Ready for Kickoff), sorted live-first. The channel tag shows Digital, Print, or both.</p>
+  <div id="live-list"></div>
+</div>
+
+<div class="page" id="page-focus"
+  <p style="font-size:13px;color:#64748b;margin-bottom:20px">What each audience is reading now — topics, formats, and angles to pitch this week.</p>
+  <div id="brand-focus-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:20px"></div>
+</div>
+
+<div class="page" id="page-pi-pacing">
+  <div class="section-label">P&amp;I — Content vs. Benchmark &amp; Delivery Pacing</div>
+  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Grades P&amp;I custom content against benchmark three ways. <strong>Last 7 days</strong> — each story in today's Adobe report vs. its content-type benchmark (the 30-day benchmark prorated to 7 days; ±15% = On Pace). <strong>Past 30 days</strong> — stories published in the last month, actual pageviews vs. the 30-day benchmark prorated to days-live, so they can be graded in-flight. <strong>Delivery pacing</strong> — live line-item pacing from Nikola Radovanovic's weekly PIO Pacing report (&lt;90% behind, 90–110% on pace, &gt;110% ahead). Page views drive the engagement flags; avg time is context.</p>
+  <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)">
+    <div class="kpi green"><div class="label">Over Benchmark</div><div class="value" id="pi-over">0</div><div class="sub">≥ +15% vs 7-day expected</div></div>
+    <div class="kpi blue"><div class="label">On Pace</div><div class="value" id="pi-onpace">0</div><div class="sub">within ±15%</div></div>
+    <div class="kpi" style="border-left-color:#f59e0b"><div class="label">Under Benchmark</div><div class="value" id="pi-under">0</div><div class="sub">≤ −15% vs 7-day expected</div></div>
+    <div class="kpi purple"><div class="label">Delivery Flags</div><div class="value" id="pi-delivery-flags">—</div><div class="sub" id="pi-delivery-sub">from latest PIO Pacing report</div></div>
+  </div>
+  <div class="chart-card" style="margin-bottom:20px">
+    <h3>📊 Engagement vs. Benchmark · Last 7 Days</h3>
+    <table class="brand-table">
+      <thead><tr><th>Headline</th><th>Type</th><th>Page Views (7d)</th><th>Pacing to Benchmark</th><th>Avg Time</th></tr></thead>
+      <tbody id="pi-eng-tbody"></tbody>
+    </table>
+  </div>
+  <div class="chart-card" style="margin-bottom:20px">
+    <h3>📅 Past 30 Days · by Publish Date (vs 30-day benchmark)</h3>
+    <p style="font-size:12px;color:#64748b;margin-bottom:12px">P&amp;I custom/sponsored stories published in the last 30 days, from the same-day Tableau Content Extract (as of the <span id="pi-month-asof">Jul 6</span> extract). Actual pageviews vs. the 30-day benchmark prorated to each story's days-live, so a story can be graded mid-flight. ±15% = On Pace.</p>
+    <table class="brand-table">
+      <thead><tr><th>Headline</th><th>Published</th><th>Days Live</th><th>Page Views</th><th>Pacing to Benchmark</th></tr></thead>
+      <tbody id="pi-month-tbody"></tbody>
+    </table>
+    <p id="pi-month-note" style="font-size:11px;color:#94a3b8;margin-top:10px"></p>
+  </div>
+  <div class="chart-card">
+    <h3>🚦 Delivery Pacing · PIO Pacing report</h3>
+    <div id="pi-pacing-list"></div>
+  </div>
+</div>
+
+<div class="page" id="page-sponsored-extract">
+  <div class="section-label">Sponsored Content · Content Extract (all brands)</div>
+  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Sponsored/custom content only, from the daily Tableau Content Extract — published in the last 30 days, across <strong>all brands</strong> (more than the Adobe report covers). Added alongside the Adobe views, not replacing them. Metrics are cumulative pageviews / visits / unique per story by publish date (the extract has no avg-time). Stories that also appear in the Adobe Top Stories are tagged by brand + headline. <span style="color:#94a3b8">As of the <span id="ext-asof">Jul 6</span> extract (same-day Tableau Content Extract CSV).</span></p>
+  <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)">
+    <div class="kpi"><div class="label">Sponsored Stories · 30d</div><div class="value" id="ext-stories">0</div><div class="sub">all brands</div></div>
+    <div class="kpi green"><div class="label">Total Pageviews</div><div class="value" id="ext-pv">0</div><div class="sub">across sponsored stories</div></div>
+    <div class="kpi blue"><div class="label">Brands</div><div class="value" id="ext-brands">0</div><div class="sub">with sponsored content</div></div>
+    <div class="kpi purple"><div class="label">Top Brand</div><div class="value" id="ext-top" style="font-size:18px">—</div><div class="sub" id="ext-top-sub"></div></div>
+  </div>
+  <div class="chart-card" style="margin-bottom:20px">
+    <h3>🏷 By Brand · Sponsored (last 30 days)</h3>
+    <table class="brand-table">
+      <thead><tr><th>Brand</th><th>Stories</th><th>Pageviews</th><th>Visits</th><th>Share</th></tr></thead>
+      <tbody id="ext-brand-tbody"></tbody>
+    </table>
+  </div>
+  <div class="chart-card">
+    <h3>🏆 Top Sponsored Stories (last 30 days, all brands)</h3>
+    <table class="brand-table">
+      <thead><tr><th>Brand</th><th>Headline</th><th>Published</th><th>Pageviews</th><th>Visits</th><th>Unique</th></tr></thead>
+      <tbody id="ext-story-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="page" id="page-insights">
+  <div style="display:flex;align-items:center;gap:8px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:8px 12px;margin-bottom:16px;font-size:12px;color:#64748b">
+    <span style="font-size:14px">🗓️</span>
+    <span><strong style="color:#334155">Insights refreshed weekly.</strong> Last updated: <strong style="color:#334155">Mon, Jul 6, 2026</strong> · based on the week of Jun 29–Jul 5. Traffic and Went Live data refresh daily; this section updates each Monday.</span>
+  </div>
+  <div class="insight-grid" style="margin-bottom:8px">
+    <div class="insight-card">
+      <h3><span class="icon">💡</span> Key Insights</h3>
+      <div class="insight-item"><div class="dot green"></div><p><strong>Modern Healthcare leads on scale and engagement</strong> — 12,453 visits at a category-best 2:59 avg, with 6 of the top 10 reads (Cancer Immunotherapy Podcast 3,795, Healthcare AI Adoption 987, Federal IDR 780, Expanding Lung Transplant 711, Modernizing Infrastructure 659).</p></div>
+      <div class="insight-item"><div class="dot"></div><p><strong>Cancer Immunotherapy Podcast is the runaway #1</strong> — 3,795 visits, more than double any other read in the portfolio, and it drove MH's Sunday-topping day (1,603 visits).</p></div>
+      <div class="insight-item"><div class="dot blue"></div><p><strong>Ad Age is the #2 brand</strong> — 10,304 visits. Gen Z Sports Fandom was #2 overall (1,831); TV's Underrated Role held a strong 3:26 dwell over 969 visits, and YouGov's Best Brand Rankings added 861.</p></div>
+      <div class="insight-item"><div class="dot orange"></div><p><strong>P&amp;I steady on research</strong> — 2,190 visits led by Systematic Global Macro (442) and Long-Only Growth Investor, AI Era (439). Understanding True Drivers held a 2:44 dwell.</p></div>
+      <div class="insight-item"><div class="dot"></div><p><strong>Portfolio 30,245</strong> (↑2.8% vs last report). MH and Ad Age together are ~75% of all traffic.</p></div>
+    </div>
+    <div class="insight-card">
+      <h3><span class="icon">⚠️</span> Watch Areas</h3>
+      <div class="insight-item"><div class="dot orange"></div><p><strong>Extreme dwell, tiny reach</strong> — Detroit's Detroit Healthcare Careers read 22:50 on just 2 visits yesterday; Pontiac Downtown Revitalization 19:49 on 3; New York ADR 10:28 on 4; P&amp;I Fixed Income Ballast 11:22 on 54. Verify before they reach sponsor reporting.</p></div>
+      <div class="insight-item"><div class="dot green"></div><p><strong>High dwell at scale</strong> — MH's Expanding Lung Transplant (3:58 / 711), Ad Age's TV's Underrated Role (3:26 / 969) and Cleveland's ERP Systems (4:38 / 109) are genuine standouts. Amplify via newsletter and homepage.</p></div>
+      <div class="insight-item"><div class="dot orange"></div><p><strong>Hub-page leak</strong> — Grand Rapids routes 181 of 1,058 visits (17%) to the generic "crain's content studio" landing page. Add featured modules and deep-links to the Journey Construction and Greenleaf reads.</p></div>
+      <div class="insight-item"><div class="dot"></div><p><strong>City-brand reach is thin</strong> — New York (767) and Cleveland (364) are the smallest in the portfolio. Pair their deep-dwell reads (NY ADR construction, Cleveland ERP) with retargeting to lift volume.</p></div>
+      <div class="insight-item"><div class="dot blue"></div><p><strong>Attribution gaps</strong> — generic hub names ("crain's content studio," "publishing partners") still surface in top reads (Grand Rapids, Cleveland). Clean tagging to unlock upsell.</p></div>
+    </div>
+  </div>
+  <p style="font-size:12px;color:#64748b;margin:18px 0 6px">Recommendations by department — concrete plays from this week's data.</p>
+  <div id="recs"></div>
+</div>
+
+<script>
+const brands = [
+  { name: "Ad Age",            yVisits: 1491, yPV: 1670,  visits7: 10304, pv7: 12000, timeY: "1:34", time7: "1:29" },
+  { name: "Crain's Chicago",   yVisits: 65,   yPV: 77,    visits7: 1372,  pv7: 1541,  timeY: "1:54", time7: "2:10" },
+  { name: "Crain's Cleveland", yVisits: 22,   yPV: 29,    visits7: 364,   pv7: 599,   timeY: "2:09", time7: "1:35" },
+  { name: "Crain's Detroit",   yVisits: 106,  yPV: 112,   visits7: 860,   pv7: 1080,  timeY: "3:02", time7: "1:58" },
+  { name: "Grand Rapids",      yVisits: 71,   yPV: 64,    visits7: 1058,  pv7: 1155,  timeY: "0:28", time7: "1:41" },
+  { name: "Crain's New York",  yVisits: 53,   yPV: 52,    visits7: 767,   pv7: 875,   timeY: "4:11", time7: "2:03" },
+  { name: "Hart Energy",       yVisits: 33,   yPV: 30,    visits7: 877,   pv7: 899,   timeY: "0:16", time7: "1:29" },
+  { name: "Modern Healthcare", yVisits: 1603, yPV: 1627,  visits7: 12453, pv7: 12831, timeY: "3:13", time7: "2:59" },
+  { name: "P&I",               yVisits: 271,  yPV: 311,   visits7: 2190,  pv7: 2379,  timeY: "1:11", time7: "1:58" },
+];
+
+function timeToSec(t) { const [m, s] = t.split(':').map(Number); return m * 60 + s; }
+const colors = ['#e8140b','#f97316','#eab308','#22c55e','#06b6d4','#3b82f6','#8b5cf6','#ec4899','#14b8a6'];
+const shortNames = ["Ad Age","Chicago","Cleveland","Detroit","Gr. Rapids","New York","Hart Energy","Mod. HC","P&I"];
+
+new Chart(document.getElementById('chartYesterdayBar'), { type: 'bar',
+  data: { labels: shortNames, datasets: [{ label: 'Visits', data: brands.map(b => b.yVisits), backgroundColor: colors, borderRadius: 6 }] },
+  options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: '#f1f5f9' }, ticks: { font: { size: 11 } } }, x: { grid: { display: false }, ticks: { font: { size: 10 } } } } } });
+
+new Chart(document.getElementById('chart7DayBar'), { type: 'bar',
+  data: { labels: shortNames, datasets: [{ label: 'Visits (7 days)', data: brands.map(b => b.visits7), backgroundColor: colors, borderRadius: 6 }] },
+  options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: '#f1f5f9' }, ticks: { font: { size: 11 } } }, x: { grid: { display: false }, ticks: { font: { size: 10 } } } } } });
+
+const sortedByEngagement = [...brands].sort((a,b) => timeToSec(b.time7) - timeToSec(a.time7));
+new Chart(document.getElementById('chartEngagement'), { type: 'bar',
+  data: { labels: sortedByEngagement.map(b => b.name), datasets: [{ label: 'Avg Time on Site (seconds)', data: sortedByEngagement.map(b => timeToSec(b.time7)), backgroundColor: sortedByEngagement.map((b, i) => i === 0 ? '#e8140b' : '#93c5fd'), borderRadius: 6 }] },
+  options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => { const sec = ctx.raw; return ` ${Math.floor(sec/60)}:${String(sec%60).padStart(2,'0')} avg time`; } } } },
+    scales: { x: { beginAtZero: true, ticks: { callback: val => `${Math.floor(val/60)}:${String(val%60).padStart(2,'0')}`, font: { size: 11 } }, grid: { color: '#f1f5f9' } }, y: { grid: { display: false }, ticks: { font: { size: 12 } } } } } });
+
+const totalYest = brands.reduce((s, b) => s + b.yVisits, 0);
+const total7 = brands.reduce((s, b) => s + b.visits7, 0);
+const sortedY = [...brands].sort((a,b) => b.yVisits - a.yVisits);
+const sorted7 = [...brands].sort((a,b) => b.visits7 - a.visits7);
+function rankBadge(i) { const cls = i===0?'gold':i===1?'silver':i===2?'bronze':''; return `<span class="rank-badge ${cls}">${i+1}</span>`; }
+function barCell(val, max, color) { return `<div class="bar-cell"><div class="bar-bg"><div class="bar-fill ${color}" style="width:${Math.round(val/max*100)}%"></div></div><span style="font-size:12px;color:#64748b;width:34px;text-align:right">${val.toLocaleString()}</span></div>`; }
+
+document.getElementById('tbody-yesterday').innerHTML = sortedY.map((b,i) => `<tr><td>${rankBadge(i)}</td><td style="font-weight:600;font-size:13px">${b.name}</td><td>${barCell(b.yVisits, sortedY[0].yVisits, '')}</td><td style="font-size:13px;color:#334155">${b.yPV.toLocaleString()}</td><td><span class="time-pill ${timeToSec(b.timeY) >= 180 ? '' : 'warn'}">${b.timeY}</span></td><td style="font-size:12px;color:#64748b">${(b.yVisits/totalYest*100).toFixed(1)}%</td></tr>`).join('');
+document.getElementById('tbody-7day').innerHTML = sorted7.map((b,i) => `<tr><td>${rankBadge(i)}</td><td style="font-weight:600;font-size:13px">${b.name}</td><td>${barCell(b.visits7, sorted7[0].visits7, 'green')}</td><td style="font-size:13px;color:#334155">${b.pv7.toLocaleString()}</td><td><span class="time-pill ${timeToSec(b.time7) >= 180 ? '' : 'warn'}">${b.time7}</span></td><td style="font-size:12px;color:#64748b">${(b.visits7/total7*100).toFixed(1)}%</td></tr>`).join('');
+
+const topStories = [
+  { brand: "Mod. HC",    title: "Foundational Research in Cancer Immunotherapy – Podcast", visits: 3795, pv: 3746, time: "2:19", type: "Healthcare Insider Podcast", sponsor: "Not listed",          url: "https://www.modernhealthcare.com/content-studio/healthcare-insider-podcast/mh-foundational-research-cancer-immunotherapy/", trend: "🔥" },
+  { brand: "Ad Age",     title: "How Gen Z Is Rewriting the Rules of Sports Fandom",       visits: 1831, pv: 1821, time: "1:36", type: "Publishing Partner",        sponsor: "Not listed",          url: "https://adage.com/studio-30/publishing-partners/aa-how-gen-z-is-rewriting-the-rules-of-sports-fandom/", trend: "🔥" },
+  { brand: "Mod. HC",    title: "Healthcare AI Adoption – Trust & Transparency",           visits: 987,  pv: 975,  time: "2:24", type: "Publishing Partner",        sponsor: "Not listed",          url: "https://www.modernhealthcare.com/content-studio/publishing-partner/mh-healthcare-ai-adoption-trust-transparency-survey/", trend: "🔥" },
+  { brand: "Ad Age",     title: "TV's Underrated Role in Driving Influence & Impact",      visits: 969,  pv: 961,  time: "3:26", type: "Publishing Partner",        sponsor: "Not listed",          url: "https://adage.com/studio-30/publishing-partners/aa-tvs-underrated-role-in-driving-influence-and-impact/", trend: "🔥" },
+  { brand: "Ad Age",     title: "YouGov's 2026 Best Brand Rankings Have a New Global Leader", visits: 861, pv: 825, time: "1:21", type: "Custom Report",           sponsor: "Not listed",          url: "https://adage.com/studio-30/aa-yougovs-2026-best-brand-rankings-have-a-new-global-leader/", trend: "🔥" },
+  { brand: "Mod. HC",    title: "Federal IDR Final Rule – Compliance Readiness",           visits: 780,  pv: 772,  time: "3:21", type: "Publishing Partner",        sponsor: "Not listed",          url: "https://www.modernhealthcare.com/content-studio/publishing-partner/federal-idr-final-rule-compliance-readiness/", trend: "🔥" },
+  { brand: "Mod. HC",    title: "Expanding Access to Lung Transplant",                     visits: 711,  pv: 703,  time: "3:58", type: "Publishing Partner",        sponsor: "Not listed",          url: "https://www.modernhealthcare.com/content-studio/publishing-partner/mh-expanding-access-to-lung-transplant/", trend: "🔥" },
+  { brand: "Mod. HC",    title: "Modernizing Healthcare Infrastructure – Podcast",         visits: 659,  pv: 656,  time: "2:59", type: "Healthcare Insider Podcast", sponsor: "Not listed",          url: "https://www.modernhealthcare.com/content-studio/healthcare-insider-podcast/modernizing-healthcare-infrastructure-podcast/", trend: "" },
+  { brand: "Ad Age",     title: "Future Brand Influence Starts With AI Perception",        visits: 542,  pv: 540,  time: "2:17", type: "Publishing Partner",        sponsor: "Not listed",          url: "https://adage.com/studio-30/publishing-partners/aa-future-brand-influence-starts-ai-perception/", trend: "" },
+  { brand: "Ad Age",     title: "Celebrating 30 Years of Digital Advertising",             visits: 511,  pv: 513,  time: "1:09", type: "Interactive Report",        sponsor: "Not listed",          url: "https://adage.com/studio-30/interactive-reports/aa-celebrating-30-years-digital-advertising-growth-innovation/", trend: "" },
+];
+document.getElementById('top-stories-list').innerHTML = topStories.map((s,i) => `<li class="story-item"><div class="story-num">${i+1}</div><div class="story-info"><div class="story-title"><a href="${s.url}" target="_blank" rel="noopener" style="color:#1e293b;text-decoration:none;border-bottom:1px solid #cbd5e1;" onmouseover="this.style.color='#e8140b';this.style.borderBottomColor='#e8140b'" onmouseout="this.style.color='#1e293b';this.style.borderBottomColor='#cbd5e1'">${s.title} ↗</a>${s.trend ? `<span style="color:#10b981;font-size:12px;font-weight:700;margin-left:6px">${s.trend} Trending</span>` : ''}</div><div class="story-meta"><span class="brand-pill">${s.brand}</span><span class="meta-tag" style="color:${s.sponsor === 'Not listed' ? '#94a3b8' : '#0369a1'}">🏢 ${s.sponsor}</span><span class="meta-tag">👁 ${s.visits.toLocaleString()} visits</span><span class="meta-tag">📄 ${s.pv.toLocaleString()} PVs</span><span class="meta-tag">⏱ ${s.time} avg</span><span class="meta-tag" style="color:#8b5cf6">📌 ${s.type}</span></div></div></li>`).join('');
+
+const engStories = [
+  { brand: "C. Cleveland", title: "ERP Systems for Long-Term Growth",                  visits: 109,  time: "4:38", type: "White Paper",          sponsor: "Not listed",          url: "https://www.crainscleveland.com/crains-content-studio/white-paper/ccl-erp-systems-for-long-term-growth/",             note: "🔥 Deep dwell, modest reach" },
+  { brand: "Mod. HC",      title: "Expanding Access to Lung Transplant",               visits: 711,  time: "3:58", type: "Publishing Partner",  sponsor: "Not listed",          url: "https://www.modernhealthcare.com/content-studio/publishing-partner/mh-expanding-access-to-lung-transplant/",         note: "🔥 Deep dwell at huge scale" },
+  { brand: "Ad Age",       title: "TV's Underrated Role in Driving Influence & Impact", visits: 969, time: "3:26", type: "Publishing Partner",  sponsor: "Not listed",          url: "https://adage.com/studio-30/publishing-partners/aa-tvs-underrated-role-in-driving-influence-and-impact/",              note: "🔥 Deep dwell at huge scale" },
+  { brand: "Mod. HC",      title: "Federal IDR Final Rule – Compliance Readiness",     visits: 780,  time: "3:21", type: "Publishing Partner",  sponsor: "Not listed",          url: "https://www.modernhealthcare.com/content-studio/publishing-partner/federal-idr-final-rule-compliance-readiness/",     note: "🔥 Deep dwell at huge scale" },
+  { brand: "C. Detroit",   title: "AI Adoption & Business Leadership",                 visits: 89,   time: "3:07", type: "Publishing Partner",  sponsor: "Not listed",          url: "https://www.crainsdetroit.com/crains-content-studio/publishing-partner/cdb-ai-adoption-business-leadership/",         note: "🔥 Deep dwell at scale" },
+  { brand: "Mod. HC",      title: "Modernizing Healthcare Infrastructure – Podcast",   visits: 659,  time: "2:59", type: "Healthcare Insider Podcast", sponsor: "Not listed",     url: "https://www.modernhealthcare.com/content-studio/healthcare-insider-podcast/modernizing-healthcare-infrastructure-podcast/", note: "Deep dwell at huge scale" },
+  { brand: "C. Chicago",   title: "Employer Education Partnerships",                   visits: 166,  time: "2:50", type: "Publishing Partner",  sponsor: "Not listed",          url: "https://www.chicagobusiness.com/crains-content-studio/publishing-partner/ccb-employer-education-partnerships-chicago/", note: "Deep dwell at scale" },
+];
+document.getElementById('engagement-stories-list').innerHTML = engStories.map((s,i) => `<li class="story-item"><div class="story-num">${i+1}</div><div class="story-info"><div class="story-title"><a href="${s.url}" target="_blank" rel="noopener" style="color:#1e293b;text-decoration:none;border-bottom:1px solid #cbd5e1;" onmouseover="this.style.color='#e8140b';this.style.borderBottomColor='#e8140b'" onmouseout="this.style.color='#1e293b';this.style.borderBottomColor='#cbd5e1'">${s.title} ↗</a></div><div class="story-meta"><span class="brand-pill">${s.brand}</span><span class="meta-tag" style="color:${s.sponsor === 'Not listed' ? '#94a3b8' : '#0369a1'}">🏢 ${s.sponsor}</span><span class="meta-tag">⏱ <strong style="color:#166534">${s.time}</strong></span><span class="meta-tag">👁 ${s.visits.toLocaleString()} visits</span><span class="meta-tag" style="color:#8b5cf6">📌 ${s.type}</span>${s.note ? `<span class="meta-tag" style="color:#d97706;font-weight:600">${s.note}</span>` : ''}</div></div></li>`).join('');
+
+new Chart(document.getElementById('chartFormats'), { type: 'doughnut',
+  data: { labels: ['Publishing Partner', 'Thought Leader / Exec', 'White Paper', 'Partner Content / Quick Take', 'Sponsored Content', 'Other'], datasets: [{ data: [12990, 2380, 985, 1760, 1190, 10107], backgroundColor: ['#e8140b','#3b82f6','#8b5cf6','#22c55e','#f59e0b','#94a3b8'], borderWidth: 2, borderColor: '#fff' }] },
+  options: { responsive: true, plugins: { legend: { position: 'right', labels: { font: { size: 11 }, boxWidth: 12 } }, tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ~${ctx.raw.toLocaleString()} visits` } } }, cutout: '55%' } });
+
+const deptRecs = [
+  { dept: "🎯 Sales", tagline: "Where to sell now", cards: [
+    { tone: "", priority: "Bundle", title: "AI Multi-Brand Package", text: "AI leads across the portfolio — MH (Healthcare AI Adoption 987), Ad Age (Future Brand Influence AI 542), P&amp;I (Long-Only AI Era 439) and Detroit (AI Adoption &amp; Business Leadership 89 at a 3:07 dwell). Sell guaranteed cross-brand reach to platforms, ad tech and enterprise-AI advertisers." },
+    { tone: "green-top", priority: "Hot Vertical", title: "Financial &amp; Professional Services", text: "P&amp;I research (Systematic Macro 442, Long-Only AI 439) and Chicago's middle-market and banking reads perform. Pitch banks, asset managers, law and accounting on the finance audience." },
+    { tone: "orange-top", priority: "Premium", title: "Healthcare Engagement Buy", text: "Modern Healthcare delivered 12,453 visits at a 2:59 dwell with 6 of the top 10 reads. Package the Cancer Immunotherapy podcast (3,795), Healthcare AI and Federal IDR reads for health systems, pharma and PBM advertisers." },
+  ]},
+  { dept: "📣 Marketing", tagline: "Amplify &amp; prove", cards: [
+    { tone: "green-top", priority: "Amplify", title: "Scale the Podcast &amp; Sports-Fandom Wins", text: "MH's Cancer Immunotherapy podcast (3,795) and Ad Age's Gen Z Sports Fandom (1,831) were the two biggest reads of the week. Feature both in newsletters and sales decks as proof of reach." },
+    { tone: "", priority: "Positioning", title: "Lead With MH Engagement", text: "Modern Healthcare averaged 2:59 for the week, with Expanding Lung Transplant at 3:58 and Federal IDR at 3:21. Make time-on-site the headline metric for health-system and pharma sponsors." },
+    { tone: "orange-top", priority: "Surface", title: "Promote High-Dwell, Low-Reach", text: "Cleveland's ERP Systems (4:38 / 109) and Detroit's AI Adoption (3:07 / 89) read deep with modest reach. Push them to turn proven quality into volume." },
+  ]},
+  { dept: "🧱 Product", tagline: "Build &amp; package", cards: [
+    { tone: "purple-top", priority: "New Product", title: "Research &amp; White-Paper Hub", text: "Hart is 100% white-paper/IndustryVoice-driven, and P&amp;I research plus Cleveland's ERP white paper (4:38 dwell) perform. Build a gated/ungated hub with read, dwell and return analytics for finance &amp; energy advertisers." },
+    { tone: "green-top", priority: "Productize", title: "Sponsored Audio / Podcast", text: "MH's healthcare-insider podcast had the week's #1 and #8 reads (Cancer Immunotherapy 3,795, Modernizing Infrastructure 659). Package it as a sellable sponsored-audio product." },
+    { tone: "", priority: "Reporting", title: "Sponsor Engagement Dashboard", text: "Give sponsors a live dwell-time + return-visit view. Dwell (MH 2:59, Ad Age TV's Underrated Role 3:26, Cleveland ERP 4:38) is the portfolio's clearest differentiator — sell it as proof of value." },
+  ]},
+  { dept: "⚙️ Operations", tagline: "Fix the leaks", cards: [
+    { tone: "orange-top", priority: "Urgent Fix", title: "Hub-Page Leaks", text: "Grand Rapids sends 17% of visits (181/1,058) to the generic content-studio hub — wasted sponsor spend. Add featured modules and newsletter deep-links to the Journey Construction and Greenleaf reads." },
+    { tone: "orange-top", priority: "Data Integrity", title: "Verify Tracking Anomalies", text: "Detroit's Healthcare Careers (22:50 / 2) and Pontiac Downtown (19:49 / 3) show extreme dwell on tiny volume — confirm before sponsor reporting." },
+    { tone: "", priority: "Standardize", title: "Clean Sponsor Tagging", text: "Several top reads still show generic hub names instead of sponsor/product. Consistent tagging unlocks accurate attribution and upsell conversations." },
+  ]},
+  { dept: "🤝 Cross-Brand Collaboration", tagline: "Multi-brand plays", cards: [
+    { tone: "", priority: "Co-Produce", title: "AI Series: MH + Ad Age + P&amp;I + Detroit", text: "AI is a top driver across all four. Co-produce an 'AI in [Industry]' series and sell it as a single multi-brand buy with guaranteed reach." },
+    { tone: "green-top", priority: "Replicate", title: "Finance &amp; Professional Services", text: "P&amp;I macro/AI research and Chicago's middle-market and banking reads drove the week. Replicate to Cleveland, Detroit and New York for banking, asset-management, law and insurance sponsors." },
+    { tone: "orange-top", priority: "Package", title: "Workforce &amp; Education, Multi-Market", text: "Detroit (WGU Skills-First 154), Chicago (Employer Education 166) and Cleveland (Hidden Workforce Crisis) share the theme. Package a multi-market education/workforce buy across the brands." },
+  ]},
+];
+document.getElementById('recs').innerHTML = deptRecs.map(d => `<div class="dept-label">${d.dept} <span class="tagline">· ${d.tagline}</span></div><div class="rec-grid">${d.cards.map(c => `<div class="rec-card ${c.tone}"><div class="priority">${c.priority}</div><h4>${c.title}</h4><p>${c.text}</p></div>`).join('')}</div>`).join('');
+
+const brandFocus = [
+  { brand: "Modern Healthcare", signal: "🔥 Hot", signalClass: "signal-hot",
+    topics: [{label:"Cancer / Immunotherapy",hot:true},{label:"Agentic AI",hot:true},{label:"Lung Transplant",hot:false},{label:"Hospital Infrastructure",hot:false},{label:"IDR / Compliance",hot:false}],
+    topStory: "Cancer Immunotherapy Podcast (3,795, #1 overall); Healthcare AI Adoption (987); Federal IDR (780)", bestEngagement: "Expanding Lung Transplant 3:58 (711); Federal IDR 3:21 (780); Modernizing Infrastructure 2:59 (659)",
+    pitch: "<strong>Pitch:</strong> Health IT, AI vendors and consultants on AI-adoption/agentic-AI; pharma &amp; PBMs on the data-driven series; health systems on the transplant &amp; IDR reads. Portfolio's largest brand this week (12,453) at a category-best 2:59 dwell with six of the top 10 reads.", visits7: 12453, avgTime: "2:59" },
+  { brand: "Ad Age", signal: "🔥 Hot", signalClass: "signal-hot",
+    topics: [{label:"Sports Fandom",hot:true},{label:"TV / Video",hot:true},{label:"AI Perception",hot:true},{label:"Brand Rankings",hot:false},{label:"Agentic Advertising",hot:false}],
+    topStory: "Gen Z Sports Fandom (1,831, #2 overall); TV's Underrated Role (969); YouGov Best Brand Rankings (861)", bestEngagement: "TV's Underrated Role 3:26 (969); Future Brand Influence AI 2:17 (542); Gen Z Sports Fandom 1:36 (1,831)",
+    pitch: "<strong>Pitch:</strong> Platforms, ad tech and agencies on sports fandom, TV/video influence and AI-perception research. Second-largest brand (10,304) — Gen Z Sports Fandom drew 1,831 reads and TV's Underrated Role held 3:26 over 969 visits, a standout dwell-at-scale package.", visits7: 10304, avgTime: "1:29" },
+  { brand: "Crain's Chicago", signal: "📈 Growing", signalClass: "signal-growing",
+    topics: [{label:"Middle Market",hot:true},{label:"Workforce / Education",hot:true},{label:"Banking / CIBC",hot:false},{label:"Affordable Housing",hot:false},{label:"Commercial RE",hot:false}],
+    topStory: "Built in Chicago Middle Market (402); Employer Education Partnerships (166); CIBC Faces Impact (120)", bestEngagement: "Chicago Finances Affordable Housing 3:26 (52); Employer Education 2:50 (166); Built in Chicago 2:31 (402)",
+    pitch: "<strong>Pitch:</strong> Banks, CRE, law/accounting, workforce/education and managed-IT sponsors. Built in Chicago middle-market led the week (402); employer-education and CIBC reads round out the portfolio's top brand dwell at 2:10.", visits7: 1372, avgTime: "2:10" },
+  { brand: "Crain's Detroit", signal: "📈 Growing", signalClass: "signal-growing",
+    topics: [{label:"Workforce / Education",hot:true},{label:"AI / Business",hot:true},{label:"Data Centers",hot:false},{label:"Credit Unions",hot:false},{label:"Mobility",hot:false}],
+    topStory: "WGU Skills-First Education (154); AI Adoption & Business Leadership (89); Responsible Data-Center (70)", bestEngagement: "AI Adoption 3:07 (89); WGU Skills-First 2:15 (154); Michigan Credit Unions 2:00 (65)",
+    pitch: "<strong>Pitch:</strong> Workforce/education, enterprise-AI, data-center/utilities, financial-services and mobility sponsors. WGU skills-first education led the week; the deep-dwell AI-adoption read and responsible-data-center piece round out a 1:58 mix.", visits7: 860, avgTime: "1:58" },
+  { brand: "Crain's New York", signal: "📈 Growing", signalClass: "signal-growing",
+    topics: [{label:"Construction",hot:true},{label:"Payment Fraud",hot:true},{label:"Private Banking",hot:false},{label:"Accessible Care",hot:false},{label:"Luxury Travel",hot:false}],
+    topStory: "ADR Construction Workers (359, #1); Payment Fraud (103); The Contractors Who Bring NY Buildings (53)", bestEngagement: "ADR Construction 2:38 (359); Contractors NY Buildings 1:39 (53); Payment Fraud 0:01 (103)",
+    pitch: "<strong>Pitch:</strong> Construction firms, unions and transit on the building boom; banks on fraud/payment-security; private banks and asset managers on the wealth reads. The ADR construction slate leads a 2:03 avg.", visits7: 767, avgTime: "2:03" },
+  { brand: "Pensions &amp; Investments", signal: "📊 Steady", signalClass: "signal-steady",
+    topics: [{label:"Global Macro",hot:true},{label:"AI Investing",hot:true},{label:"Market Dislocation",hot:false},{label:"Fixed Income",hot:false},{label:"Private Markets",hot:false}],
+    topStory: "Systematic Global Macro (442, #1); Long-Only Growth Investor AI (439); Fixed Income Ballast (356)", bestEngagement: "Understanding True Drivers 2:44 (89); Fixed Income Ballast 1:42 (356); Long-Only Growth AI 1:24 (439)",
+    pitch: "<strong>Pitch:</strong> Asset managers, private-market and credit specialists on research-led content. Systematic global macro and long-only AI-era investing led the week — package with Amova dislocation and the fixed-income ballast reads.", visits7: 2190, avgTime: "1:58" },
+  { brand: "Hart Energy", signal: "📈 Growing", signalClass: "signal-growing",
+    topics: [{label:"Pipeline Standards",hot:true},{label:"Field Ops",hot:true},{label:"Reservoir Sim",hot:false},{label:"Remote Operations",hot:false},{label:"Energy Data",hot:false}],
+    topStory: "API 5L Standard (210, #1); Right Plunger (171); Gen-AI Reservoir Sim (149)", bestEngagement: "Energy Data Unification 3:35 (7, low vol); Right Plunger 1:43 (171); API 5L 1:38 (210)",
+    pitch: "<strong>Pitch:</strong> Energy-tech vendors, data platforms and AWS/cloud on IndustryVoice and white papers. API 5L and Right Plunger led at 877 visits — momentum to package the field-ops and reservoir-sim reads with retargeting.", visits7: 877, avgTime: "1:29" },
+  { brand: "Crain's Grand Rapids", signal: "📊 Steady", signalClass: "signal-steady",
+    topics: [{label:"Construction",hot:true},{label:"Wealth / Tax",hot:false},{label:"Real Estate",hot:false},{label:"Waterfront",hot:false}],
+    topStory: "Journey Construction (253, #1); Content Studio hub (181); Greenleaf Trust Tax (116)", bestEngagement: "Greenleaf Trust Tax 2:45 (116); Content Studio hub 2:22 (181); Journey Construction 1:58 (253)",
+    pitch: "<strong>Pitch:</strong> Construction/real-estate, wealth/tax advisory and workforce sponsors. Journey Construction led the week (253). Fix the hub-page leak (181/1,058 visits route to the generic content-studio hub) — deep-link to the construction and Greenleaf reads to lift sponsor ROI.", visits7: 1058, avgTime: "1:41" },
+  { brand: "Crain's Cleveland", signal: "📊 Steady", signalClass: "signal-steady",
+    topics: [{label:"ERP / Tech",hot:true},{label:"Build-to-Rent",hot:false},{label:"Workforce",hot:false},{label:"Health Ed",hot:false}],
+    topStory: "ERP Systems (109, #1); Grey Fox Build-to-Rent (37); Tackling Hidden Workforce (36)", bestEngagement: "ERP Systems 4:38 (109); Tackling Hidden Workforce 1:55 (36); Grey Fox Build-to-Rent 1:48 (37)",
+    pitch: "<strong>Pitch:</strong> ERP/tech vendors on the deep-dwell ERP read; build-to-rent/real-estate sponsors on Grey Fox; workforce/health-education sponsors on the hidden-workforce series. ERP Systems led the week again at a standout 4:38 dwell.", visits7: 364, avgTime: "1:35" },
+];
+document.getElementById('brand-focus-grid').innerHTML = brandFocus.map(b => `<div class="focus-card"><div class="focus-header"><span class="focus-brand">${b.brand}</span><span class="focus-signal ${b.signalClass}">${b.signal}</span></div><div class="focus-topics">${b.topics.map(t => `<span class="topic-tag ${t.hot ? 'hot' : ''}">${t.hot ? '🔥 ' : ''}${t.label}</span>`).join('')}</div><div class="focus-stat"><span>📈 ${b.visits7.toLocaleString()} visits / 7 days</span><span>⏱ ${b.avgTime} avg</span></div><div class="focus-pitch" style="margin-top:12px"><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;color:#94a3b8;margin-bottom:4px">Top story: ${b.topStory}</div><div style="font-size:11px;color:#64748b;margin-bottom:8px">Best dwell: ${b.bestEngagement}</div>${b.pitch}</div></div>`).join('');
+
+// ===== Launching today (Jul 6) — Smartsheet "Digital- Today's Launches" + "Print- Today's Launches" =====
+// ALL projects whose Digital Launch Date (Digital report) or Print Launch Date (Print report) is today, regardless of status.
+// Digital report returned 6 rows launching today (Jul 6); Print report returned 0. All channel = Digital.
+const liveContent = [
+  { brand: "Modern Healthcare", channel: "Digital", product: "Live From – Q2 Quick Take", client: "City of Hope", status: "In Progress", revenue: 25000, vertical: "Healthcare", owner: "Shannon Mortland", url: "https://www.modernhealthcare.com/content-studio/quicktake/mh-city-hope-microbiome-cancer-research-patient-impact/" },
+  { brand: "Modern Healthcare", channel: "Digital", product: "Gated White Paper", client: "Vizient", status: "In Progress", revenue: 18583, vertical: "Healthcare", owner: "Sarah Loeffler", url: "https://www.modernhealthcare.com/content-studio/white-paper/mh-improve-OR-margins-procedural-analytics-ebook" },
+  { brand: "Modern Healthcare", channel: "Digital", product: "Custom Gated White Paper", client: "Optum", status: "Scheduled", revenue: 21000, vertical: "Healthcare", owner: "Shannon Mortland", url: "https://www.modernhealthcare.com/content-studio/white-paper/mh-integrating-behavioral-health-value-based-care/" },
+  { brand: "Modern Healthcare", channel: "Digital", product: "Quick Take Video – Innovators Award", client: "Optum", status: "Scheduled", revenue: 15000, vertical: "Healthcare", owner: "Shannon Mortland", url: "https://www.modernhealthcare.com/content-studio/quicktake/mh-compatibility-based-care-transform-patient-engagement/" },
+  { brand: "Crain's New York", channel: "Digital", product: "Digital – Client Writes", client: "Under Construction News", status: "Scheduled", revenue: 3500, vertical: "Construction", owner: "Jennifer Keirn", url: "https://www.crainsnewyork.com/crains-content-studio/publishing-partner/cny-manhattan-office-recovery-boosts-contractors/" },
+  { brand: "Ad Age", channel: "Digital", product: "Pub Partner (CW)", client: "Locality", status: "Scheduled", revenue: 0, vertical: "Advertising", owner: "Sophia Juarez", url: "https://adage.com/studio-30/publishing-partners/aa-ai-is-changing-local-tv-advertising-but-who-holds-the-best-data-still-decides-who-wins/" },
+];
+// Sort: live/complete first, then launched, in progress, scheduled — each by revenue desc.
+const _statusRank = { "Complete": 0, "Launched": 1, "In Progress": 2, "Scheduled": 3 };
+liveContent.sort((a,b) => (_statusRank[a.status] ?? 9) - (_statusRank[b.status] ?? 9) || (b.revenue||0) - (a.revenue||0));
+
+const liveRevTotal = liveContent.reduce((s,x) => s + (x.revenue || 0), 0);
+document.getElementById('live-count').textContent = liveContent.length;
+document.getElementById('live-rev').textContent = '$' + liveRevTotal.toLocaleString();
+document.getElementById('live-brands').textContent = new Set(liveContent.map(x => x.brand)).size;
+
+if (liveContent.length === 0) {
+  document.getElementById('live-list').innerHTML = `<div style="background:white;border-radius:12px;padding:28px;text-align:center;color:#94a3b8;font-size:13px;box-shadow:0 1px 3px rgba(0,0,0,0.07)">Nothing launching today (Jul 6). Neither the Digital nor Print report shows an item with a Jul 6 launch date. Check back tomorrow.</div>`;
+} else {
+const _statusMeta = {
+  "Complete":    { label: "✅ Live",        css: "background:#eff6ff;color:#1d4ed8", border: "#10b981" },
+  "Launched":    { label: "🟢 Launched",    css: "background:#f0fdf4;color:#166534", border: "#10b981" },
+  "In Progress": { label: "⏳ In Progress", css: "background:#fff7ed;color:#c2410c", border: "#f59e0b" },
+  "Scheduled":   { label: "🗓 Scheduled",   css: "background:#f1f5f9;color:#475569", border: "#94a3b8" },
+};
+document.getElementById('live-list').innerHTML = liveContent.map(x => {
+  const sm = _statusMeta[x.status] || { label: x.status, css: "background:#f1f5f9;color:#475569", border: "#94a3b8" };
+  return `
+  <div class="live-card" style="border-left-color:${sm.border}">
+    <div class="lc-main">
+      <div class="lc-title">${x.product} — ${x.client}</div>
+      <div class="lc-sub">${x.owner ? 'Owner: ' + x.owner : ''}</div>
+      <div class="lc-meta">
+        <span class="brand-pill">${x.brand}</span>
+        ${x.channel ? `<span class="vert-tag" style="background:#eef2ff;color:#4338ca;border-color:#c7d2fe">${x.channel}</span>` : ''}
+        <span class="status-badge" style="${sm.css}">${sm.label}</span>
+        ${x.vertical ? `<span class="vert-tag">${x.vertical}</span>` : ''}
+        ${x.url ? `<a class="live-link" href="${x.url}" target="_blank" rel="noopener">View ↗</a>` : `<span style="font-size:11px;color:#94a3b8">No public link</span>`}
+      </div>
+    </div>
+    <div class="lc-right">
+      <div class="lc-rev">${x.revenue ? '$' + x.revenue.toLocaleString() : '—'}</div>
+      <div style="font-size:10px;color:#94a3b8;text-transform:uppercase;letter-spacing:0.4px">Revenue</div>
+    </div>
+  </div>`;
+}).join('');
+}
+
+// ===== P&I Benchmark & Pacing (P&I only) =====
+// Engagement: each P&I story (from today's Adobe report) vs the Q1 2026 benchmark for its content type.
+// Benchmarks are 30-day page views; prorated to the report's 7-day window (×7/30). Band = ±15%.
+// Content-type benchmarks (Q1 2026, 30-day page views): SCP (sponsored-content slugs) = 2252;
+// Partner Content (partner-content slugs; default = Investment Insights) = 1971. Avg-time benchmarks: SCP 3:28, Partner Content 4:19.
+const PI_BAND = 0.15;
+const piEngagement = [
+  { title: "Systematic Global Macro Is Having a Moment",         type: "Partner Content", benchPV30: 1971, pv7: 441, time: "0:19", benchTime: "4:19", url: "https://www.pionline.com/partner-content/pi-systematic-global-macro-is-having-a-moment/" },
+  { title: "How a Long-Only Growth Investor Navigates the AI Era", type: "Partner Content", benchPV30: 1971, pv7: 443, time: "1:24", benchTime: "4:19", url: "https://www.pionline.com/partner-content/pi-how-a-long-only-growth-investor-navigates-the-ai-era/" },
+  { title: "Fixed Income – Supportive Ballast",                  type: "Partner Content", benchPV30: 1971, pv7: 357, time: "1:42", benchTime: "4:19", url: "https://www.pionline.com/partner-content/pi-fixed-income-supportive-ballast/" },
+  { title: "Amova – Navigating Market Dislocation",              type: "SCP",             benchPV30: 2252, pv7: 303, time: "0:52", benchTime: "3:28", url: "https://www.pionline.com/sponsored-content/pi-amova-market-dislocation/" },
+  { title: "Understanding True Drivers of Private-Market Portfolio Returns", type: "Partner Content", benchPV30: 1971, pv7: 91,  time: "2:44", benchTime: "4:19", url: "https://www.pionline.com/white-papers/pi-uderstanding-true-drivers-of-private-market-portfolio-returns/" },
+];
+// Delivery pacing from Nikola Radovanovic's latest "PIO Pacing - through - X.X" report (P&I).
+// Each item: { lineItem, advertiser, pacingRate (number %), contracted, endDate }. Status derived:
+// <90 behind, 90-110 on pace, >110 ahead. Leave [] until the first automated pull populates it.
+const piPacing = [];
+const piPacingMeta = { reportThrough: "6/25 (latest received)", headline: "Latest PIO Pacing report (through 6/25, from Nikola Radovanovic) flagged 1 line item pacing behind. The xlsx is a binary attachment and was not machine-readable via the connector this run — line-item detail pending." };
+
+function piStatus(pct) {
+  if (pct > PI_BAND) return { label: "Overperforming", css: "background:#f0fdf4;color:#166534", dot: "#10b981" };
+  if (pct < -PI_BAND) return { label: "Underperforming", css: "background:#fff7ed;color:#c2410c", dot: "#f59e0b" };
+  return { label: "On Pace", css: "background:#eff6ff;color:#1d4ed8", dot: "#3b82f6" };
+}
+let piOver = 0, piOn = 0, piUnder = 0;
+document.getElementById('pi-eng-tbody').innerHTML = piEngagement.map(s => {
+  const exp7 = s.benchPV30 * 7 / 30;
+  const pct = s.pv7 / exp7 - 1;
+  const st = piStatus(pct);
+  if (pct > PI_BAND) piOver++; else if (pct < -PI_BAND) piUnder++; else piOn++;
+  const pctTxt = (pct >= 0 ? '+' : '') + Math.round(pct * 100) + '%';
+  return `<tr>
+    <td style="max-width:300px"><a href="${s.url}" target="_blank" rel="noopener" style="font-weight:600;font-size:13px;color:#1e293b;text-decoration:none;border-bottom:1px solid #cbd5e1">${s.title} ↗</a></td>
+    <td><span class="vert-tag">${s.type}</span></td>
+    <td style="font-size:13px;color:#334155">${s.pv7.toLocaleString()} <span style="color:#94a3b8;font-size:11px">/ ~${Math.round(exp7).toLocaleString()} exp</span></td>
+    <td><span class="status-badge" style="${st.css}">${st.label} ${pctTxt}</span></td>
+    <td><span class="time-pill ${timeToSec(s.time) >= 180 ? '' : 'warn'}">${s.time}</span> <span style="color:#94a3b8;font-size:11px">vs ${s.benchTime}</span></td>
+  </tr>`;
+}).join('');
+document.getElementById('pi-over').textContent = piOver;
+document.getElementById('pi-onpace').textContent = piOn;
+document.getElementById('pi-under').textContent = piUnder;
+
+if (piPacing.length === 0) {
+  document.getElementById('pi-delivery-flags').textContent = '—';
+  document.getElementById('pi-pacing-list').innerHTML = `<div style="background:#f8fafc;border:1px dashed #cbd5e1;border-radius:10px;padding:20px;color:#64748b;font-size:13px;line-height:1.5">${piPacingMeta.headline}<br><span style="font-size:11px;color:#94a3b8">Latest report through: ${piPacingMeta.reportThrough}</span></div>`;
+} else {
+  const behind = piPacing.filter(p => p.pacingRate < 90).length;
+  document.getElementById('pi-delivery-flags').textContent = behind;
+  document.getElementById('pi-delivery-sub').textContent = (behind === 1 ? 'line item behind' : 'line items behind');
+  document.getElementById('pi-pacing-list').innerHTML = piPacing.map(p => {
+    const st = p.pacingRate < 90 ? { label: "Behind", css: "background:#fff7ed;color:#c2410c", dot: "#f59e0b" }
+            : p.pacingRate > 110 ? { label: "Ahead", css: "background:#f0fdf4;color:#166534", dot: "#10b981" }
+            : { label: "On Pace", css: "background:#eff6ff;color:#1d4ed8", dot: "#3b82f6" };
+    return `<div class="live-card" style="border-left-color:${st.dot};display:block">
+      <div class="lc-title" style="margin-bottom:4px">${p.advertiser}</div>
+      <div class="lc-sub" style="font-size:11px;color:#94a3b8;word-break:break-all">${p.lineItem}</div>
+      <div class="lc-meta" style="margin-top:8px">
+        <span class="status-badge" style="${st.css}">${st.label} · ${p.pacingRate}%</span>
+        ${p.contracted ? `<span class="meta-tag">🎯 ${Number(p.contracted).toLocaleString()} imp</span>` : ''}
+        ${p.endDate ? `<span class="meta-tag">ends ${p.endDate}</span>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ===== P&I Past 30 Days (by publish date) — from the Sponsored Content cumulative master =====
+// Cumulative pageviews per story vs the 30-day benchmark prorated to days-live (as of the latest content extract).
+// Benchmarks (Q1 2026, 30-day PV): Partner Content (default Investment Insights) = 1971; SCP = 2252. Band = ±15%.
+const piMonthAsOf = "Jul 6";
+const piMonth = [
+  { title: "Fixed Income: A Supportive Ballast", pub: "Jun 15", daysLive: 21, pv: 1196, benchPV30: 1971, url: "https://www.pionline.com/partner-content/pi-fixed-income-supportive-ballast/" },
+];
+const piMonthNote = "Source switched to the same-day Jul 6 Tableau Content Extract. Only two P&I sponsored stories appear in this export — Fixed Income: A Supportive Ballast (graded above) and “Private Equity: Meeting the Moment” (Jun 19 webinar, ~3 pageviews, too low to grade). Note: this daily extract is a partial snapshot and did not include Systematic Global Macro or the Long-Only AI-Era read this run, so they are not graded here (see the Last-7-Days engagement table above for their current Adobe performance).";
+document.getElementById('pi-month-asof').textContent = piMonthAsOf;
+document.getElementById('pi-month-tbody').innerHTML = piMonth.map(s => {
+  const exp = s.benchPV30 * Math.min(s.daysLive, 30) / 30;
+  const pct = s.pv / exp - 1;
+  const st = piStatus(pct);
+  const pctTxt = (pct >= 0 ? '+' : '') + Math.round(pct * 100) + '%';
+  return `<tr>
+    <td style="max-width:300px"><a href="${s.url}" target="_blank" rel="noopener" style="font-weight:600;font-size:13px;color:#1e293b;text-decoration:none;border-bottom:1px solid #cbd5e1">${s.title} ↗</a></td>
+    <td style="font-size:13px;color:#334155">${s.pub}</td>
+    <td style="font-size:13px;color:#334155">${s.daysLive}d</td>
+    <td style="font-size:13px;color:#334155">${s.pv.toLocaleString()} <span style="color:#94a3b8;font-size:11px">/ ~${Math.round(exp).toLocaleString()} exp</span></td>
+    <td><span class="status-badge" style="${st.css}">${st.label} ${pctTxt}</span></td>
+  </tr>`;
+}).join('');
+document.getElementById('pi-month-note').textContent = piMonthNote;
+
+// ===== Sponsored Content Extract (all brands) — incorporated alongside Adobe, matched by brand + headline =====
+const extractMeta = { asOf: "Jul 6", totalStories: 79, totalPV: 22222, brands: 14 };
+const extractBrands = [
+  { brand: "Ad Age", stories: 8, pv: 4397, visits: 4063 },
+  { brand: "Crain's Chicago", stories: 2, pv: 3252, visits: 2876 },
+  { brand: "Crain's Detroit", stories: 16, pv: 3145, visits: 2857 },
+  { brand: "Modern Healthcare", stories: 3, pv: 3066, visits: 2784 },
+  { brand: "Automotive News", stories: 3, pv: 1887, visits: 1776 },
+  { brand: "Crain's Cleveland", stories: 12, pv: 1763, visits: 1570 },
+  { brand: "Plastics News", stories: 6, pv: 1640, visits: 1607 },
+  { brand: "P&I", stories: 2, pv: 1199, visits: 1135 },
+  { brand: "Crain's New York", stories: 14, pv: 588, visits: 553 },
+  { brand: "Crain's Grand Rapids", stories: 9, pv: 548, visits: 501 },
+  { brand: "Hart Energy", stories: 1, pv: 529, visits: 461 },
+  { brand: "Automobilwoche", stories: 1, pv: 204, visits: 178 },
+  { brand: "Rubber News", stories: 1, pv: 2, visits: 1 },
+  { brand: "Tire Business", stories: 1, pv: 2, visits: 1 },
+];
+const extractStories = [
+  { brand:"Crain's Chicago", pub:"Jun 22", pv:3059, v:2702, u:2544, title:"CIBC US Faces of Impact Chicago Affordable Housing" },
+  { brand:"Automotive News", pub:"Jun 12", pv:1599, v:1507, u:1447, title:"Taiwan Excellence Brings Trusted AI Innovation to ITS America 2026, Strengthening Taiwan–U.S. Mobility Partnerships" },
+  { brand:"Modern Healthcare", pub:"Jun 8", pv:1399, v:1204, u:1154, title:"Premier’s strategic collaboratives help health systems improve through shared knowledge" },
+  { brand:"P&I", pub:"Jun 15", pv:1196, v:1133, u:1109, title:"Fixed Income: A Supportive Ballast" },
+  { brand:"Crain's Cleveland", pub:"Jun 16", pv:1056, v:952, u:912, title:"Cordelia chef Vinnie Cimino celebrates ‘awesome’ James Beard nod despite falling short" },
+  { brand:"Ad Age", pub:"Jun 17", pv:1045, v:997, u:963, title:"Celebrating 30 years of digital advertising growth and innovation" },
+  { brand:"Modern Healthcare", pub:"Jun 15", pv:1003, v:923, u:895, title:"Expanding access to lung transplant: How leading health systems are scaling complex care" },
+  { brand:"Ad Age", pub:"Jun 8", pv:971, v:910, u:881, title:"How Monks builds immersive experiences that resonate with national pride" },
+  { brand:"Ad Age", pub:"Jun 15", pv:964, v:910, u:866, title:"The pivot challenge wellness brands must navigate" },
+  { brand:"Crain's Detroit", pub:"Jun 15", pv:829, v:809, u:791, title:"WATCH: Skillman Foundation CEO on Michigan’s education ‘marathon’" },
+  { brand:"Ad Age", pub:"Jun 18", pv:777, v:725, u:694, title:"Presenting the Ad Age Creativity Awards Best YouTube Creator Collaboration winner" },
+  { brand:"Plastics News", pub:"Jun 16", pv:687, v:676, u:668, title:"The Risk You Can’t See: Why Process Drift Is Costing More Than Manufacturers Realize" },
+  { brand:"Modern Healthcare", pub:"Jun 22", pv:664, v:657, u:632, title:"The future of cancer care: Why collaboration is essential" },
+  { brand:"Plastics News", pub:"Jun 8", pv:557, v:548, u:546, title:"MyNexeo: Your Plastics Sourcing Hub" },
+  { brand:"Hart Energy", pub:"Jun 22", pv:529, v:461, u:442, title:"The Right Plunger Changes Everything. Here’s the Proof." },
+  { brand:"Crain's Detroit", pub:"Jun 15", pv:492, v:426, u:414, title:"WATCH: How Michigan credit unions are tackling affordability challenges" },
+  { brand:"Crain's Detroit", pub:"Jun 15", pv:379, v:337, u:322, title:"WATCH: How American Center for Mobility is future-proofing Michigan’s mobility and automotive engineering legacy" },
+  { brand:"Crain's Cleveland", pub:"Jun 15", pv:367, v:315, u:298, title:"Tackling the hidden workforce crisis behind America’s dental deserts" },
+  { brand:"Crain's New York", pub:"Jun 8", pv:343, v:320, u:302, title:"On the right track: A new era of accessible healthcare" },
+  { brand:"Plastics News", pub:"Jun 26", pv:336, v:322, u:307, title:"Milacron Celebrates America’s 250th with a Tribute to U.S. Manufacturing Strength" },
+  { brand:"Crain's Detroit", pub:"Jun 15", pv:311, v:297, u:283, title:"WATCH: How Kettering University bridges education and industry" },
+  { brand:"Crain's Detroit", pub:"Jun 15", pv:309, v:288, u:279, title:"Tackling the hidden workforce crisis behind America’s dental deserts" },
+  { brand:"Ad Age", pub:"Jun 30", pv:250, v:224, u:206, title:"Three TV advertising takeaways from Cannes Lions 2026" },
+  { brand:"Crain's Detroit", pub:"Jun 15", pv:250, v:213, u:195, title:"WATCH: DTE Energy’s Trevor Lauer on why data centers are a win for Michigan" },
+];
+const _dashTitles = (typeof topStories !== 'undefined' ? topStories.map(s => s.title) : [])
+  .concat(typeof piMonth !== 'undefined' ? piMonth.map(s => s.title) : []);
+function _normT(s) { return (s || '').toLowerCase().replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ').trim(); }
+function matchedOnDash(title) {
+  const t = _normT(title);
+  return _dashTitles.some(d => { const dn = _normT(d); if (dn.length < 14 || !t) return false;
+    for (let i = 0; i + 14 <= dn.length; i++) { if (t.includes(dn.substr(i, 14))) return true; } return false; });
+}
+const extTotalPV = extractBrands.reduce((s, b) => s + b.pv, 0);
+document.getElementById('ext-stories').textContent = extractMeta.totalStories;
+document.getElementById('ext-pv').textContent = extractMeta.totalPV.toLocaleString();
+document.getElementById('ext-brands').textContent = extractMeta.brands;
+document.getElementById('ext-asof').textContent = extractMeta.asOf;
+document.getElementById('ext-top').textContent = extractBrands[0].brand;
+document.getElementById('ext-top-sub').textContent = extractBrands[0].pv.toLocaleString() + ' PV · ' + extractBrands[0].stories + ' stories';
+document.getElementById('ext-brand-tbody').innerHTML = extractBrands.map(b => `<tr>
+  <td style="font-weight:600;font-size:13px">${b.brand}</td>
+  <td style="font-size:13px;color:#334155">${b.stories}</td>
+  <td>${barCell(b.pv, extractBrands[0].pv, 'green')}</td>
+  <td style="font-size:13px;color:#334155">${b.visits.toLocaleString()}</td>
+  <td style="font-size:12px;color:#64748b">${(b.pv / extTotalPV * 100).toFixed(1)}%</td>
+</tr>`).join('');
+document.getElementById('ext-story-tbody').innerHTML = extractStories.map(s => {
+  const m = matchedOnDash(s.title);
+  return `<tr>
+    <td><span class="brand-pill">${s.brand}</span></td>
+    <td style="max-width:320px;font-weight:600;font-size:13px">${s.title}${m ? ' <span class="status-badge" style="background:#eff6ff;color:#1d4ed8">● on Top Stories</span>' : ''}</td>
+    <td style="font-size:13px;color:#334155">${s.pub}</td>
+    <td style="font-size:13px;color:#334155">${s.pv.toLocaleString()}</td>
+    <td style="font-size:13px;color:#334155">${s.v.toLocaleString()}</td>
+    <td style="font-size:13px;color:#334155">${s.u.toLocaleString()}</td>
+  </tr>`;
+}).join('');
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>
