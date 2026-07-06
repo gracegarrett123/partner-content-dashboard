@@ -227,7 +227,7 @@
   </div>
   <div class="chart-card" style="margin-bottom:20px">
     <h3>📅 Past 30 Days · by Publish Date (vs 30-day benchmark)</h3>
-    <p style="font-size:12px;color:#64748b;margin-bottom:12px">P&amp;I custom/sponsored stories published in the last 30 days, from the Sponsored Content cumulative master (as of the <span id="pi-month-asof">Jun 24</span> content extract). Actual pageviews vs. the 30-day benchmark prorated to each story's days-live, so a story can be graded mid-flight. ±15% = On Pace.</p>
+    <p style="font-size:12px;color:#64748b;margin-bottom:12px">P&amp;I custom/sponsored stories published in the last 30 days, from the same-day Tableau Content Extract (as of the <span id="pi-month-asof">Jul 6</span> extract). Actual pageviews vs. the 30-day benchmark prorated to each story's days-live, so a story can be graded mid-flight. ±15% = On Pace.</p>
     <table class="brand-table">
       <thead><tr><th>Headline</th><th>Published</th><th>Days Live</th><th>Page Views</th><th>Pacing to Benchmark</th></tr></thead>
       <tbody id="pi-month-tbody"></tbody>
@@ -242,7 +242,7 @@
 
 <div class="page" id="page-sponsored-extract">
   <div class="section-label">Sponsored Content · Content Extract (all brands)</div>
-  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Sponsored/custom content only, from the daily Tableau Content Extract — published in the last 30 days, across <strong>all brands</strong> (more than the Adobe report covers). Added alongside the Adobe views, not replacing them. Metrics are cumulative pageviews / visits / unique per story by publish date (the extract has no avg-time). Stories that also appear in the Adobe Top Stories are tagged by brand + headline. <span style="color:#94a3b8">As of the <span id="ext-asof">Jun 24</span> extract.</span> <span style="color:#d97706">⚠ The cumulative master hasn't advanced past Jun 24 (as of the Jul 6 run) — the daily Tableau CSV feed may have reverted to PDF and needs restoring; figures below are held from the last good extract.</span></p>
+  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Sponsored/custom content only, from the daily Tableau Content Extract — published in the last 30 days, across <strong>all brands</strong> (more than the Adobe report covers). Added alongside the Adobe views, not replacing them. Metrics are cumulative pageviews / visits / unique per story by publish date (the extract has no avg-time). Stories that also appear in the Adobe Top Stories are tagged by brand + headline. <span style="color:#94a3b8">As of the <span id="ext-asof">Jul 6</span> extract (same-day Tableau Content Extract CSV).</span></p>
   <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)">
     <div class="kpi"><div class="label">Sponsored Stories · 30d</div><div class="value" id="ext-stories">0</div><div class="sub">all brands</div></div>
     <div class="kpi green"><div class="label">Total Pageviews</div><div class="value" id="ext-pv">0</div><div class="sub">across sponsored stories</div></div>
@@ -552,14 +552,11 @@ if (piPacing.length === 0) {
 // ===== P&I Past 30 Days (by publish date) — from the Sponsored Content cumulative master =====
 // Cumulative pageviews per story vs the 30-day benchmark prorated to days-live (as of the latest content extract).
 // Benchmarks (Q1 2026, 30-day PV): Partner Content (default Investment Insights) = 1971; SCP = 2252. Band = ±15%.
-const piMonthAsOf = "Jun 24";
+const piMonthAsOf = "Jul 6";
 const piMonth = [
-  { title: "Why Systematic Global Macro Is Having a Moment", pub: "Jun 15", daysLive: 9, pv: 1156, benchPV30: 1971, url: "https://www.pionline.com/partner-content/pi-systematic-global-macro-is-having-a-moment/" },
-  { title: "Fixed Income: A Supportive Ballast", pub: "Jun 15", daysLive: 9, pv: 835, benchPV30: 1971, url: "https://www.pionline.com/partner-content/pi-fixed-income-supportive-ballast/" },
-  { title: "How a Long-Only Growth Investor Navigates the AI Era", pub: "Jun 15", daysLive: 9, pv: 813, benchPV30: 1971, url: "https://www.pionline.com/partner-content/pi-how-a-long-only-growth-investor-navigates-the-ai-era/" },
-  { title: "Systematic Credit Uncovers Differentiated Alpha", pub: "Jun 1", daysLive: 23, pv: 689, benchPV30: 1971, url: "https://www.pionline.com/partner-content/pi-quick-take-systematic-credit-uncovers-differentiated-alpha/" },
+  { title: "Fixed Income: A Supportive Ballast", pub: "Jun 15", daysLive: 21, pv: 1196, benchPV30: 1971, url: "https://www.pionline.com/partner-content/pi-fixed-income-supportive-ballast/" },
 ];
-const piMonthNote = "Excluded as too-new or low-signal: “Private Equity: Meeting the Moment” (published Jun 19, ~3 pageviews so far — too new to grade) and three May 29 entries with near-zero pageviews (likely just tagged or duplicate URLs).";
+const piMonthNote = "Source switched to the same-day Jul 6 Tableau Content Extract. Only two P&I sponsored stories appear in this export — Fixed Income: A Supportive Ballast (graded above) and “Private Equity: Meeting the Moment” (Jun 19 webinar, ~3 pageviews, too low to grade). Note: this daily extract is a partial snapshot and did not include Systematic Global Macro or the Long-Only AI-Era read this run, so they are not graded here (see the Last-7-Days engagement table above for their current Adobe performance).";
 document.getElementById('pi-month-asof').textContent = piMonthAsOf;
 document.getElementById('pi-month-tbody').innerHTML = piMonth.map(s => {
   const exp = s.benchPV30 * Math.min(s.daysLive, 30) / 30;
@@ -577,47 +574,48 @@ document.getElementById('pi-month-tbody').innerHTML = piMonth.map(s => {
 document.getElementById('pi-month-note').textContent = piMonthNote;
 
 // ===== Sponsored Content Extract (all brands) — incorporated alongside Adobe, matched by brand + headline =====
-const extractMeta = { asOf: "Jun 24", totalStories: 162, totalPV: 85447, brands: 13 };
+const extractMeta = { asOf: "Jul 6", totalStories: 79, totalPV: 22222, brands: 14 };
 const extractBrands = [
-  { brand: "Automotive News", stories: 11, pv: 20824, visits: 19788 },
-  { brand: "Modern Healthcare", stories: 15, pv: 15811, visits: 14095 },
-  { brand: "Crain's Chicago", stories: 13, pv: 12853, visits: 11985 },
-  { brand: "Ad Age", stories: 11, pv: 11167, visits: 10363 },
-  { brand: "Crain's Detroit", stories: 31, pv: 10310, visits: 9395 },
-  { brand: "P&I", stories: 8, pv: 3509, visits: 3297 },
-  { brand: "Crain's Cleveland", stories: 24, pv: 3410, visits: 3022 },
-  { brand: "Crain's New York", stories: 19, pv: 3199, visits: 2930 },
-  { brand: "Plastics News", stories: 5, pv: 2090, visits: 2025 },
-  { brand: "Crain's Grand Rapids", stories: 21, pv: 1931, visits: 1747 },
-  { brand: "Hart Energy", stories: 2, pv: 230, visits: 155 },
-  { brand: "Automobilwoche", stories: 1, pv: 111, visits: 89 },
+  { brand: "Ad Age", stories: 8, pv: 4397, visits: 4063 },
+  { brand: "Crain's Chicago", stories: 2, pv: 3252, visits: 2876 },
+  { brand: "Crain's Detroit", stories: 16, pv: 3145, visits: 2857 },
+  { brand: "Modern Healthcare", stories: 3, pv: 3066, visits: 2784 },
+  { brand: "Automotive News", stories: 3, pv: 1887, visits: 1776 },
+  { brand: "Crain's Cleveland", stories: 12, pv: 1763, visits: 1570 },
+  { brand: "Plastics News", stories: 6, pv: 1640, visits: 1607 },
+  { brand: "P&I", stories: 2, pv: 1199, visits: 1135 },
+  { brand: "Crain's New York", stories: 14, pv: 588, visits: 553 },
+  { brand: "Crain's Grand Rapids", stories: 9, pv: 548, visits: 501 },
+  { brand: "Hart Energy", stories: 1, pv: 529, visits: 461 },
+  { brand: "Automobilwoche", stories: 1, pv: 204, visits: 178 },
   { brand: "Rubber News", stories: 1, pv: 2, visits: 1 },
+  { brand: "Tire Business", stories: 1, pv: 2, visits: 1 },
 ];
 const extractStories = [
-  { brand:"Automotive News", pub:"Jun 15", pv:7134, v:7036, u:6972, title:"Dealership compliance can no longer be reactive" },
-  { brand:"Automotive News", pub:"May 29", pv:5802, v:5191, u:4946, title:"The real fear isn’t Chinese EV competition — it’s production" },
-  { brand:"Crain's Chicago", pub:"Jun 8", pv:2827, v:2675, u:2468, title:"Chicago is Everything: CBRE’s latest report on market perception versus actual growth" },
-  { brand:"Modern Healthcare", pub:"May 25", pv:2709, v:2427, u:2327, title:"Phil Ozuah on enhancing ambulatory care and accessibility" },
-  { brand:"Modern Healthcare", pub:"Jun 3", pv:2665, v:2391, u:2320, title:"Modernizing healthcare infrastructure in a high-cost environment" },
-  { brand:"Ad Age", pub:"May 26", pv:2255, v:2169, u:2147, title:"How emotional engagement sets gaming apart as a high-impact channel" },
-  { brand:"Crain's Chicago", pub:"Jun 22", pv:2210, v:1861, u:1732, title:"CIBC US Faces of Impact Chicago Affordable Housing" },
-  { brand:"Modern Healthcare", pub:"Jun 1", pv:2169, v:1897, u:1800, title:"Creating a culture of safety" },
-  { brand:"Crain's Chicago", pub:"Jun 15", pv:2111, v:2071, u:2046, title:"Formation structure in venture-backed companies: Why getting it right early matters" },
-  { brand:"Modern Healthcare", pub:"Jun 1", pv:1865, v:1674, u:1598, title:"How data-driven PBM models are improving pharmacy benefit transparency" },
-  { brand:"Ad Age", pub:"May 26", pv:1812, v:1719, u:1668, title:"How brand and creator content works harder on YouTube" },
-  { brand:"Automotive News", pub:"Jun 8", pv:1754, v:1712, u:1685, title:"Out-of-state car deals without the back-office fire drill" },
-  { brand:"Automotive News", pub:"Jun 1", pv:1676, v:1620, u:1587, title:"Real-time ownership intelligence: How automakers are transforming onboarding, safety and compliance" },
-  { brand:"Ad Age", pub:"Jun 3", pv:1642, v:1549, u:1497, title:"Commerce media’s next phase will be defined by choice instead of scale" },
-  { brand:"Crain's Detroit", pub:"May 25", pv:1548, v:1455, u:1438, title:"Energy security in an uncertain world depends on affordability and access" },
-  { brand:"Modern Healthcare", pub:"Jun 1", pv:1483, v:1315, u:1264, title:"Reframing Continuing Education: How the American Heart Association’s Professional Education Hub Supports System Readiness" },
-  { brand:"Automotive News", pub:"Jun 1", pv:1467, v:1373, u:1343, title:"Untapped potential: why using AI to reach Spanish-speaking buyers is so important" },
-  { brand:"Crain's Chicago", pub:"Jun 8", pv:1348, v:1326, u:1310, title:"Quick Take: How community lenders are competing with mortgage giants" },
-  { brand:"Crain's Chicago", pub:"Jun 1", pv:1216, v:1212, u:1193, title:"Account takeover fraud: Take a proactive approach to protect your business" },
-  { brand:"Plastics News", pub:"Jun 5", pv:1212, v:1164, u:1152, title:"BlueAlp and KraussMaffei Extrusion announce partnership to accelerate plastic recycling" },
-  { brand:"Crain's Detroit", pub:"May 25", pv:1177, v:1106, u:1049, title:"From mega sites to main streets, leaders rethink local growth" },
-  { brand:"Ad Age", pub:"Jun 1", pv:1169, v:1056, u:1037, title:"CTV isn’t losing. Social video is just growing faster" },
-  { brand:"P&I", pub:"Jun 15", pv:1156, v:1096, u:1079, title:"Why Systematic Global Macro Is Having a Moment" },
-  { brand:"Modern Healthcare", pub:"Jun 8", pv:1084, v:961, u:915, title:"AI Has Entered the Exam Room. When Will Trust Follow?" },
+  { brand:"Crain's Chicago", pub:"Jun 22", pv:3059, v:2702, u:2544, title:"CIBC US Faces of Impact Chicago Affordable Housing" },
+  { brand:"Automotive News", pub:"Jun 12", pv:1599, v:1507, u:1447, title:"Taiwan Excellence Brings Trusted AI Innovation to ITS America 2026, Strengthening Taiwan–U.S. Mobility Partnerships" },
+  { brand:"Modern Healthcare", pub:"Jun 8", pv:1399, v:1204, u:1154, title:"Premier’s strategic collaboratives help health systems improve through shared knowledge" },
+  { brand:"P&I", pub:"Jun 15", pv:1196, v:1133, u:1109, title:"Fixed Income: A Supportive Ballast" },
+  { brand:"Crain's Cleveland", pub:"Jun 16", pv:1056, v:952, u:912, title:"Cordelia chef Vinnie Cimino celebrates ‘awesome’ James Beard nod despite falling short" },
+  { brand:"Ad Age", pub:"Jun 17", pv:1045, v:997, u:963, title:"Celebrating 30 years of digital advertising growth and innovation" },
+  { brand:"Modern Healthcare", pub:"Jun 15", pv:1003, v:923, u:895, title:"Expanding access to lung transplant: How leading health systems are scaling complex care" },
+  { brand:"Ad Age", pub:"Jun 8", pv:971, v:910, u:881, title:"How Monks builds immersive experiences that resonate with national pride" },
+  { brand:"Ad Age", pub:"Jun 15", pv:964, v:910, u:866, title:"The pivot challenge wellness brands must navigate" },
+  { brand:"Crain's Detroit", pub:"Jun 15", pv:829, v:809, u:791, title:"WATCH: Skillman Foundation CEO on Michigan’s education ‘marathon’" },
+  { brand:"Ad Age", pub:"Jun 18", pv:777, v:725, u:694, title:"Presenting the Ad Age Creativity Awards Best YouTube Creator Collaboration winner" },
+  { brand:"Plastics News", pub:"Jun 16", pv:687, v:676, u:668, title:"The Risk You Can’t See: Why Process Drift Is Costing More Than Manufacturers Realize" },
+  { brand:"Modern Healthcare", pub:"Jun 22", pv:664, v:657, u:632, title:"The future of cancer care: Why collaboration is essential" },
+  { brand:"Plastics News", pub:"Jun 8", pv:557, v:548, u:546, title:"MyNexeo: Your Plastics Sourcing Hub" },
+  { brand:"Hart Energy", pub:"Jun 22", pv:529, v:461, u:442, title:"The Right Plunger Changes Everything. Here’s the Proof." },
+  { brand:"Crain's Detroit", pub:"Jun 15", pv:492, v:426, u:414, title:"WATCH: How Michigan credit unions are tackling affordability challenges" },
+  { brand:"Crain's Detroit", pub:"Jun 15", pv:379, v:337, u:322, title:"WATCH: How American Center for Mobility is future-proofing Michigan’s mobility and automotive engineering legacy" },
+  { brand:"Crain's Cleveland", pub:"Jun 15", pv:367, v:315, u:298, title:"Tackling the hidden workforce crisis behind America’s dental deserts" },
+  { brand:"Crain's New York", pub:"Jun 8", pv:343, v:320, u:302, title:"On the right track: A new era of accessible healthcare" },
+  { brand:"Plastics News", pub:"Jun 26", pv:336, v:322, u:307, title:"Milacron Celebrates America’s 250th with a Tribute to U.S. Manufacturing Strength" },
+  { brand:"Crain's Detroit", pub:"Jun 15", pv:311, v:297, u:283, title:"WATCH: How Kettering University bridges education and industry" },
+  { brand:"Crain's Detroit", pub:"Jun 15", pv:309, v:288, u:279, title:"Tackling the hidden workforce crisis behind America’s dental deserts" },
+  { brand:"Ad Age", pub:"Jun 30", pv:250, v:224, u:206, title:"Three TV advertising takeaways from Cannes Lions 2026" },
+  { brand:"Crain's Detroit", pub:"Jun 15", pv:250, v:213, u:195, title:"WATCH: DTE Energy’s Trevor Lauer on why data centers are a win for Michigan" },
 ];
 const _dashTitles = (typeof topStories !== 'undefined' ? topStories.map(s => s.title) : [])
   .concat(typeof piMonth !== 'undefined' ? piMonth.map(s => s.title) : []);
