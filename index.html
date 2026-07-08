@@ -242,7 +242,7 @@
 
 <div class="page" id="page-sponsored-extract">
   <div class="section-label">Sponsored Content · Content Extract (all brands)</div>
-  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Sponsored/custom content only, published in the last 30 days, across <strong>all brands</strong> (more than the Adobe report covers). Added alongside the Adobe views, not replacing them. Metrics are cumulative pageviews / visits / unique per story by publish date (the extract has no avg-time). Stories that also appear in the Adobe Top Stories are tagged by brand + headline. <span style="color:#94a3b8">As of the <span id="ext-asof">Jul 7</span> window — blends the same-day Jul 7 Tableau CSV (newest stories) with the cumulative master (older tail, through Jun 24). ⚠ Automated daily feed lagging; CSV supplied manually.</span></p>
+  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Sponsored/custom content only, published in the last 30 days, across <strong>all brands</strong> (more than the Adobe report covers). Added alongside the Adobe views, not replacing them. Metrics are cumulative pageviews / visits / unique per story by publish date (the extract has no avg-time). Stories that also appear in the Adobe Top Stories are tagged by brand + headline. <span style="color:#94a3b8">As of the <span id="ext-asof">Jul 7</span> window — blends today's same-day Tableau Content Extract CSV (sponsored stories published through Jul 6) with the cumulative master (older tail, through Jun 24). ⚠ Automated daily feed still lagging; same-day CSV supplied manually.</span></p>
   <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)">
     <div class="kpi"><div class="label">Sponsored Stories · 30d</div><div class="value" id="ext-stories">0</div><div class="sub">all brands</div></div>
     <div class="kpi green"><div class="label">Total Pageviews</div><div class="value" id="ext-pv">0</div><div class="sub">across sponsored stories</div></div>
@@ -572,18 +572,18 @@ document.getElementById('pi-month-tbody').innerHTML = piMonth.map(s => {
 document.getElementById('pi-month-note').textContent = piMonthNote;
 
 // ===== Sponsored Content Extract (all brands) — incorporated alongside Adobe, matched by brand + headline =====
-const extractMeta = { asOf: "Jul 7", totalStories: 116, totalPV: 42617, brands: 13 };
+const extractMeta = { asOf: "Jul 7", totalStories: 125, totalPV: 45410, brands: 13 };
 const extractBrands = [
-  { brand: "Automotive News", stories: 6, pv: 10787, visits: 10540 },
+  { brand: "Automotive News", stories: 6, pv: 10872, visits: 10622 },
   { brand: "Crain's Chicago", stories: 10, pv: 10287, visits: 9514 },
-  { brand: "Ad Age", stories: 10, pv: 4645, visits: 4175 },
-  { brand: "Modern Healthcare", stories: 9, pv: 4017, visits: 3574 },
-  { brand: "Crain's Detroit", stories: 20, pv: 3669, visits: 3352 },
+  { brand: "Ad Age", stories: 12, pv: 5406, visits: 4893 },
+  { brand: "Modern Healthcare", stories: 11, pv: 4585, visits: 4114 },
+  { brand: "Crain's Detroit", stories: 20, pv: 3796, visits: 3476 },
   { brand: "P&I", stories: 4, pv: 2807, visits: 2650 },
   { brand: "Crain's Cleveland", stories: 15, pv: 2399, visits: 2147 },
-  { brand: "Crain's New York", stories: 17, pv: 1582, visits: 1409 },
-  { brand: "Crain's Grand Rapids", stories: 16, pv: 1205, visits: 1073 },
-  { brand: "Plastics News", stories: 5, pv: 876, visits: 862 },
+  { brand: "Crain's New York", stories: 20, pv: 2317, visits: 2097 },
+  { brand: "Plastics News", stories: 7, pv: 1350, visits: 1326 },
+  { brand: "Crain's Grand Rapids", stories: 16, pv: 1248, visits: 1116 },
   { brand: "Hart Energy", stories: 2, pv: 230, visits: 155 },
   { brand: "Automobilwoche", stories: 1, pv: 111, visits: 89 },
   { brand: "Rubber News", stories: 1, pv: 2, visits: 1 },
@@ -608,11 +608,11 @@ const extractStories = [
   { brand:"Crain's Detroit", pub:"Jun 15", pv:697, v:689, u:678, title:"WATCH: Skillman Foundation CEO on Michigan’s education ‘marathon’" },
   { brand:"Ad Age", pub:"Jun 17", pv:667, v:596, u:553, title:"Celebrating 30 years of digital advertising growth and innovation" },
   { brand:"Crain's Chicago", pub:"Jun 22", pv:646, v:582, u:543, title:"Chicago finances first-of-its-kind affordable housing designed for people who are blind" },
+  { brand:"Crain's New York", pub:"Jul 6", pv:626, v:588, u:559, title:"Manhattan’s office rebound is fueling demand for high-end construction" },
   { brand:"Automotive News", pub:"Jun 22", pv:620, v:602, u:598, title:"How collaborative robots are slowly transforming auto manufacturing" },
   { brand:"Ad Age", pub:"Jun 15", pv:617, v:559, u:522, title:"The pivot challenge wellness brands must navigate" },
   { brand:"Ad Age", pub:"Jun 11", pv:616, v:541, u:524, title:"AI commerce & AI visibility: Why the customer journey is fundamentally changing" },
   { brand:"Ad Age", pub:"Jun 10", pv:582, v:531, u:517, title:"The most valuable signal in marketing is already in consumers’ hands" },
-  { brand:"Crain's Chicago", pub:"Jun 15", pv:449, v:381, u:358, title:"Benefit costs aren’t letting up. The solution is in your claims data" },
 ];
 const _dashTitles = (typeof topStories !== 'undefined' ? topStories.map(s => s.title) : [])
   .concat(typeof piMonth !== 'undefined' ? piMonth.map(s => s.title) : []);
