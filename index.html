@@ -2,7 +2,7 @@
 {
   "name": "Ad Solutions Team Dashboard",
   "schemaVersion": 1,
-  "description": "Ad Solutions Team daily analytics dashboard built from the Adobe Analytics PDF report emailed each morning. KPI cards, brand performance tables (yesterday + 7-day), top 10 stories by visits, top 7 by engagement time, insights, recommendations, and brand-focus pitch cards across all 9 Crain properties. Auto-refreshed daily at 8 AM from the latest Adobe report email. Currently showing the July 7, 2026 report (yesterday Jul 6 + 7-day Jun 30–Jul 6).",
+  "description": "Ad Solutions Team dashboard — big-picture, revenue-aware performance across Adobe (traffic), Smartsheet (launches & revenue), and Tableau (sponsored content). Overview (portfolio KPIs + top insights, all source-tagged), Traffic (brand detail), Top Stories, Went Live, Insights & Recs, Brand Focus, Sponsored · Extract. P&I is on its own dashboard. Auto-refreshed daily.",
   "mcpTools": [
     "mcp__09e4c9dd-00d9-44a0-94d7-573300fdabc9__get_report"
   ],
@@ -132,6 +132,17 @@
   .vert-tag { font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 20px; background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; }
   .live-link { font-size: 12px; font-weight: 600; color: #e8140b; text-decoration: none; }
   .live-link:hover { text-decoration: underline; }
+  /* Source attribution */
+  .src-legend { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px; align-items:center; }
+  .src-legend .leg-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:#94a3b8; margin-right:2px; }
+  .src-chip { font-size:11px; font-weight:600; padding:4px 10px; border-radius:20px; border:1px solid transparent; }
+  .src-tag { font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:0.4px; padding:1px 6px; border-radius:6px; vertical-align:middle; margin-left:6px; border:1px solid transparent; white-space:nowrap; }
+  .src-adobe { background:#fef2f2; color:#b91c1c; border-color:#fecaca; }
+  .src-smart { background:#eff6ff; color:#1d4ed8; border-color:#bfdbfe; }
+  .src-tab   { background:#f0fdf4; color:#166534; border-color:#bbf7d0; }
+  .src-pio   { background:#fff7ed; color:#c2410c; border-color:#fed7aa; }
+  .ov-note { font-size:12px; color:#64748b; margin-bottom:14px; line-height:1.5; }
+  .ov-note a { color:#e8140b; text-decoration:none; font-weight:600; cursor:pointer; }
   @media (max-width: 760px) { .kpi-grid, .chart-grid, .rec-grid, #brand-focus-grid { grid-template-columns: 1fr !important; } .live-card { flex-direction: column; } .live-card .lc-right { text-align: left; } }
 </style>
 </head>
@@ -139,43 +150,67 @@
 
 <div class="header">
   <h1>📊 Ad Solutions Team · Daily Analytics Dashboard</h1>
-  <p>Adobe Analytics · Updated Jul 9, 2026 · Yesterday (Jul 8, Wed) + Last 7 Days (Jul 2–Jul 8)</p>
+  <p>Updated Jul 9, 2026 · Data current through Jul 8 · Sources: Adobe Analytics · Smartsheet · Tableau</p>
 </div>
 
 <div class="tabs">
   <div class="tab active" onclick="showPage('overview')">Overview</div>
-  <div class="tab" onclick="showPage('brands')">By Brand</div>
+  <div class="tab" onclick="showPage('traffic')">Traffic</div>
   <div class="tab" onclick="showPage('stories')">Top Stories</div>
   <div class="tab" onclick="showPage('live')">Went Live</div>
   <div class="tab" onclick="showPage('insights')">Insights &amp; Recs</div>
   <div class="tab" onclick="showPage('focus')">Brand Focus</div>
-  <div class="tab" onclick="showPage('pi-pacing')">P&amp;I Pacing</div>
   <div class="tab" onclick="showPage('sponsored-extract')">Sponsored · Extract</div>
 </div>
 
 <div class="page active" id="page-overview">
+  <div class="src-legend">
+    <span class="leg-label">Data sources:</span>
+    <span class="src-chip src-adobe">Adobe Analytics — site traffic</span>
+    <span class="src-chip src-smart">Smartsheet — launches &amp; revenue</span>
+    <span class="src-chip src-tab">Tableau — sponsored content</span>
+    <span class="src-chip src-pio">PIO Pacing — delivery</span>
+  </div>
+  <p class="ov-note">Big-picture performance across all 9 brands, plus what went live today and how delivery is pacing. Every figure is tagged with its source. Brand-level traffic detail is in the <a onclick="showPage('traffic')">Traffic</a> tab; sponsored-content depth in <a onclick="showPage('sponsored-extract')">Sponsored · Extract</a>; P&amp;I now lives on its own dashboard.</p>
   <div class="kpi-grid">
-    <div class="kpi"><div class="label">Visits · Yesterday (Wed)</div><div class="value">4,967</div><div class="sub">All 9 brands · Jul 8</div></div>
-    <div class="kpi green"><div class="label">Visits · Last 7 Days</div><div class="value">32,476</div><div class="sub">↑ 0.7% vs last report (32,259)</div></div>
-    <div class="kpi blue"><div class="label">#1 Brand Yesterday</div><div class="value">Modern Healthcare</div><div class="sub">1,826 visits · ahead of Ad Age (1,692)</div></div>
-    <div class="kpi purple"><div class="label">Best Engagement</div><div class="value">2:45</div><div class="sub">Modern Healthcare 7-day avg · New York 2:09 next</div></div>
+    <div class="kpi"><div class="label">Page Views · Last 7 Days <span class="src-tag src-adobe">Adobe</span></div><div class="value" id="ov-pv">—</div><div class="sub" id="ov-pv-sub"></div></div>
+    <div class="kpi green"><div class="label">Visits · Last 7 Days <span class="src-tag src-adobe">Adobe</span></div><div class="value" id="ov-visits">—</div><div class="sub" id="ov-visits-sub"></div></div>
+    <div class="kpi purple"><div class="label">Engagement · Avg Time (7d) <span class="src-tag src-adobe">Adobe</span></div><div class="value" id="ov-eng">—</div><div class="sub" id="ov-eng-sub"></div></div>
+    <div class="kpi blue"><div class="label">Went Live Today <span class="src-tag src-smart">Smartsheet</span></div><div class="value" id="ov-live">—</div><div class="sub" id="ov-live-sub"></div></div>
+  </div>
+  <div class="kpi-grid">
+    <div class="kpi blue"><div class="label">Revenue Live Today <span class="src-tag src-smart">Smartsheet</span></div><div class="value" id="ov-rev">—</div><div class="sub">across today's launches</div></div>
+    <div class="kpi purple"><div class="label">Unique Visitors · Sponsored 30d <span class="src-tag src-tab">Tableau</span></div><div class="value" id="ov-unique">—</div><div class="sub" id="ov-unique-sub"></div></div>
+    <div class="kpi"><div class="label">Sponsored Page Views · 30d <span class="src-tag src-tab">Tableau</span></div><div class="value" id="ov-extpv">—</div><div class="sub" id="ov-extpv-sub"></div></div>
+    <div class="kpi" style="border-left-color:#f59e0b"><div class="label">Delivery Pacing <span class="src-tag src-pio">PIO</span></div><div class="value" id="ov-pace" style="font-size:19px">—</div><div class="sub" id="ov-pace-sub"></div></div>
   </div>
   <div class="chart-grid">
-    <div class="chart-card"><h3>Visits by Brand · Yesterday</h3><canvas id="chartYesterdayBar" height="220"></canvas></div>
-    <div class="chart-card"><h3>Visits by Brand · Last 7 Days</h3><canvas id="chart7DayBar" height="220"></canvas></div>
-    <div class="chart-card full"><h3>Average Time on Site · All Brands (Last 7 Days)</h3><canvas id="chartEngagement" height="100"></canvas></div>
+    <div class="chart-card"><h3>Visits by Brand · Last 7 Days <span class="src-tag src-adobe">Adobe</span></h3><canvas id="chart7DayBar" height="220"></canvas></div>
+    <div class="chart-card"><h3>Sponsored Page Views by Brand · 30d <span class="src-tag src-tab">Tableau</span></h3><canvas id="chartOvExtract" height="220"></canvas></div>
+    <div class="chart-card full"><h3>Average Time on Site · All Brands (Last 7 Days) <span class="src-tag src-adobe">Adobe</span></h3><canvas id="chartEngagement" height="100"></canvas></div>
+  </div>
+  <div class="chart-card full" style="margin-top:4px">
+    <h3>💡 Top Insights &amp; Recommendations <span class="src-tag src-adobe">Adobe</span> <span class="src-tag src-smart">Smartsheet</span> <span class="src-tag src-tab">Tableau</span></h3>
+    <ul class="story-list" id="ov-insights"></ul>
+    <p class="ov-note" style="margin-top:10px;margin-bottom:0">Full weekly insights, watch areas, and department recommendations are in the <a onclick="showPage('insights')">Insights &amp; Recs</a> tab.</p>
   </div>
 </div>
 
-<div class="page" id="page-brands">
-  <div class="section-label">Yesterday Performance</div>
+<div class="page" id="page-traffic">
+  <div class="src-legend">
+    <span class="leg-label">Source:</span>
+    <span class="src-chip src-adobe">Adobe Analytics — daily PDF report</span>
+  </div>
+  <p class="ov-note">Brand-level site traffic from the Adobe Analytics report (custom/sponsored content). Yesterday = Jul 8; 7-day trend = Jul 2–8.</p>
+  <div class="chart-card" style="margin-bottom:24px"><h3>Visits by Brand · Yesterday (Jul 8) <span class="src-tag src-adobe">Adobe</span></h3><canvas id="chartYesterdayBar" height="200"></canvas></div>
+  <div class="section-label">Yesterday Performance · Jul 8 <span class="src-tag src-adobe">Adobe</span></div>
   <div class="chart-card" style="margin-bottom:24px">
     <table class="brand-table">
       <thead><tr><th>#</th><th>Brand</th><th>Visits</th><th>Page Views</th><th>Avg Time on Site</th><th>Visit Share</th></tr></thead>
       <tbody id="tbody-yesterday"></tbody>
     </table>
   </div>
-  <div class="section-label">Last 7 Days Performance</div>
+  <div class="section-label">Last 7 Days Performance · Jul 2–8 <span class="src-tag src-adobe">Adobe</span></div>
   <div class="chart-card">
     <table class="brand-table">
       <thead><tr><th>#</th><th>Brand</th><th>Visits</th><th>Page Views</th><th>Avg Time on Site</th><th>Visit Share</th></tr></thead>
@@ -185,16 +220,24 @@
 </div>
 
 <div class="page" id="page-stories">
+  <div class="src-legend">
+    <span class="leg-label">Source:</span>
+    <span class="src-chip src-adobe">Adobe Analytics — 7-day story performance</span>
+  </div>
   <div class="chart-grid">
-    <div class="chart-card full"><h3>🏆 Top 10 Stories by Visits · Last 7 Days (All Brands)</h3><ul class="story-list" id="top-stories-list"></ul></div>
+    <div class="chart-card full"><h3>🏆 Top 10 Stories by Visits · Last 7 Days (All Brands) <span class="src-tag src-adobe">Adobe</span></h3><ul class="story-list" id="top-stories-list"></ul></div>
   </div>
   <div class="chart-grid" style="margin-top:0">
-    <div class="chart-card"><h3>⏱ Highest Engagement Time Stories (7 days)</h3><ul class="story-list" id="engagement-stories-list"></ul></div>
-    <div class="chart-card"><h3>🔥 Content Format Breakdown (7-Day Visits)</h3><canvas id="chartFormats" height="250"></canvas></div>
+    <div class="chart-card"><h3>⏱ Highest Engagement Time Stories (7 days) <span class="src-tag src-adobe">Adobe</span></h3><ul class="story-list" id="engagement-stories-list"></ul></div>
+    <div class="chart-card"><h3>🔥 Content Format Breakdown (7-Day Visits) <span class="src-tag src-adobe">Adobe</span></h3><canvas id="chartFormats" height="250"></canvas></div>
   </div>
 </div>
 
 <div class="page" id="page-live">
+  <div class="src-legend">
+    <span class="leg-label">Source:</span>
+    <span class="src-chip src-smart">Smartsheet — Today's Launches (Digital + Print)</span>
+  </div>
   <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr)">
     <div class="kpi green"><div class="label">Projects · Today (Jul 9)</div><div class="value" id="live-count">0</div><div class="sub">All statuses · Digital or Print today</div></div>
     <div class="kpi blue"><div class="label">Total Revenue · These Projects</div><div class="value" id="live-rev">$0</div><div class="sub">Where revenue is recorded</div></div>
@@ -204,44 +247,23 @@
   <div id="live-list"></div>
 </div>
 
-<div class="page" id="page-focus"
-  <p style="font-size:13px;color:#64748b;margin-bottom:20px">What each audience is reading now — topics, formats, and angles to pitch this week.</p>
+<div class="page" id="page-focus">
+  <div class="src-legend">
+    <span class="leg-label">Source:</span>
+    <span class="src-chip src-adobe">Adobe Analytics — 7-day topics &amp; engagement</span>
+  </div>
+  <p style="font-size:13px;color:#64748b;margin-bottom:20px">What each audience is reading now — topics, formats, and angles to pitch this week. <span class="src-tag src-adobe">Adobe</span></p>
   <div id="brand-focus-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:20px"></div>
 </div>
 
-<div class="page" id="page-pi-pacing">
-  <div class="section-label">P&amp;I — Content vs. Benchmark &amp; Delivery Pacing</div>
-  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Grades P&amp;I custom content against benchmark three ways. <strong>Last 7 days</strong> — each story in today's Adobe report vs. its content-type benchmark (the 30-day benchmark prorated to 7 days; ±15% = On Pace). <strong>Past 30 days</strong> — stories published in the last month, actual pageviews vs. the 30-day benchmark prorated to days-live, so they can be graded in-flight. <strong>Delivery pacing</strong> — live line-item pacing from Nikola Radovanovic's weekly PIO Pacing report (&lt;90% behind, 90–110% on pace, &gt;110% ahead). Page views drive the engagement flags; avg time is context.</p>
-  <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)">
-    <div class="kpi green"><div class="label">Over Benchmark</div><div class="value" id="pi-over">0</div><div class="sub">≥ +15% vs 7-day expected</div></div>
-    <div class="kpi blue"><div class="label">On Pace</div><div class="value" id="pi-onpace">0</div><div class="sub">within ±15%</div></div>
-    <div class="kpi" style="border-left-color:#f59e0b"><div class="label">Under Benchmark</div><div class="value" id="pi-under">0</div><div class="sub">≤ −15% vs 7-day expected</div></div>
-    <div class="kpi purple"><div class="label">Delivery Flags</div><div class="value" id="pi-delivery-flags">—</div><div class="sub" id="pi-delivery-sub">from latest PIO Pacing report</div></div>
-  </div>
-  <div class="chart-card" style="margin-bottom:20px">
-    <h3>📊 Engagement vs. Benchmark · Last 7 Days</h3>
-    <table class="brand-table">
-      <thead><tr><th>Headline</th><th>Type</th><th>Page Views (7d)</th><th>Pacing to Benchmark</th><th>Avg Time</th></tr></thead>
-      <tbody id="pi-eng-tbody"></tbody>
-    </table>
-  </div>
-  <div class="chart-card" style="margin-bottom:20px">
-    <h3>📅 Past 30 Days · by Publish Date (vs 30-day benchmark)</h3>
-    <p style="font-size:12px;color:#64748b;margin-bottom:12px">P&amp;I custom/sponsored stories published in the last 30 days, from the manually-uploaded 30-day Tableau Content Extract (as of the <span id="pi-month-asof">Jul 9</span> extract). Actual pageviews vs. the 30-day benchmark prorated to each story's days-live, so a story can be graded mid-flight. ±15% = On Pace.</p>
-    <table class="brand-table">
-      <thead><tr><th>Headline</th><th>Published</th><th>Days Live</th><th>Page Views</th><th>Pacing to Benchmark</th></tr></thead>
-      <tbody id="pi-month-tbody"></tbody>
-    </table>
-    <p id="pi-month-note" style="font-size:11px;color:#94a3b8;margin-top:10px"></p>
-  </div>
-  <div class="chart-card">
-    <h3>🚦 Delivery Pacing · PIO Pacing report</h3>
-    <div id="pi-pacing-list"></div>
-  </div>
-</div>
+<!-- P&I Benchmark & Pacing moved to its own dashboard artifact: "pi-content-pacing-dashboard" -->
 
 <div class="page" id="page-sponsored-extract">
-  <div class="section-label">Sponsored Content · Content Extract (all brands)</div>
+  <div class="src-legend">
+    <span class="leg-label">Source:</span>
+    <span class="src-chip src-tab">Tableau — 30-day Content Extract (manual upload)</span>
+  </div>
+  <div class="section-label">Sponsored Content · Content Extract (all brands) <span class="src-tag src-tab">Tableau</span></div>
   <p style="font-size:13px;color:#64748b;margin-bottom:16px">Sponsored/custom content only, published in the last 30 days, across <strong>all brands</strong> (more than the Adobe report covers). Added alongside the Adobe views, not replacing them. Metrics are cumulative pageviews / visits / unique per story by publish date (the extract has no avg-time). Stories that also appear in the Adobe Top Stories are tagged by brand + headline. <span style="color:#94a3b8">As of the <span id="ext-asof">Jul 9</span> extract — the manually-uploaded 30-day Tableau Content Extract CSV (sponsored/custom stories published Jun 10–Jul 6, all brands). Metrics are cumulative as of the pull.</span></p>
   <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)">
     <div class="kpi"><div class="label">Sponsored Stories · 30d</div><div class="value" id="ext-stories">0</div><div class="sub">all brands</div></div>
@@ -266,6 +288,12 @@
 </div>
 
 <div class="page" id="page-insights">
+  <div class="src-legend">
+    <span class="leg-label">Sources feeding insights:</span>
+    <span class="src-chip src-adobe">Adobe — traffic</span>
+    <span class="src-chip src-smart">Smartsheet — launches &amp; revenue</span>
+    <span class="src-chip src-tab">Tableau — sponsored content</span>
+  </div>
   <div style="display:flex;align-items:center;gap:8px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:8px 12px;margin-bottom:16px;font-size:12px;color:#64748b">
     <span style="font-size:14px">🗓️</span>
     <span><strong style="color:#334155">Insights refreshed weekly.</strong> Last updated: <strong style="color:#334155">Mon, Jul 6, 2026</strong> · based on the week of Jun 29–Jul 5. Traffic and Went Live data refresh daily; this section updates each Monday.</span>
@@ -309,16 +337,16 @@ function timeToSec(t) { const [m, s] = t.split(':').map(Number); return m * 60 +
 const colors = ['#e8140b','#f97316','#eab308','#22c55e','#06b6d4','#3b82f6','#8b5cf6','#ec4899','#14b8a6'];
 const shortNames = ["Ad Age","Chicago","Cleveland","Detroit","Gr. Rapids","New York","Hart Energy","Mod. HC","P&I"];
 
-new Chart(document.getElementById('chartYesterdayBar'), { type: 'bar',
+const _cYesterday = new Chart(document.getElementById('chartYesterdayBar'), { type: 'bar',
   data: { labels: shortNames, datasets: [{ label: 'Visits', data: brands.map(b => b.yVisits), backgroundColor: colors, borderRadius: 6 }] },
   options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: '#f1f5f9' }, ticks: { font: { size: 11 } } }, x: { grid: { display: false }, ticks: { font: { size: 10 } } } } } });
 
-new Chart(document.getElementById('chart7DayBar'), { type: 'bar',
+const _c7Day = new Chart(document.getElementById('chart7DayBar'), { type: 'bar',
   data: { labels: shortNames, datasets: [{ label: 'Visits (7 days)', data: brands.map(b => b.visits7), backgroundColor: colors, borderRadius: 6 }] },
   options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: '#f1f5f9' }, ticks: { font: { size: 11 } } }, x: { grid: { display: false }, ticks: { font: { size: 10 } } } } } });
 
 const sortedByEngagement = [...brands].sort((a,b) => timeToSec(b.time7) - timeToSec(a.time7));
-new Chart(document.getElementById('chartEngagement'), { type: 'bar',
+const _cEng = new Chart(document.getElementById('chartEngagement'), { type: 'bar',
   data: { labels: sortedByEngagement.map(b => b.name), datasets: [{ label: 'Avg Time on Site (seconds)', data: sortedByEngagement.map(b => timeToSec(b.time7)), backgroundColor: sortedByEngagement.map((b, i) => i === 0 ? '#e8140b' : '#93c5fd'), borderRadius: 6 }] },
   options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => { const sec = ctx.raw; return ` ${Math.floor(sec/60)}:${String(sec%60).padStart(2,'0')} avg time`; } } } },
     scales: { x: { beginAtZero: true, ticks: { callback: val => `${Math.floor(val/60)}:${String(val%60).padStart(2,'0')}`, font: { size: 11 } }, grid: { color: '#f1f5f9' } }, y: { grid: { display: false }, ticks: { font: { size: 12 } } } } } });
@@ -358,7 +386,7 @@ const engStories = [
 ];
 document.getElementById('engagement-stories-list').innerHTML = engStories.map((s,i) => `<li class="story-item"><div class="story-num">${i+1}</div><div class="story-info"><div class="story-title"><a href="${s.url}" target="_blank" rel="noopener" style="color:#1e293b;text-decoration:none;border-bottom:1px solid #cbd5e1;" onmouseover="this.style.color='#e8140b';this.style.borderBottomColor='#e8140b'" onmouseout="this.style.color='#1e293b';this.style.borderBottomColor='#cbd5e1'">${s.title} ↗</a></div><div class="story-meta"><span class="brand-pill">${s.brand}</span><span class="meta-tag" style="color:${s.sponsor === 'Not listed' ? '#94a3b8' : '#0369a1'}">🏢 ${s.sponsor}</span><span class="meta-tag">⏱ <strong style="color:#166534">${s.time}</strong></span><span class="meta-tag">👁 ${s.visits.toLocaleString()} visits</span><span class="meta-tag" style="color:#8b5cf6">📌 ${s.type}</span>${s.note ? `<span class="meta-tag" style="color:#d97706;font-weight:600">${s.note}</span>` : ''}</div></div></li>`).join('');
 
-new Chart(document.getElementById('chartFormats'), { type: 'doughnut',
+const _cFormats = new Chart(document.getElementById('chartFormats'), { type: 'doughnut',
   data: { labels: ['Publishing Partner', 'Thought Leader / Exec', 'White Paper', 'Partner Content / Quick Take', 'Sponsored Content', 'Other'], datasets: [{ data: [15500, 1600, 1200, 2100, 900, 11176], backgroundColor: ['#e8140b','#3b82f6','#8b5cf6','#22c55e','#f59e0b','#94a3b8'], borderWidth: 2, borderColor: '#fff' }] },
   options: { responsive: true, plugins: { legend: { position: 'right', labels: { font: { size: 11 }, boxWidth: 12 } }, tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ~${ctx.raw.toLocaleString()} visits` } } }, cutout: '55%' } });
 
@@ -484,95 +512,7 @@ document.getElementById('live-list').innerHTML = liveContent.map(x => {
 }).join('');
 }
 
-// ===== P&I Benchmark & Pacing (P&I only) =====
-// Engagement: each P&I story (from today's Adobe report) vs the Q1 2026 benchmark for its content type.
-// Benchmarks are 30-day page views; prorated to the report's 7-day window (×7/30). Band = ±15%.
-// Content-type benchmarks (Q1 2026, 30-day page views): SCP (sponsored-content slugs) = 2252;
-// Partner Content (partner-content slugs; default = Investment Insights) = 1971. Avg-time benchmarks: SCP 3:28, Partner Content 4:19.
-const PI_BAND = 0.15;
-const piEngagement = [
-  { title: "How a Long-Only Growth Investor Navigates the AI Era", type: "Partner Content", benchPV30: 1971, pv7: 520, time: "2:07", benchTime: "4:19", url: "https://www.pionline.com/partner-content/pi-how-a-long-only-growth-investor-navigates-the-ai-era/" },
-  { title: "Systematic Global Macro Is Having a Moment",         type: "Partner Content", benchPV30: 1971, pv7: 435, time: "0:32", benchTime: "4:19", url: "https://www.pionline.com/partner-content/pi-systematic-global-macro-is-having-a-moment/" },
-  { title: "Fixed Income – Supportive Ballast",                  type: "Partner Content", benchPV30: 1971, pv7: 382, time: "1:10", benchTime: "4:19", url: "https://www.pionline.com/partner-content/pi-fixed-income-supportive-ballast/" },
-  { title: "Understanding True Drivers of Private-Market Portfolio Returns", type: "Partner Content", benchPV30: 1971, pv7: 102, time: "3:35", benchTime: "4:19", url: "https://www.pionline.com/white-papers/pi-uderstanding-true-drivers-of-private-market-portfolio-returns/" },
-  { title: "Could It Be Time for a Resurgence in Quality?",      type: "Partner Content", benchPV30: 1971, pv7: 74,  time: "1:06", benchTime: "4:19", url: "https://www.pionline.com/white-papers/pi-could-it-be-time-for-resurgence-in-quality/" },
-];
-// Delivery pacing from Nikola Radovanovic's latest "PIO Pacing - through - X.X" report (P&I).
-// Each item: { lineItem, advertiser, pacingRate (number %), contracted, endDate }. Status derived:
-// <90 behind, 90-110 on pace, >110 ahead. Leave [] until the first automated pull populates it.
-const piPacing = [];
-const piPacingMeta = { reportThrough: "6/25 (latest received)", headline: "Latest PIO Pacing report (through 6/25, from Nikola Radovanovic) flagged 1 line item pacing behind. The xlsx is a binary attachment and was not machine-readable via the connector this run — line-item detail pending." };
-
-function piStatus(pct) {
-  if (pct > PI_BAND) return { label: "Overperforming", css: "background:#f0fdf4;color:#166534", dot: "#10b981" };
-  if (pct < -PI_BAND) return { label: "Underperforming", css: "background:#fff7ed;color:#c2410c", dot: "#f59e0b" };
-  return { label: "On Pace", css: "background:#eff6ff;color:#1d4ed8", dot: "#3b82f6" };
-}
-let piOver = 0, piOn = 0, piUnder = 0;
-document.getElementById('pi-eng-tbody').innerHTML = piEngagement.map(s => {
-  const exp7 = s.benchPV30 * 7 / 30;
-  const pct = s.pv7 / exp7 - 1;
-  const st = piStatus(pct);
-  if (pct > PI_BAND) piOver++; else if (pct < -PI_BAND) piUnder++; else piOn++;
-  const pctTxt = (pct >= 0 ? '+' : '') + Math.round(pct * 100) + '%';
-  return `<tr>
-    <td style="max-width:300px"><a href="${s.url}" target="_blank" rel="noopener" style="font-weight:600;font-size:13px;color:#1e293b;text-decoration:none;border-bottom:1px solid #cbd5e1">${s.title} ↗</a></td>
-    <td><span class="vert-tag">${s.type}</span></td>
-    <td style="font-size:13px;color:#334155">${s.pv7.toLocaleString()} <span style="color:#94a3b8;font-size:11px">/ ~${Math.round(exp7).toLocaleString()} exp</span></td>
-    <td><span class="status-badge" style="${st.css}">${st.label} ${pctTxt}</span></td>
-    <td><span class="time-pill ${timeToSec(s.time) >= 180 ? '' : 'warn'}">${s.time}</span> <span style="color:#94a3b8;font-size:11px">vs ${s.benchTime}</span></td>
-  </tr>`;
-}).join('');
-document.getElementById('pi-over').textContent = piOver;
-document.getElementById('pi-onpace').textContent = piOn;
-document.getElementById('pi-under').textContent = piUnder;
-
-if (piPacing.length === 0) {
-  document.getElementById('pi-delivery-flags').textContent = '—';
-  document.getElementById('pi-pacing-list').innerHTML = `<div style="background:#f8fafc;border:1px dashed #cbd5e1;border-radius:10px;padding:20px;color:#64748b;font-size:13px;line-height:1.5">${piPacingMeta.headline}<br><span style="font-size:11px;color:#94a3b8">Latest report through: ${piPacingMeta.reportThrough}</span></div>`;
-} else {
-  const behind = piPacing.filter(p => p.pacingRate < 90).length;
-  document.getElementById('pi-delivery-flags').textContent = behind;
-  document.getElementById('pi-delivery-sub').textContent = (behind === 1 ? 'line item behind' : 'line items behind');
-  document.getElementById('pi-pacing-list').innerHTML = piPacing.map(p => {
-    const st = p.pacingRate < 90 ? { label: "Behind", css: "background:#fff7ed;color:#c2410c", dot: "#f59e0b" }
-            : p.pacingRate > 110 ? { label: "Ahead", css: "background:#f0fdf4;color:#166534", dot: "#10b981" }
-            : { label: "On Pace", css: "background:#eff6ff;color:#1d4ed8", dot: "#3b82f6" };
-    return `<div class="live-card" style="border-left-color:${st.dot};display:block">
-      <div class="lc-title" style="margin-bottom:4px">${p.advertiser}</div>
-      <div class="lc-sub" style="font-size:11px;color:#94a3b8;word-break:break-all">${p.lineItem}</div>
-      <div class="lc-meta" style="margin-top:8px">
-        <span class="status-badge" style="${st.css}">${st.label} · ${p.pacingRate}%</span>
-        ${p.contracted ? `<span class="meta-tag">🎯 ${Number(p.contracted).toLocaleString()} imp</span>` : ''}
-        ${p.endDate ? `<span class="meta-tag">ends ${p.endDate}</span>` : ''}
-      </div>
-    </div>`;
-  }).join('');
-}
-
-// ===== P&I Past 30 Days (by publish date) — from the Sponsored Content cumulative master =====
-// Cumulative pageviews per story vs the 30-day benchmark prorated to days-live (as of the latest content extract).
-// Benchmarks (Q1 2026, 30-day PV): Partner Content (default Investment Insights) = 1971; SCP = 2252. Band = ±15%.
-const piMonthAsOf = "Jul 9";
-const piMonth = [
-  { title: "Fixed Income: A Supportive Ballast", pub: "Jun 15", daysLive: 24, pv: 1482, benchPV30: 1971, url: "https://www.pionline.com/partner-content/pi-fixed-income-supportive-ballast/" },
-];
-const piMonthNote = "P&I sponsored/custom stories published in the last 30 days, from the manually-uploaded 30-day Tableau Content Extract (metrics as of Jul 9; days-live graded to that date). Fixed Income is the only P&I sponsored story in the extract with gradeable volume; excluded — too low to grade: “Private Equity: Meeting the Moment” (~3 pageviews). Note: Systematic Global Macro and the Long-Only AI-Era read are tracked via the Adobe feed (see the Last-7-Days engagement table above) and do not appear as Sponsored/Custom in this Tableau extract.";
-document.getElementById('pi-month-asof').textContent = piMonthAsOf;
-document.getElementById('pi-month-tbody').innerHTML = piMonth.map(s => {
-  const exp = s.benchPV30 * Math.min(s.daysLive, 30) / 30;
-  const pct = s.pv / exp - 1;
-  const st = piStatus(pct);
-  const pctTxt = (pct >= 0 ? '+' : '') + Math.round(pct * 100) + '%';
-  return `<tr>
-    <td style="max-width:300px"><a href="${s.url}" target="_blank" rel="noopener" style="font-weight:600;font-size:13px;color:#1e293b;text-decoration:none;border-bottom:1px solid #cbd5e1">${s.title} ↗</a></td>
-    <td style="font-size:13px;color:#334155">${s.pub}</td>
-    <td style="font-size:13px;color:#334155">${s.daysLive}d</td>
-    <td style="font-size:13px;color:#334155">${s.pv.toLocaleString()} <span style="color:#94a3b8;font-size:11px">/ ~${Math.round(exp).toLocaleString()} exp</span></td>
-    <td><span class="status-badge" style="${st.css}">${st.label} ${pctTxt}</span></td>
-  </tr>`;
-}).join('');
-document.getElementById('pi-month-note').textContent = piMonthNote;
+// P&I Benchmark & Pacing moved to the standalone P&I dashboard artifact (pi-content-pacing-dashboard).
 
 // ===== Sponsored Content Extract (all brands) — incorporated alongside Adobe, matched by brand + headline =====
 const extractMeta = { asOf: "Jul 9", totalStories: 70, totalPV: 23461, brands: 13 };
@@ -617,6 +557,11 @@ const extractStories = [
   { brand:"Ad Age", pub:"Jul 1", pv:257, v:241, u:217, title:"The next frontier through consumer engagement: Building brands through experience" },
   { brand:"Crain's Chicago", pub:"Jun 22", pv:246, v:223, u:216, title:"How employer-education partnerships are closing Chicago’s behavioral health workforce gap" },
 ];
+const _extTop = [...extractBrands].sort((a,b)=>b.pv-a.pv).slice(0,8);
+const _cOvExtract = new Chart(document.getElementById('chartOvExtract'), { type:'bar',
+  data:{ labels:_extTop.map(b=>b.brand.replace("Crain's ","")), datasets:[{ label:'Sponsored PV (30d)', data:_extTop.map(b=>b.pv), backgroundColor:'#22c55e', borderRadius:6 }] },
+  options:{ responsive:true, plugins:{ legend:{ display:false } }, scales:{ y:{ beginAtZero:true, grid:{ color:'#f1f5f9' }, ticks:{ font:{ size:11 } } }, x:{ grid:{ display:false }, ticks:{ font:{ size:9 }, maxRotation:60, minRotation:45 } } } } });
+
 const _dashTitles = (typeof topStories !== 'undefined' ? topStories.map(s => s.title) : [])
   .concat(typeof piMonth !== 'undefined' ? piMonth.map(s => s.title) : []);
 function _normT(s) { return (s || '').toLowerCase().replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ').trim(); }
@@ -651,11 +596,47 @@ document.getElementById('ext-story-tbody').innerHTML = extractStories.map(s => {
   </tr>`;
 }).join('');
 
+// ===== Overview roll-up (computed from the arrays above; every card is source-tagged) =====
+const _ovPV7 = brands.reduce((s,b)=>s+b.pv7,0);
+const _ovVisits7 = total7;
+const ovPrev7 = 32259; // prior report's 7-day visits (for WoW); automation updates this each run
+const _ovWoW = ((_ovVisits7/ovPrev7-1)*100);
+const _ovEngSec = brands.reduce((s,b)=>s+timeToSec(b.time7)*b.visits7,0)/total7;
+const _fmtSec = sec => `${Math.floor(sec/60)}:${String(Math.round(sec%60)).padStart(2,'0')}`;
+const _ovTopEng = [...brands].sort((a,b)=>timeToSec(b.time7)-timeToSec(a.time7))[0];
+const _ovLiveBrands = new Set(liveContent.map(x=>x.brand)).size;
+const _ovUnique = extractStories.reduce((s,x)=>s+(x.u||0),0);
+const ovPacing = { flags: 1, note: "P&I: 1 line item behind (PIO Pacing through 6/25). Full delivery pacing on the P&I dashboard; portfolio-wide pacing in progress." };
+document.getElementById('ov-pv').textContent = _ovPV7.toLocaleString();
+document.getElementById('ov-pv-sub').textContent = 'All 9 brands · Jul 2–8';
+document.getElementById('ov-visits').textContent = _ovVisits7.toLocaleString();
+document.getElementById('ov-visits-sub').innerHTML = (_ovWoW>=0?'↑':'↓')+' '+Math.abs(_ovWoW).toFixed(1)+'% vs last report ('+ovPrev7.toLocaleString()+')';
+document.getElementById('ov-eng').textContent = _fmtSec(_ovEngSec);
+document.getElementById('ov-eng-sub').textContent = 'Weighted avg · top brand '+_ovTopEng.name+' '+_ovTopEng.time7;
+document.getElementById('ov-live').textContent = liveContent.length;
+document.getElementById('ov-live-sub').textContent = _ovLiveBrands+' brand'+(_ovLiveBrands===1?'':'s')+' · today';
+document.getElementById('ov-rev').textContent = '$'+liveRevTotal.toLocaleString();
+document.getElementById('ov-unique').textContent = _ovUnique.toLocaleString();
+document.getElementById('ov-unique-sub').textContent = 'across top sponsored stories';
+document.getElementById('ov-extpv').textContent = extractMeta.totalPV.toLocaleString();
+document.getElementById('ov-extpv-sub').textContent = extractMeta.totalStories+' stories · '+extractMeta.brands+' brands';
+document.getElementById('ov-pace').textContent = ovPacing.flags+' flag'+(ovPacing.flags===1?'':'s');
+document.getElementById('ov-pace-sub').textContent = ovPacing.note;
+const ovInsights = [
+  { src:'src-adobe', tag:'Adobe', text:`<strong>${sorted7[0].name} leads the portfolio</strong> — ${sorted7[0].visits7.toLocaleString()} visits over 7 days at a ${sorted7[0].time7} avg. ${sorted7[1].name} is #2 (${sorted7[1].visits7.toLocaleString()}).` },
+  { src:'src-adobe', tag:'Adobe', text:`<strong>Engagement holds strong</strong> — portfolio weighted avg time ${_fmtSec(_ovEngSec)}; ${_ovTopEng.name} tops the brands at ${_ovTopEng.time7}.` },
+  { src:'src-smart', tag:'Smartsheet', text:`<strong>${liveContent.length} project${liveContent.length===1?'':'s'} live today</strong> across ${_ovLiveBrands} brand${_ovLiveBrands===1?'':'s'}, $${liveRevTotal.toLocaleString()} booked revenue.` },
+  { src:'src-tab', tag:'Tableau', text:`<strong>${extractMeta.totalStories} sponsored stories</strong> ran in the last 30 days across ${extractMeta.brands} brands (${extractMeta.totalPV.toLocaleString()} pageviews).` },
+];
+document.getElementById('ov-insights').innerHTML = ovInsights.map(o=>`<div class="insight-item"><span class="src-tag ${o.src}" style="margin-top:2px">${o.tag}</span><p>${o.text}</p></div>`).join('');
+const _charts = { overview: [_c7Day, _cEng, _cOvExtract], traffic: [_cYesterday], stories: [_cFormats] };
+
 function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.getElementById('page-' + id).classList.add('active');
-  event.target.classList.add('active');
+  document.querySelectorAll('.tab').forEach(t => { const oc = t.getAttribute('onclick') || ''; if (oc.indexOf("'" + id + "'") !== -1) t.classList.add('active'); });
+  if (typeof _charts !== 'undefined') (_charts[id] || []).forEach(c => { try { c.resize(); } catch(e) {} });
 }
 </script>
 </body>
