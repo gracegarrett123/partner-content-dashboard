@@ -150,7 +150,7 @@
 
 <div class="header">
   <h1>📊 Ad Solutions Team · Daily Analytics Dashboard</h1>
-  <p>Updated Jul 9, 2026 · Data current through Jul 8 · Sources: Adobe Analytics · Smartsheet · Tableau</p>
+  <p>Updated Jul 10, 2026 · Data current through Jul 9 · Sources: Adobe Analytics · Smartsheet · Tableau</p>
 </div>
 
 <div class="tabs">
@@ -201,16 +201,16 @@
     <span class="leg-label">Source:</span>
     <span class="src-chip src-adobe">Adobe Analytics — daily PDF report</span>
   </div>
-  <p class="ov-note">Brand-level site traffic from the Adobe Analytics report (custom/sponsored content). Yesterday = Jul 8; 7-day trend = Jul 2–8.</p>
-  <div class="chart-card" style="margin-bottom:24px"><h3>Visits by Brand · Yesterday (Jul 8) <span class="src-tag src-adobe">Adobe</span></h3><canvas id="chartYesterdayBar" height="200"></canvas></div>
-  <div class="section-label">Yesterday Performance · Jul 8 <span class="src-tag src-adobe">Adobe</span></div>
+  <p class="ov-note">Brand-level site traffic from the Adobe Analytics report (custom/sponsored content). Yesterday = Jul 9; 7-day trend = Jul 3–9.</p>
+  <div class="chart-card" style="margin-bottom:24px"><h3>Visits by Brand · Yesterday (Jul 9) <span class="src-tag src-adobe">Adobe</span></h3><canvas id="chartYesterdayBar" height="200"></canvas></div>
+  <div class="section-label">Yesterday Performance · Jul 9 <span class="src-tag src-adobe">Adobe</span></div>
   <div class="chart-card" style="margin-bottom:24px">
     <table class="brand-table">
       <thead><tr><th>#</th><th>Brand</th><th>Visits</th><th>Page Views</th><th>Avg Time on Site</th><th>Visit Share</th></tr></thead>
       <tbody id="tbody-yesterday"></tbody>
     </table>
   </div>
-  <div class="section-label">Last 7 Days Performance · Jul 2–8 <span class="src-tag src-adobe">Adobe</span></div>
+  <div class="section-label">Last 7 Days Performance · Jul 3–9 <span class="src-tag src-adobe">Adobe</span></div>
   <div class="chart-card">
     <table class="brand-table">
       <thead><tr><th>#</th><th>Brand</th><th>Visits</th><th>Page Views</th><th>Avg Time on Site</th><th>Visit Share</th></tr></thead>
@@ -239,11 +239,11 @@
     <span class="src-chip src-smart">Smartsheet — Today's Launches (Digital + Print)</span>
   </div>
   <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr)">
-    <div class="kpi green"><div class="label">Projects · Today (Jul 9)</div><div class="value" id="live-count">0</div><div class="sub">All statuses · Digital or Print today</div></div>
+    <div class="kpi green"><div class="label">Projects · Today (Jul 10)</div><div class="value" id="live-count">0</div><div class="sub">All statuses · Digital or Print today</div></div>
     <div class="kpi blue"><div class="label">Total Revenue · These Projects</div><div class="value" id="live-rev">$0</div><div class="sub">Where revenue is recorded</div></div>
     <div class="kpi purple"><div class="label">Brands</div><div class="value" id="live-brands">0</div><div class="sub">Distinct brands today</div></div>
   </div>
-  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Every project with a Digital or Print Launch Date of today (Jul 9) — sources: Smartsheet "Digital- Today's Launches" + "Print- Today's Launches." All statuses are shown (Live/Complete, Launched, In Progress, Scheduled, Ready for Kickoff), sorted live-first. The channel tag shows Digital, Print, or both.</p>
+  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Every project with a Digital or Print Launch Date of today (Jul 10) — sources: Smartsheet "Digital- Today's Launches" + "Print- Today's Launches." All statuses are shown (Live/Complete, Launched, In Progress, Scheduled, Ready for Kickoff), sorted live-first. The channel tag shows Digital, Print, or both.</p>
   <div id="live-list"></div>
 </div>
 
@@ -264,7 +264,7 @@
     <span class="src-chip src-tab">Tableau — 30-day Content Extract (manual upload)</span>
   </div>
   <div class="section-label">Sponsored Content · Content Extract (all brands) <span class="src-tag src-tab">Tableau</span></div>
-  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Sponsored/custom content only, published in the last 30 days, across <strong>all brands</strong> (more than the Adobe report covers). Added alongside the Adobe views, not replacing them. Metrics are cumulative pageviews / visits / unique per story by publish date (the extract has no avg-time). Stories that also appear in the Adobe Top Stories are tagged by brand + headline. <span style="color:#94a3b8">As of the <span id="ext-asof">Jul 9</span> extract — the manually-uploaded 30-day Tableau Content Extract CSV (sponsored/custom stories published Jun 10–Jul 6, all brands). Metrics are cumulative as of the pull.</span></p>
+  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Sponsored/custom content only, published in the last 30 days, across <strong>all brands</strong> (more than the Adobe report covers). Added alongside the Adobe views, not replacing them. Metrics are cumulative pageviews / visits / unique per story by publish date (the extract has no avg-time). Stories that also appear in the Adobe Top Stories are tagged by brand + headline. <span style="color:#94a3b8">As of the <span id="ext-asof">Jul 9</span> extract — the manually-uploaded 30-day Tableau Content Extract CSV (sponsored/custom stories published Jun 8–Jul 8, all brands). Metrics are cumulative as of the pull.</span></p>
   <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)">
     <div class="kpi"><div class="label">Sponsored Stories · 30d</div><div class="value" id="ext-stories">0</div><div class="sub">all brands</div></div>
     <div class="kpi green"><div class="label">Total Pageviews</div><div class="value" id="ext-pv">0</div><div class="sub">across sponsored stories</div></div>
@@ -334,15 +334,15 @@
 
 <script>
 const brands = [
-  { name: "Ad Age",            yVisits: 1692, yPV: 1910,  visits7: 11211, pv7: 12724, timeY: "1:41", time7: "1:35" },
-  { name: "Crain's Chicago",   yVisits: 432,  yPV: 446,   visits7: 1991,  pv7: 2057,  timeY: "2:01", time7: "2:02" },
-  { name: "Crain's Cleveland", yVisits: 87,   yPV: 95,    visits7: 407,   pv7: 576,   timeY: "1:48", time7: "1:47" },
-  { name: "Crain's Detroit",   yVisits: 172,  yPV: 249,   visits7: 997,   pv7: 1144,  timeY: "1:40", time7: "2:06" },
-  { name: "Grand Rapids",      yVisits: 202,  yPV: 236,   visits7: 1000,  pv7: 1054,  timeY: "1:26", time7: "1:50" },
-  { name: "Crain's New York",  yVisits: 238,  yPV: 252,   visits7: 1641,  pv7: 1742,  timeY: "2:18", time7: "2:09" },
-  { name: "Hart Energy",       yVisits: 52,   yPV: 54,    visits7: 480,   pv7: 489,   timeY: "1:12", time7: "1:38" },
-  { name: "Modern Healthcare", yVisits: 1826, yPV: 1872,  visits7: 12797, pv7: 13140, timeY: "2:29", time7: "2:45" },
-  { name: "P&I",               yVisits: 266,  yPV: 285,   visits7: 1952,  pv7: 2120,  timeY: "2:32", time7: "1:55" },
+  { name: "Ad Age",            yVisits: 1728, yPV: 2022,  visits7: 11274, pv7: 12871, timeY: "1:13", time7: "1:34" },
+  { name: "Crain's Chicago",   yVisits: 727,  yPV: 783,   visits7: 2408,  pv7: 2514,  timeY: "2:25", time7: "1:59" },
+  { name: "Crain's Cleveland", yVisits: 124,  yPV: 141,   visits7: 477,   pv7: 553,   timeY: "1:29", time7: "1:46" },
+  { name: "Crain's Detroit",   yVisits: 167,  yPV: 182,   visits7: 986,   pv7: 1135,  timeY: "1:23", time7: "1:59" },
+  { name: "Grand Rapids",      yVisits: 190,  yPV: 192,   visits7: 1014,  pv7: 1064,  timeY: "0:58", time7: "1:25" },
+  { name: "Crain's New York",  yVisits: 249,  yPV: 280,   visits7: 1770,  pv7: 1888,  timeY: "2:51", time7: "2:17" },
+  { name: "Hart Energy",       yVisits: 58,   yPV: 63,    visits7: 448,   pv7: 459,   timeY: "2:25", time7: "1:17" },
+  { name: "Modern Healthcare", yVisits: 2171, yPV: 2198,  visits7: 12904, pv7: 13247, timeY: "2:20", time7: "2:42" },
+  { name: "P&I",               yVisits: 295,  yPV: 346,   visits7: 1956,  pv7: 2132,  timeY: "1:21", time7: "1:42" },
 ];
 
 function timeToSec(t) { const [m, s] = t.split(':').map(Number); return m * 60 + s; }
@@ -374,27 +374,27 @@ document.getElementById('tbody-yesterday').innerHTML = sortedY.map((b,i) => `<tr
 document.getElementById('tbody-7day').innerHTML = sorted7.map((b,i) => `<tr><td>${rankBadge(i)}</td><td style="font-weight:600;font-size:13px">${b.name}</td><td>${barCell(b.visits7, sorted7[0].visits7, 'green')}</td><td style="font-size:13px;color:#334155">${b.pv7.toLocaleString()}</td><td><span class="time-pill ${timeToSec(b.time7) >= 180 ? '' : 'warn'}">${b.time7}</span></td><td style="font-size:12px;color:#64748b">${(b.visits7/total7*100).toFixed(1)}%</td></tr>`).join('');
 
 const topStories = [
-  { brand: "Mod. HC",    title: "Foundational Research in Cancer Immunotherapy – Podcast", visits: 3846, pv: 3805, time: "2:27", type: "Healthcare Insider Podcast", sponsor: "Not listed",          url: "https://www.modernhealthcare.com/content-studio/healthcare-insider-podcast/mh-foundational-research-cancer-immunotherapy/", trend: "🔥" },
-  { brand: "Ad Age",     title: "TV's Underrated Role in Driving Influence & Impact",      visits: 1197, pv: 1187, time: "3:08", type: "Publishing Partner",        sponsor: "Not listed",          url: "https://adage.com/studio-30/publishing-partners/aa-tvs-underrated-role-in-driving-influence-and-impact/", trend: "🔥" },
-  { brand: "Mod. HC",    title: "Leading Cancer Institutions Advance Microbiome Research", visits: 1185, pv: 1165, time: "3:55", type: "Publishing Partner",        sponsor: "Not listed",          url: "https://www.modernhealthcare.com/content-studio/publishing-partner/mh-leading-cancer-institutions-advance-microbiome/", trend: "🔥" },
-  { brand: "Ad Age",     title: "YouGov's 2026 Best Brand Rankings Have a New Global Leader", visits: 1121, pv: 1070, time: "1:10", type: "Custom Report",           sponsor: "Not listed",          url: "https://adage.com/studio-30/aa-yougovs-2026-best-brand-rankings-have-a-new-global-leader/", trend: "🔥" },
-  { brand: "Mod. HC",    title: "Healthcare AI Adoption – Trust & Transparency",           visits: 1084, pv: 1083, time: "2:35", type: "Publishing Partner",        sponsor: "Not listed",          url: "https://www.modernhealthcare.com/content-studio/publishing-partner/mh-healthcare-ai-adoption-trust-transparency-survey/", trend: "🔥" },
-  { brand: "Ad Age",     title: "How Gen Z Is Rewriting the Rules of Sports Fandom",       visits: 1053, pv: 1040, time: "1:13", type: "Publishing Partner",        sponsor: "Not listed",          url: "https://adage.com/studio-30/publishing-partners/aa-how-gen-z-is-rewriting-the-rules-of-sports-fandom/", trend: "🔥" },
-  { brand: "C. New York",title: "Manhattan Office Recovery Boosts Contractors",            visits: 1000, pv: 1044, time: "2:19", type: "Publishing Partner",        sponsor: "Not listed",          url: "https://www.crainsnewyork.com/crains-content-studio/publishing-partner/cny-manhattan-office-recovery-boosts-contractors/", trend: "🔥" },
-  { brand: "Mod. HC",    title: "Expanding Access to Lung Transplant",                     visits: 834,  pv: 814,  time: "4:00", type: "Publishing Partner",        sponsor: "Not listed",          url: "https://www.modernhealthcare.com/content-studio/publishing-partner/mh-expanding-access-to-lung-transplant/", trend: "🔥" },
-  { brand: "Mod. HC",    title: "Federal IDR Final Rule – Compliance Readiness",           visits: 811,  pv: 795,  time: "3:04", type: "Publishing Partner",        sponsor: "Not listed",          url: "https://www.modernhealthcare.com/content-studio/publishing-partner/federal-idr-final-rule-compliance-readiness/", trend: "🔥" },
-  { brand: "C. Chicago", title: "Built in Chicago: Middle Market Is Key to Banking",       visits: 673,  pv: 641,  time: "2:03", type: "Publishing Partner",        sponsor: "Not listed",          url: "https://www.chicagobusiness.com/crains-content-studio/publishing-partner/ccb-built-in-chicago-middle-market-key-banking/", trend: "" },
+  { brand: "Mod. HC",    title: "Foundational Research in Cancer Immunotherapy – Podcast", visits: 3768, pv: 3731, time: "2:53", type: "Healthcare Insider Podcast", sponsor: "Not listed",          url: "https://www.modernhealthcare.com/content-studio/healthcare-insider-podcast/mh-foundational-research-cancer-immunotherapy/", trend: "🔥" },
+  { brand: "Ad Age",     title: "TV's Underrated Role in Driving Influence & Impact",      visits: 1165, pv: 1153, time: "3:03", type: "Publishing Partner",        sponsor: "Not listed",          url: "https://adage.com/studio-30/publishing-partners/aa-tvs-underrated-role-in-driving-influence-and-impact/", trend: "🔥" },
+  { brand: "Mod. HC",    title: "Leading Cancer Institutions Advance Microbiome Research", visits: 1125, pv: 1108, time: "3:29", type: "Publishing Partner",        sponsor: "Not listed",          url: "https://www.modernhealthcare.com/content-studio/publishing-partner/mh-leading-cancer-institutions-advance-microbiome/", trend: "🔥" },
+  { brand: "C. New York",title: "Manhattan Office Recovery Boosts Contractors",            visits: 1103, pv: 1151, time: "2:22", type: "Publishing Partner",        sponsor: "Not listed",          url: "https://www.crainsnewyork.com/crains-content-studio/publishing-partner/cny-manhattan-office-recovery-boosts-contractors/", trend: "🔥" },
+  { brand: "Ad Age",     title: "YouGov's 2026 Best Brand Rankings Have a New Global Leader", visits: 1043, pv: 997, time: "1:11", type: "Custom Report",           sponsor: "Not listed",          url: "https://adage.com/studio-30/aa-yougovs-2026-best-brand-rankings-have-a-new-global-leader/", trend: "🔥" },
+  { brand: "Mod. HC",    title: "Healthcare AI Adoption – Trust & Transparency",           visits: 1014, pv: 1012, time: "2:48", type: "Publishing Partner",        sponsor: "Not listed",          url: "https://www.modernhealthcare.com/content-studio/publishing-partner/mh-healthcare-ai-adoption-trust-transparency-survey/", trend: "🔥" },
+  { brand: "Mod. HC",    title: "Expanding Access to Lung Transplant",                     visits: 874,  pv: 851,  time: "3:40", type: "Publishing Partner",        sponsor: "Not listed",          url: "https://www.modernhealthcare.com/content-studio/publishing-partner/mh-expanding-access-to-lung-transplant/", trend: "🔥" },
+  { brand: "Ad Age",     title: "How Gen Z Is Rewriting the Rules of Sports Fandom",       visits: 808,  pv: 799,  time: "1:38", type: "Publishing Partner",        sponsor: "Not listed",          url: "https://adage.com/studio-30/publishing-partners/aa-how-gen-z-is-rewriting-the-rules-of-sports-fandom/", trend: "🔥" },
+  { brand: "Mod. HC",    title: "Federal IDR Final Rule – Compliance Readiness",           visits: 785,  pv: 777,  time: "3:04", type: "Publishing Partner",        sponsor: "Not listed",          url: "https://www.modernhealthcare.com/content-studio/publishing-partner/federal-idr-final-rule-compliance-readiness/", trend: "🔥" },
+  { brand: "Ad Age",     title: "Navigating AI: Humanity & Hope – Webcast",                visits: 645,  pv: 647,  time: "2:04", type: "Webcast",                  sponsor: "Not listed",          url: "https://adage.com/studio-30/webcasts/aa-navigating-ai-humanity-hope/", trend: "" },
 ];
 document.getElementById('top-stories-list').innerHTML = topStories.map((s,i) => `<li class="story-item"><div class="story-num">${i+1}</div><div class="story-info"><div class="story-title"><a href="${s.url}" target="_blank" rel="noopener" style="color:#1e293b;text-decoration:none;border-bottom:1px solid #cbd5e1;" onmouseover="this.style.color='#e8140b';this.style.borderBottomColor='#e8140b'" onmouseout="this.style.color='#1e293b';this.style.borderBottomColor='#cbd5e1'">${s.title} ↗</a>${s.trend ? `<span style="color:#10b981;font-size:12px;font-weight:700;margin-left:6px">${s.trend} Trending</span>` : ''}</div><div class="story-meta"><span class="brand-pill">${s.brand}</span><span class="meta-tag" style="color:${s.sponsor === 'Not listed' ? '#94a3b8' : '#0369a1'}">🏢 ${s.sponsor}</span><span class="meta-tag">👁 ${s.visits.toLocaleString()} visits</span><span class="meta-tag">📄 ${s.pv.toLocaleString()} PVs</span><span class="meta-tag">⏱ ${s.time} avg</span><span class="meta-tag" style="color:#8b5cf6">📌 ${s.type}</span></div></div></li>`).join('');
 
 const engStories = [
-  { brand: "Hart Energy",  title: "Leveraging Audiovisual Data to Power Remote Operations", visits: 62, time: "6:26", type: "White Paper",       sponsor: "Not listed",          url: "https://www.hartenergy.com/sponsored/white-papers/he-leveraging-audiovisual-data-power-remote-operations/",           note: "🔥 Deep dwell, modest reach" },
-  { brand: "Ad Age",       title: "Dispatch From CES: How AI Is Changing TV Advertising", visits: 555, time: "4:19", type: "Custom Report",     sponsor: "Not listed",          url: "https://adage.com/studio-30/aa-dispatch-from-ces-how-ai-is-changing-tv-advertising/",                                  note: "🔥 Deep dwell at scale" },
-  { brand: "Mod. HC",      title: "Expanding Access to Lung Transplant",               visits: 834,  time: "4:00", type: "Publishing Partner",  sponsor: "Not listed",          url: "https://www.modernhealthcare.com/content-studio/publishing-partner/mh-expanding-access-to-lung-transplant/",         note: "🔥 Deep dwell at huge scale" },
-  { brand: "Mod. HC",      title: "Leading Cancer Institutions Advance Microbiome Research", visits: 1185, time: "3:55", type: "Publishing Partner",  sponsor: "Not listed",          url: "https://www.modernhealthcare.com/content-studio/publishing-partner/mh-leading-cancer-institutions-advance-microbiome/", note: "🔥 Deep dwell at huge scale" },
-  { brand: "P&I",          title: "Understanding True Drivers of Private-Market Portfolio Returns", visits: 102, time: "3:35", type: "White Paper", sponsor: "Not listed",       url: "https://www.pionline.com/white-papers/pi-uderstanding-true-drivers-of-private-market-portfolio-returns/",             note: "🔥 Deep dwell, modest reach" },
-  { brand: "C. Detroit",   title: "WGU Skills-First Education Closes Detroit Gaps",     visits: 92,   time: "3:19", type: "Publishing Partner",  sponsor: "Not listed",          url: "https://www.crainsdetroit.com/crains-content-studio/publishing-partner/cdb-wgu-skills-first-education-closes-detroit/", note: "🔥 Deep dwell, modest reach" },
-  { brand: "Ad Age",       title: "TV's Underrated Role in Driving Influence & Impact", visits: 1197, time: "3:08", type: "Publishing Partner",  sponsor: "Not listed",          url: "https://adage.com/studio-30/publishing-partners/aa-tvs-underrated-role-in-driving-influence-and-impact/",              note: "🔥 Deep dwell at huge scale" },
+  { brand: "Hart Energy",  title: "Leveraging Audiovisual Data to Power Remote Operations", visits: 60, time: "4:54", type: "White Paper",       sponsor: "Not listed",          url: "https://www.hartenergy.com/sponsored/white-papers/he-leveraging-audiovisual-data-power-remote-operations/",           note: "🔥 Deep dwell, modest reach" },
+  { brand: "Gr. Rapids",   title: "Kettering University Connects Students to Careers",  visits: 83,   time: "4:31", type: "Quick Take",         sponsor: "Not listed",          url: "https://www.crainsgrandrapids.com/crains-content-studio/quicktake/cdb-kettering-university-connects-students-to-care/", note: "🔥 Deep dwell, modest reach" },
+  { brand: "Mod. HC",      title: "Expanding Access to Lung Transplant",               visits: 874,  time: "3:40", type: "Publishing Partner",  sponsor: "Not listed",          url: "https://www.modernhealthcare.com/content-studio/publishing-partner/mh-expanding-access-to-lung-transplant/",         note: "🔥 Deep dwell at huge scale" },
+  { brand: "C. Detroit",   title: "WGU Skills-First Education Closes Detroit Gaps",     visits: 67,   time: "3:39", type: "Publishing Partner",  sponsor: "Not listed",          url: "https://www.crainsdetroit.com/crains-content-studio/publishing-partner/cdb-wgu-skills-first-education-closes-detroit/", note: "🔥 Deep dwell, modest reach" },
+  { brand: "P&I",          title: "Understanding True Drivers of Private-Market Portfolio Returns", visits: 97, time: "3:36", type: "White Paper", sponsor: "Not listed",       url: "https://www.pionline.com/white-papers/pi-uderstanding-true-drivers-of-private-market-portfolio-returns/",             note: "🔥 Deep dwell, modest reach" },
+  { brand: "Mod. HC",      title: "Leading Cancer Institutions Advance Microbiome Research", visits: 1125, time: "3:29", type: "Publishing Partner",  sponsor: "Not listed",          url: "https://www.modernhealthcare.com/content-studio/publishing-partner/mh-leading-cancer-institutions-advance-microbiome/", note: "🔥 Deep dwell at huge scale" },
+  { brand: "Ad Age",       title: "How YouTube Creators Are Ushering In a New Era",     visits: 628,  time: "3:25", type: "Publishing Partner",  sponsor: "Not listed",          url: "https://adage.com/studio-30/publishing-partners/aa-how-youtube-creators-are-ushering-in-a-new-era/",                  note: "🔥 Deep dwell at scale" },
 ];
 document.getElementById('engagement-stories-list').innerHTML = engStories.map((s,i) => `<li class="story-item"><div class="story-num">${i+1}</div><div class="story-info"><div class="story-title"><a href="${s.url}" target="_blank" rel="noopener" style="color:#1e293b;text-decoration:none;border-bottom:1px solid #cbd5e1;" onmouseover="this.style.color='#e8140b';this.style.borderBottomColor='#e8140b'" onmouseout="this.style.color='#1e293b';this.style.borderBottomColor='#cbd5e1'">${s.title} ↗</a></div><div class="story-meta"><span class="brand-pill">${s.brand}</span><span class="meta-tag" style="color:${s.sponsor === 'Not listed' ? '#94a3b8' : '#0369a1'}">🏢 ${s.sponsor}</span><span class="meta-tag">⏱ <strong style="color:#166534">${s.time}</strong></span><span class="meta-tag">👁 ${s.visits.toLocaleString()} visits</span><span class="meta-tag" style="color:#8b5cf6">📌 ${s.type}</span>${s.note ? `<span class="meta-tag" style="color:#d97706;font-weight:600">${s.note}</span>` : ''}</div></div></li>`).join('');
 
@@ -434,54 +434,49 @@ document.getElementById('recs').innerHTML = deptRecs.map(d => `<div class="dept-
 const brandFocus = [
   { brand: "Modern Healthcare", signal: "🔥 Hot", signalClass: "signal-hot",
     topics: [{label:"Cancer / Immunotherapy",hot:true},{label:"Agentic AI",hot:true},{label:"Lung Transplant",hot:false},{label:"Hospital Infrastructure",hot:false},{label:"IDR / Compliance",hot:false}],
-    topStory: "Cancer Immunotherapy Podcast (3,846, #1 overall); Leading Cancer Institutions – Microbiome (1,185); Healthcare AI Adoption (1,084)", bestEngagement: "Expanding Lung Transplant 4:00 (834); Leading Cancer Institutions 3:55 (1,185); Federal IDR 3:04 (811)",
-    pitch: "<strong>Pitch:</strong> Health IT, AI vendors and consultants on AI-adoption/agentic-AI; pharma &amp; PBMs on the data-driven series; health systems on the transplant &amp; IDR reads. Portfolio's largest brand this week (12,797) at a category-best 2:45 dwell with five of the top 10 reads.", visits7: 12797, avgTime: "2:45" },
+    topStory: "Cancer Immunotherapy Podcast (3,768, #1 overall); Leading Cancer Institutions – Microbiome (1,125); Healthcare AI Adoption (1,014)", bestEngagement: "Expanding Lung Transplant 3:40 (874); Leading Cancer Institutions 3:29 (1,125); Federal IDR 3:04 (785)",
+    pitch: "<strong>Pitch:</strong> Health IT, AI vendors and consultants on AI-adoption/agentic-AI; pharma &amp; PBMs on the data-driven series; health systems on the transplant &amp; IDR reads. Portfolio's largest brand this week (12,904) at a category-best 2:42 dwell with five of the top 10 reads.", visits7: 12904, avgTime: "2:42" },
   { brand: "Ad Age", signal: "🔥 Hot", signalClass: "signal-hot",
     topics: [{label:"Sports Fandom",hot:true},{label:"TV / Video",hot:true},{label:"AI Perception",hot:true},{label:"Brand Rankings",hot:false},{label:"Agentic Advertising",hot:false}],
-    topStory: "TV's Underrated Role (1,197, #2 overall); YouGov Best Brand Rankings (1,121); Gen Z Sports Fandom (1,053)", bestEngagement: "CES Dispatch AI/TV 4:19 (555); TV's Underrated Role 3:08 (1,197); Navigating AI: Humanity & Hope 2:16 (500)",
-    pitch: "<strong>Pitch:</strong> Platforms, ad tech and agencies on sports fandom, TV/video influence and AI-perception research. Second-largest brand (11,211) — TV's Underrated Role held 3:08 over 1,197 visits and the CES AI/TV dispatch read 4:19, a standout dwell-at-scale package.", visits7: 11211, avgTime: "1:35" },
+    topStory: "TV's Underrated Role (1,165, #2 overall); YouGov Best Brand Rankings (1,043); Gen Z Sports Fandom (808)", bestEngagement: "How YouTube Creators 3:25 (628); TV's Underrated Role 3:03 (1,165); Navigating AI: Humanity & Hope 2:04 (645)",
+    pitch: "<strong>Pitch:</strong> Platforms, ad tech and agencies on sports fandom, TV/video influence and AI-perception research. Second-largest brand (11,274) — TV's Underrated Role held 3:03 over 1,165 visits and How YouTube Creators read 3:25, a standout dwell-at-scale package.", visits7: 11274, avgTime: "1:34" },
   { brand: "Crain's Chicago", signal: "📈 Growing", signalClass: "signal-growing",
     topics: [{label:"Middle Market",hot:true},{label:"Workforce / Education",hot:true},{label:"Banking / CIBC",hot:false},{label:"Affordable Housing",hot:false},{label:"Commercial RE",hot:false}],
-    topStory: "Built in Chicago Middle Market (673, #1); Startup Entity Structure (329); Long-Deferred Projects (165)", bestEngagement: "Startup Entity Structure 2:25 (329); Built in Chicago 2:03 (673); CIBC Faces of Impact 1:56 (62)",
-    pitch: "<strong>Pitch:</strong> Banks, CRE, law/accounting, workforce/education and managed-IT sponsors. Built in Chicago middle-market led the week (673); startup-structure and long-deferred-projects reads round out a strong 2:02 brand dwell.", visits7: 1991, avgTime: "2:02" },
+    topStory: "Built in Chicago Middle Market (582, #1); Startup Entity Structure (464); Long-Deferred Projects (237)", bestEngagement: "Startup Entity Structure 2:35 (464); Built in Chicago 1:57 (582); Long-Deferred Projects 1:44 (237)",
+    pitch: "<strong>Pitch:</strong> Banks, CRE, law/accounting, workforce/education and managed-IT sponsors. Built in Chicago middle-market led the week (582); startup-structure and long-deferred-projects reads round out a solid 1:59 brand dwell.", visits7: 2408, avgTime: "1:59" },
   { brand: "Crain's Detroit", signal: "📈 Growing", signalClass: "signal-growing",
     topics: [{label:"Workforce / Education",hot:true},{label:"AI / Business",hot:true},{label:"Data Centers",hot:false},{label:"Credit Unions",hot:false},{label:"Mobility",hot:false}],
-    topStory: "Michigan Credit Unions (140, #1); MAHP-MHA Healthcare (138); WGU Skills-First Education (92)", bestEngagement: "WGU Skills-First 3:19 (92); Responsible Data-Center 1:41 (69); Michigan Credit Unions 1:36 (140)",
-    pitch: "<strong>Pitch:</strong> Workforce/education, enterprise-AI, data-center/utilities, financial-services and mobility sponsors. Michigan credit unions and MAHP-MHA healthcare led the week; the deep-dwell WGU skills-first read (3:19) rounds out a 2:06 mix.", visits7: 997, avgTime: "2:06" },
+    topStory: "MAHP-MHA Healthcare Affordable (180, #1); Michigan Credit Unions (119); Manufacturing Data Community (73)", bestEngagement: "WGU Skills-First 3:39 (67); ITC Krista Tanner 2:35 (63); Manufacturing Data 2:22 (73)",
+    pitch: "<strong>Pitch:</strong> Workforce/education, enterprise-AI, data-center/utilities, financial-services and mobility sponsors. MAHP-MHA healthcare and Michigan credit unions led the week; the deep-dwell WGU skills-first read (3:39) rounds out a 1:59 mix.", visits7: 986, avgTime: "1:59" },
   { brand: "Crain's New York", signal: "📈 Growing", signalClass: "signal-growing",
     topics: [{label:"Construction",hot:true},{label:"Payment Fraud",hot:true},{label:"Private Banking",hot:false},{label:"Accessible Care",hot:false},{label:"Luxury Travel",hot:false}],
-    topStory: "Manhattan Office Recovery (1,000, #1); Construction Industry Impacts (131); Payment Fraud (120)", bestEngagement: "Construction Industry Impacts 2:20 (131); Manhattan Office Recovery 2:19 (1,000); ADR Construction 1:54 (83)",
-    pitch: "<strong>Pitch:</strong> Construction firms, unions and transit on the building boom; banks on fraud/payment-security; private banks and asset managers on the wealth reads. Manhattan office recovery hit 1,000 reads, leading a category-strong 2:09 avg.", visits7: 1641, avgTime: "2:09" },
+    topStory: "Manhattan Office Recovery (1,103, #1); Construction Industry Impacts (180); Payment Fraud (107)", bestEngagement: "Construction Industry Impacts 2:27 (180); Manhattan Office Recovery 2:22 (1,103); Green Leasing 2:03 (99)",
+    pitch: "<strong>Pitch:</strong> Construction firms, unions and transit on the building boom; banks on fraud/payment-security; private banks and asset managers on the wealth reads. Manhattan office recovery hit 1,103 reads, leading a category-strong 2:17 avg.", visits7: 1770, avgTime: "2:17" },
   { brand: "Pensions &amp; Investments", signal: "📊 Steady", signalClass: "signal-steady",
     topics: [{label:"Global Macro",hot:true},{label:"AI Investing",hot:true},{label:"Market Dislocation",hot:false},{label:"Fixed Income",hot:false},{label:"Private Markets",hot:false}],
-    topStory: "Long-Only Growth Investor AI (518, #1); Systematic Global Macro (436); Fixed Income Ballast (383)", bestEngagement: "Understanding True Drivers 3:35 (102); Long-Only Growth AI 2:07 (518); Resurgence in Quality 1:06 (73)",
-    pitch: "<strong>Pitch:</strong> Asset managers, private-market and credit specialists on research-led content. Long-only AI-era investing and systematic global macro led the week — package with the Understanding True Drivers and fixed-income ballast reads.", visits7: 1952, avgTime: "1:55" },
+    topStory: "Long-Only Growth Investor AI (525, #1); Systematic Global Macro (450); Fixed Income Ballast (384)", bestEngagement: "Understanding True Drivers 3:36 (97); Fixed Income Ballast 1:55 (384); Long-Only Growth AI 1:33 (525)",
+    pitch: "<strong>Pitch:</strong> Asset managers, private-market and credit specialists on research-led content. Long-only AI-era investing and systematic global macro led the week — package with the Understanding True Drivers and fixed-income ballast reads.", visits7: 1956, avgTime: "1:42" },
   { brand: "Hart Energy", signal: "📈 Growing", signalClass: "signal-growing",
     topics: [{label:"Pipeline Standards",hot:true},{label:"Field Ops",hot:true},{label:"Reservoir Sim",hot:false},{label:"Remote Operations",hot:false},{label:"Energy Data",hot:false}],
-    topStory: "API 5L Standard (95, #1); Right Plunger (75); Audiovisual Remote Ops (62)", bestEngagement: "Audiovisual Remote Ops 6:26 (62); Right Plunger 2:10 (75); API 5L 1:18 (95)",
-    pitch: "<strong>Pitch:</strong> Energy-tech vendors, data platforms and AWS/cloud on IndustryVoice and white papers. API 5L and Right Plunger led at 480 visits; the audiovisual-data white paper held a category-topping 6:26 dwell — package the field-ops and reservoir-sim reads with retargeting.", visits7: 480, avgTime: "1:38" },
+    topStory: "API 5L Standard (83, #1); Right Plunger (69); Audiovisual Remote Ops (60)", bestEngagement: "Audiovisual Remote Ops 4:54 (60); Right Plunger 2:01 (69); API 5L 1:31 (83)",
+    pitch: "<strong>Pitch:</strong> Energy-tech vendors, data platforms and AWS/cloud on IndustryVoice and white papers. API 5L and Right Plunger led at 448 visits; the audiovisual-data white paper held a category-topping 4:54 dwell — package the field-ops and reservoir-sim reads with retargeting.", visits7: 448, avgTime: "1:17" },
   { brand: "Crain's Grand Rapids", signal: "📊 Steady", signalClass: "signal-steady",
     topics: [{label:"Construction",hot:true},{label:"Wealth / Tax",hot:false},{label:"Real Estate",hot:false},{label:"Waterfront",hot:false}],
-    topStory: "Content Studio hub (182); ITC Krista Tanner Grid Growth (112); Hidden Workforce (87)", bestEngagement: "Greenleaf Trust Tax 2:51 (59); Hidden Workforce 1:25 (87); ITC Krista Tanner 1:00 (112)",
-    pitch: "<strong>Pitch:</strong> Construction/real-estate, wealth/tax advisory and workforce sponsors. The ITC grid-growth and Greenleaf tax reads anchor the week. Fix the hub-page leak (182/1,000 visits, ~18%, route to the generic content-studio hub) — deep-link to the featured reads to lift sponsor ROI.", visits7: 1000, avgTime: "1:50" },
+    topStory: "Content Studio hub (182); ITC Krista Tanner Grid Growth (146); Hidden Workforce (95)", bestEngagement: "Kettering University 4:31 (83); Hidden Workforce 1:27 (95); ITC Krista Tanner 0:50 (146)",
+    pitch: "<strong>Pitch:</strong> Construction/real-estate, wealth/tax advisory and workforce sponsors. The ITC grid-growth and Kettering-university reads anchor the week. Fix the hub-page leak (182/1,014 visits, ~18%, route to the generic content-studio hub) — deep-link to the featured reads to lift sponsor ROI.", visits7: 1014, avgTime: "1:25" },
   { brand: "Crain's Cleveland", signal: "📊 Steady", signalClass: "signal-steady",
     topics: [{label:"ERP / Tech",hot:true},{label:"Build-to-Rent",hot:false},{label:"Workforce",hot:false},{label:"Health Ed",hot:false}],
-    topStory: "Beachwood Connector Road (73, #1); Cox Custom (34); Maloney Novotny Valuations (34)", bestEngagement: "Beachwood Connector 2:31 (73); Cox Custom 1:18 (34); Maloney Novotny Valuations 0:33 (34)",
-    pitch: "<strong>Pitch:</strong> Real-estate/infrastructure sponsors on the Beachwood connector; ERP/tech vendors on the ERP white paper; workforce/health-education sponsors on the hidden-workforce series. The Beachwood connector road read led the week at a 2:31 dwell.", visits7: 407, avgTime: "1:47" },
+    topStory: "Beachwood Connector Road (96, #1); Cox Custom (67); Maloney Novotny Valuations (43)", bestEngagement: "Beachwood Connector 2:13 (96); Cox Custom 0:49 (67); Maloney Novotny Valuations 0:35 (43)",
+    pitch: "<strong>Pitch:</strong> Real-estate/infrastructure sponsors on the Beachwood connector; ERP/tech vendors on the ERP white paper; workforce/health-education sponsors on the hidden-workforce series. The Beachwood connector road read led the week at a 2:13 dwell.", visits7: 477, avgTime: "1:46" },
 ];
 document.getElementById('brand-focus-grid').innerHTML = brandFocus.map(b => `<div class="focus-card"><div class="focus-header"><span class="focus-brand">${b.brand}</span><span class="focus-signal ${b.signalClass}">${b.signal}</span></div><div class="focus-topics">${b.topics.map(t => `<span class="topic-tag ${t.hot ? 'hot' : ''}">${t.hot ? '🔥 ' : ''}${t.label}</span>`).join('')}</div><div class="focus-stat"><span>📈 ${b.visits7.toLocaleString()} visits / 7 days</span><span>⏱ ${b.avgTime} avg</span></div><div class="focus-pitch" style="margin-top:12px"><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;color:#94a3b8;margin-bottom:4px">Top story: ${b.topStory}</div><div style="font-size:11px;color:#64748b;margin-bottom:8px">Best dwell: ${b.bestEngagement}</div>${b.pitch}</div></div>`).join('');
 
-// ===== Launching today (Jul 9) — Smartsheet "Digital- Today's Launches" + "Print- Today's Launches" =====
+// ===== Launching today (Jul 10) — Smartsheet "Digital- Today's Launches" + "Print- Today's Launches" =====
 // ALL projects whose Digital Launch Date (Digital report) or Print Launch Date (Print report) is today, regardless of status.
-// Digital report returned 7 rows launching today (Jul 9); Print report returned 0. All channel = Digital. Statuses include Launched, In Progress, Scheduled, plus "Shift" and "Not Started" (rendered via fallback). No Canceled rows this run.
+// Digital report returned 2 rows launching today (Jul 10); Print report returned 0. All channel = Digital. Statuses "Shift" and "Draft in progress" rendered via fallback. No Canceled rows this run. GenomeWeb row has no recorded revenue.
 const liveContent = [
-  { brand: "Ad Age", channel: "Digital", product: "White Paper Posting", client: "Amsive", status: "Scheduled", revenue: 15000, vertical: "Advertising", owner: "Sophia Juarez", url: "https://www.adage.com/studio-30/white-paper/aa-amsive-audience-led-approach-drove-rise-customer-growth/" },
-  { brand: "Ad Age", channel: "Digital", product: "Pub Partner (CW)", client: "Amsive", status: "Scheduled", revenue: 15000, vertical: "Advertising", owner: "Sophia Juarez", url: "https://adage.com/studio-30/publishing-partners/aa-the-audience-is-the-strategy" },
-  { brand: "Ad Age", channel: "Digital", product: "Pub Partner (CW)", client: "Hyundai Motor Company", status: "In Progress", revenue: 15000, vertical: "Automotive", owner: "Shelly Maldonado", url: "" },
-  { brand: "Ad Age", channel: "Digital", product: "Pub Partner (CW)", client: "Horizon Media", status: "Shift", revenue: 10000, vertical: "Advertising", owner: "Sophia Juarez", url: "" },
-  { brand: "Automotive News", channel: "Digital", product: "Custom Webinar Mini", client: "Mia labs", status: "Launched", revenue: 7344, vertical: "Automotive", owner: "Jessica Leydet", url: "https://www.autonews.com/sponsored/webinars/an-always-on-24-7-ai-lead-response-strategy/" },
-  { brand: "Automotive News", channel: "Digital", product: "Lead Generation - Retail", client: "Capital One", status: "Scheduled", revenue: 6311, vertical: "Automotive", owner: "Jessica Leydet", url: "https://www.autonews.com/resource_center/an-capital-one-wp-july-2026" },
-  { brand: "GenomeWeb", channel: "Digital", product: "Podcast", client: "Agilent", status: "Not Started", revenue: 6667, vertical: "Life Sciences", owner: "Alison Caceres", url: "" },
+  { brand: "Modern Healthcare", channel: "Digital", product: "Sponsored Content: MH Writes", client: "Ontario Systems // Finvi", status: "Shift", revenue: 15500, vertical: "Healthcare", owner: "Sarah Loeffler", url: "" },
+  { brand: "GenomeWeb", channel: "Digital", product: "Custom Summary", client: "Roche Custom Biotech", status: "Draft in progress", revenue: 0, vertical: "Life Sciences", owner: "Colin O'Connor", url: "" },
 ];
 // Sort: live/complete first, then launched, in progress, scheduled — each by revenue desc.
 const _statusRank = { "Complete": 0, "Launched": 1, "In Progress": 2, "Scheduled": 3 };
@@ -493,7 +488,7 @@ document.getElementById('live-rev').textContent = '$' + liveRevTotal.toLocaleStr
 document.getElementById('live-brands').textContent = new Set(liveContent.map(x => x.brand)).size;
 
 if (liveContent.length === 0) {
-  document.getElementById('live-list').innerHTML = `<div style="background:white;border-radius:12px;padding:28px;text-align:center;color:#94a3b8;font-size:13px;box-shadow:0 1px 3px rgba(0,0,0,0.07)">Nothing launching today (Jul 9). Neither the Digital nor Print report shows an item with a Jul 9 launch date. Check back tomorrow.</div>`;
+  document.getElementById('live-list').innerHTML = `<div style="background:white;border-radius:12px;padding:28px;text-align:center;color:#94a3b8;font-size:13px;box-shadow:0 1px 3px rgba(0,0,0,0.07)">Nothing launching today (Jul 10). Neither the Digital nor Print report shows an item with a Jul 10 launch date. Check back tomorrow.</div>`;
 } else {
 const _statusMeta = {
   "Complete":    { label: "✅ Live",        css: "background:#eff6ff;color:#1d4ed8", border: "#10b981" },
@@ -527,47 +522,47 @@ document.getElementById('live-list').innerHTML = liveContent.map(x => {
 // P&I Benchmark & Pacing moved to the standalone P&I dashboard artifact (pi-content-pacing-dashboard).
 
 // ===== Sponsored Content Extract (all brands) — incorporated alongside Adobe, matched by brand + headline =====
-const extractMeta = { asOf: "Jul 9", totalStories: 70, totalPV: 23461, brands: 13 };
+const extractMeta = { asOf: "Jul 8", totalStories: 77, totalPV: 25811, brands: 13 };
 const extractBrands = [
-  { brand: "Ad Age", stories: 8, pv: 4776, visits: 4487 },
-  { brand: "Crain's Detroit", stories: 15, pv: 3394, visits: 3101 },
-  { brand: "Crain's Chicago", stories: 2, pv: 3346, visits: 2965 },
-  { brand: "Modern Healthcare", stories: 2, pv: 2627, visits: 2496 },
-  { brand: "Automotive News", stories: 3, pv: 2379, visits: 2262 },
-  { brand: "Plastics News", stories: 6, pv: 2148, visits: 2107 },
-  { brand: "Crain's Cleveland", stories: 9, pv: 1557, visits: 1391 },
-  { brand: "P&I", stories: 2, pv: 1485, visits: 1416 },
-  { brand: "Crain's Grand Rapids", stories: 7, pv: 642, visits: 596 },
-  { brand: "Hart Energy", stories: 1, pv: 587, visits: 516 },
-  { brand: "Crain's New York", stories: 13, pv: 283, visits: 270 },
-  { brand: "Automobilwoche", stories: 1, pv: 235, visits: 208 },
-  { brand: "Tire Business", stories: 1, pv: 2, visits: 1 },
+  { brand: "Ad Age", stories: 10, pv: 5476, visits: 5139 },
+  { brand: "Crain's Detroit", stories: 16, pv: 3588, visits: 3279 },
+  { brand: "Crain's Chicago", stories: 2, pv: 3368, visits: 2983 },
+  { brand: "Modern Healthcare", stories: 2, pv: 3077, visits: 2922 },
+  { brand: "Plastics News", stories: 8, pv: 2599, visits: 2556 },
+  { brand: "Automotive News", stories: 3, pv: 2414, visits: 2297 },
+  { brand: "P&I", stories: 2, pv: 1620, visits: 1545 },
+  { brand: "Crain's Cleveland", stories: 10, pv: 1575, visits: 1407 },
+  { brand: "Crain's Grand Rapids", stories: 7, pv: 808, visits: 757 },
+  { brand: "Hart Energy", stories: 1, pv: 608, visits: 536 },
+  { brand: "Crain's New York", stories: 13, pv: 324, visits: 306 },
+  { brand: "Automobilwoche", stories: 1, pv: 245, visits: 217 },
+  { brand: "Tire Business", stories: 2, pv: 109, visits: 107 },
 ];
 const extractStories = [
-  { brand:"Crain's Chicago", pub:"Jun 22", pv:3100, v:2742, u:2582, title:"CIBC US Faces of Impact Chicago Affordable Housing" },
-  { brand:"Automotive News", pub:"Jun 12", pv:2004, v:1909, u:1827, title:"Taiwan Excellence Brings Trusted AI Innovation to ITS America 2026, Strengthening Taiwan–U.S. Mobility Partnerships" },
-  { brand:"Modern Healthcare", pub:"Jun 15", pv:1589, v:1469, u:1420, title:"Expanding access to lung transplant: How leading health systems are scaling complex care" },
-  { brand:"P&I", pub:"Jun 15", pv:1482, v:1414, u:1386, title:"Fixed Income: A Supportive Ballast" },
-  { brand:"Ad Age", pub:"Jun 17", pv:1282, v:1235, u:1201, title:"Celebrating 30 years of digital advertising growth and innovation" },
-  { brand:"Ad Age", pub:"Jun 15", pv:1146, v:1102, u:1059, title:"The pivot challenge wellness brands must navigate" },
-  { brand:"Crain's Cleveland", pub:"Jun 16", pv:1056, v:952, u:912, title:"Cordelia chef Vinnie Cimino celebrates ‘awesome’ James Beard nod despite falling short" },
-  { brand:"Modern Healthcare", pub:"Jun 22", pv:1038, v:1027, u:994, title:"The future of cancer care: Why collaboration is essential" },
-  { brand:"Ad Age", pub:"Jun 18", pv:1025, v:973, u:934, title:"Presenting the Ad Age Creativity Awards Best YouTube Creator Collaboration winner" },
-  { brand:"Plastics News", pub:"Jun 16", pv:906, v:901, u:893, title:"The Risk You Can’t See: Why Process Drift Is Costing More Than Manufacturers Realize" },
-  { brand:"Crain's Detroit", pub:"Jun 15", pv:831, v:811, u:793, title:"WATCH: Skillman Foundation CEO on Michigan’s education ‘marathon’" },
-  { brand:"Plastics News", pub:"Jun 26", pv:665, v:647, u:625, title:"Milacron Celebrates America’s 250th with a Tribute to U.S. Manufacturing Strength" },
-  { brand:"Crain's Detroit", pub:"Jun 15", pv:597, v:525, u:505, title:"WATCH: How Michigan credit unions are tackling affordability challenges" },
-  { brand:"Hart Energy", pub:"Jun 22", pv:587, v:516, u:495, title:"The Right Plunger Changes Everything. Here’s the Proof." },
-  { brand:"Ad Age", pub:"Jun 30", pv:509, v:473, u:441, title:"Three TV advertising takeaways from Cannes Lions 2026" },
-  { brand:"Crain's Detroit", pub:"Jun 15", pv:393, v:350, u:333, title:"WATCH: How American Center for Mobility is future-proofing Michigan’s mobility and automotive engineering legacy" },
-  { brand:"Crain's Cleveland", pub:"Jun 15", pv:372, v:316, u:303, title:"Tackling the hidden workforce crisis behind America’s dental deserts" },
-  { brand:"Crain's Detroit", pub:"Jun 15", pv:319, v:298, u:289, title:"Tackling the hidden workforce crisis behind America’s dental deserts" },
-  { brand:"Crain's Detroit", pub:"Jun 15", pv:311, v:297, u:283, title:"WATCH: How Kettering University bridges education and industry" },
-  { brand:"Plastics News", pub:"Jul 1", pv:298, v:294, u:287, title:"MGS and KraussMaffei: Scaling medical production worldwide" },
-  { brand:"Crain's Detroit", pub:"Jun 15", pv:273, v:235, u:212, title:"WATCH: DTE Energy’s Trevor Lauer on why data centers are a win for Michigan" },
-  { brand:"Ad Age", pub:"Jun 26", pv:262, v:209, u:180, title:"2-minute power plays: FAST, unfiltered" },
-  { brand:"Ad Age", pub:"Jul 1", pv:257, v:241, u:217, title:"The next frontier through consumer engagement: Building brands through experience" },
-  { brand:"Crain's Chicago", pub:"Jun 22", pv:246, v:223, u:216, title:"How employer-education partnerships are closing Chicago’s behavioral health workforce gap" },
+  { brand:"Crain's Chicago", pub:"Jun 22", pv:3118, v:2756, u:2595, title:"CIBC US Faces of Impact Chicago Affordable Housing" },
+  { brand:"Automotive News", pub:"Jun 12", pv:2006, v:1911, u:1829, title:"Taiwan Excellence Brings Trusted AI Innovation to ITS America 2026, Strengthening Taiwan–U.S. Mobility Partnerships" },
+  { brand:"Modern Healthcare", pub:"Jun 15", pv:1900, v:1760, u:1701, title:"Expanding access to lung transplant: How leading health systems are scaling complex care" },
+  { brand:"P&I", pub:"Jun 15", pv:1617, v:1543, u:1513, title:"Fixed Income: A Supportive Ballast" },
+  { brand:"Ad Age", pub:"Jun 17", pv:1349, v:1297, u:1261, title:"Celebrating 30 years of digital advertising growth and innovation" },
+  { brand:"Ad Age", pub:"Jun 15", pv:1212, v:1169, u:1124, title:"The pivot challenge wellness brands must navigate" },
+  { brand:"Modern Healthcare", pub:"Jun 22", pv:1177, v:1162, u:1126, title:"The future of cancer care: Why collaboration is essential" },
+  { brand:"Ad Age", pub:"Jun 18", pv:1121, v:1067, u:1025, title:"Presenting the Ad Age Creativity Awards Best YouTube Creator Collaboration winner" },
+  { brand:"Crain's Cleveland", pub:"Jun 16", pv:1057, v:953, u:913, title:"Cordelia chef Vinnie Cimino celebrates ‘awesome’ James Beard nod despite falling short" },
+  { brand:"Plastics News", pub:"Jun 16", pv:988, v:982, u:973, title:"The Risk You Can’t See: Why Process Drift Is Costing More Than Manufacturers Realize" },
+  { brand:"Crain's Detroit", pub:"Jun 15", pv:840, v:818, u:800, title:"WATCH: Skillman Foundation CEO on Michigan’s education ‘marathon’" },
+  { brand:"Plastics News", pub:"Jun 26", pv:833, v:813, u:788, title:"Milacron Celebrates America’s 250th with a Tribute to U.S. Manufacturing Strength" },
+  { brand:"Ad Age", pub:"Jun 30", pv:683, v:641, u:599, title:"Three TV advertising takeaways from Cannes Lions 2026" },
+  { brand:"Crain's Detroit", pub:"Jun 15", pv:638, v:564, u:543, title:"WATCH: How Michigan credit unions are tackling affordability challenges" },
+  { brand:"Hart Energy", pub:"Jun 22", pv:608, v:536, u:514, title:"The Right Plunger Changes Everything. Here’s the Proof." },
+  { brand:"Crain's Detroit", pub:"Jun 15", pv:396, v:355, u:337, title:"WATCH: How American Center for Mobility is future-proofing Michigan’s mobility and automotive engineering legacy" },
+  { brand:"Plastics News", pub:"Jul 1", pv:382, v:382, u:375, title:"MGS and KraussMaffei: Scaling medical production worldwide" },
+  { brand:"Crain's Cleveland", pub:"Jun 15", pv:373, v:317, u:304, title:"Tackling the hidden workforce crisis behind America’s dental deserts" },
+  { brand:"Crain's Detroit", pub:"Jun 15", pv:331, v:310, u:301, title:"Tackling the hidden workforce crisis behind America’s dental deserts" },
+  { brand:"Crain's Detroit", pub:"Jun 15", pv:314, v:300, u:286, title:"WATCH: How Kettering University bridges education and industry" },
+  { brand:"Ad Age", pub:"Jul 1", pv:295, v:278, u:247, title:"The next frontier through consumer engagement: Building brands through experience" },
+  { brand:"Crain's Detroit", pub:"Jun 15", pv:294, v:252, u:232, title:"WATCH: DTE Energy’s Trevor Lauer on why data centers are a win for Michigan" },
+  { brand:"Ad Age", pub:"Jun 26", pv:284, v:230, u:199, title:"2-minute power plays: FAST, unfiltered" },
+  { brand:"Automotive News", pub:"Jun 29", pv:277, v:270, u:261, title:"Evaluating dealership expansion and operational improvements" },
 ];
 const _extTop = [...extractBrands].sort((a,b)=>b.pv-a.pv).slice(0,8);
 const _cOvExtract = new Chart(document.getElementById('chartOvExtract'), { type:'bar',
@@ -611,7 +606,7 @@ document.getElementById('ext-story-tbody').innerHTML = extractStories.map(s => {
 // ===== Overview roll-up (computed from the arrays above; every card is source-tagged) =====
 const _ovPV7 = brands.reduce((s,b)=>s+b.pv7,0);
 const _ovVisits7 = total7;
-const ovPrev7 = 32259; // prior report's 7-day visits (for WoW); automation updates this each run
+const ovPrev7 = 32476; // prior report's 7-day visits (for WoW); automation updates this each run
 const _ovWoW = ((_ovVisits7/ovPrev7-1)*100);
 const _ovEngSec = brands.reduce((s,b)=>s+timeToSec(b.time7)*b.visits7,0)/total7;
 const _fmtSec = sec => `${Math.floor(sec/60)}:${String(Math.round(sec%60)).padStart(2,'0')}`;
