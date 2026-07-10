@@ -2,7 +2,7 @@
 {
   "name": "Ad Solutions Team Dashboard",
   "schemaVersion": 1,
-  "description": "Ad Solutions Team dashboard — big-picture, revenue-aware performance across Adobe (traffic), Smartsheet (launches & revenue), and Tableau (sponsored content). Overview (portfolio KPIs + top insights, all source-tagged), Traffic (brand detail), Top Stories, Went Live, Insights & Recs, Brand Focus, Sponsored · Extract. P&I is on its own dashboard. Auto-refreshed daily.",
+  "description": "Ad Solutions Team dashboard — big-picture, revenue-aware performance across Adobe (traffic), Smartsheet (launches & revenue), and Tableau (sponsored content). Nav: Overview, Today's Go Lives, Tableau Data (Top Stories), Adobe Data (Top Stories, Traffic), Brand Focus, Insights & Recs, Suggestions. P&I is on its own dashboard. Auto-refreshed daily.",
   "mcpTools": [
     "mcp__09e4c9dd-00d9-44a0-94d7-573300fdabc9__get_report"
   ],
@@ -196,12 +196,12 @@
     <span class="src-chip src-tab">Tableau — sponsored content</span>
     <span class="src-chip src-pio">PIO Pacing — delivery</span>
   </div>
-  <p class="ov-note">Big-picture performance across all 9 brands, plus what went live today and how delivery is pacing. Every figure is tagged with its source. Brand-level traffic detail is in the <a onclick="showPage('traffic')">Traffic</a> tab; sponsored-content depth in <a onclick="showPage('sponsored-extract')">Sponsored · Extract</a>; P&amp;I now lives on its own dashboard.</p>
+  <p class="ov-note">Big-picture performance across the portfolio — Adobe site traffic, today's go-lives, sponsored-content reach, and delivery pacing. Every figure is tagged with its source. Brand-level traffic sits under <a onclick="showPage('traffic')">Adobe Data → Traffic</a>; sponsored-content depth under <a onclick="showPage('sponsored-extract')">Tableau Data → Top Stories</a>; P&amp;I now lives on its own dashboard.</p>
   <div class="kpi-grid">
     <div class="kpi"><div class="label">Page Views · Last 7 Days <span class="src-tag src-adobe">Adobe</span></div><div class="value" id="ov-pv">—</div><div class="sub" id="ov-pv-sub"></div></div>
     <div class="kpi green"><div class="label">Visits · Last 7 Days <span class="src-tag src-adobe">Adobe</span></div><div class="value" id="ov-visits">—</div><div class="sub" id="ov-visits-sub"></div></div>
     <div class="kpi purple"><div class="label">Engagement · Avg Time (7d) <span class="src-tag src-adobe">Adobe</span></div><div class="value" id="ov-eng">—</div><div class="sub" id="ov-eng-sub"></div></div>
-    <div class="kpi blue"><div class="label">Went Live Today <span class="src-tag src-smart">Smartsheet</span></div><div class="value" id="ov-live">—</div><div class="sub" id="ov-live-sub"></div></div>
+    <div class="kpi blue"><div class="label">Go-Lives Today <span class="src-tag src-smart">Smartsheet</span></div><div class="value" id="ov-live">—</div><div class="sub" id="ov-live-sub"></div></div>
   </div>
   <div class="kpi-grid">
     <div class="kpi blue"><div class="label">Revenue Live Today <span class="src-tag src-smart">Smartsheet</span></div><div class="value" id="ov-rev">—</div><div class="sub">across today's launches</div></div>
