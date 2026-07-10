@@ -30,6 +30,26 @@
   .tab { padding: 12px 16px; font-size: 13px; font-weight: 500; color: #64748b; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.15s; }
   .tab.active { color: #e8140b; border-bottom-color: #e8140b; }
   .tab:hover:not(.active) { color: #334155; }
+  .tabdrop { position: relative; }
+  .tab-parent { display: flex; align-items: center; gap: 4px; }
+  .caret { font-size: 10px; }
+  .dropmenu { position: absolute; top: 100%; left: 0; background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); padding: 4px; min-width: 160px; z-index: 60; display: none; }
+  .dropmenu.open { display: block; }
+  .dropitem { padding: 9px 14px; font-size: 13px; font-weight: 500; color: #334155; cursor: pointer; border-radius: 6px; white-space: nowrap; }
+  .dropitem:hover { background: #fef2f2; color: #e8140b; }
+  .ov-top3-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .ov-top3 { list-style: decimal; padding-left: 20px; margin: 0; }
+  .ov-top3 li { margin-bottom: 10px; font-size: 13px; line-height: 1.4; }
+  .ov-top3 li a { color: #1e293b; text-decoration: none; font-weight: 600; border-bottom: 1px solid #cbd5e1; }
+  .ov-top3 li a:hover { color: #e8140b; border-bottom-color: #e8140b; }
+  .ov-top3-meta { display: block; font-size: 11px; color: #94a3b8; font-weight: 500; margin-top: 2px; }
+  @media (max-width:760px){ .ov-top3-grid { grid-template-columns: 1fr; } }
+  .quick-links { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; padding: 11px 14px; background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+  .quick-links .ql-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #94a3b8; margin-right: 4px; }
+  .ql-chip { font-size: 12px; font-weight: 600; color: #e8140b; background: #fef2f2; border: 1px solid #fecaca; border-radius: 20px; padding: 6px 14px; text-decoration: none; transition: all .15s; }
+  .ql-chip:hover { background: #e8140b; color: #fff; border-color: #e8140b; }
+  .ql-chip.tbd { color: #94a3b8; background: #f8fafc; border-color: #e2e8f0; }
+  .ql-chip.tbd:hover { background: #64748b; color: #fff; border-color: #64748b; }
 
   .page { display: none; padding: 24px; max-width: 1100px; margin: 0 auto; }
   .page.active { display: block; }
@@ -155,15 +175,33 @@
 
 <div class="tabs">
   <div class="tab active" onclick="showPage('overview')">Overview</div>
-  <div class="tab" onclick="showPage('traffic')">Traffic</div>
-  <div class="tab" onclick="showPage('stories')">Top Stories</div>
-  <div class="tab" onclick="showPage('live')">Went Live</div>
-  <div class="tab" onclick="showPage('insights')">Insights &amp; Recs</div>
+  <div class="tab" onclick="showPage('live')">Today's Go Lives</div>
+  <div class="tabdrop">
+    <div class="tab tab-parent" onclick="toggleDrop(event,'d-tableau')">Tableau Data <span class="caret">▾</span></div>
+    <div class="dropmenu" id="d-tableau">
+      <div class="dropitem" onclick="showPage('sponsored-extract')">Top Stories</div>
+    </div>
+  </div>
+  <div class="tabdrop">
+    <div class="tab tab-parent" onclick="toggleDrop(event,'d-adobe')">Adobe Data <span class="caret">▾</span></div>
+    <div class="dropmenu" id="d-adobe">
+      <div class="dropitem" onclick="showPage('stories')">Top Stories</div>
+      <div class="dropitem" onclick="showPage('traffic')">Traffic</div>
+    </div>
+  </div>
   <div class="tab" onclick="showPage('focus')">Brand Focus</div>
-  <div class="tab" onclick="showPage('sponsored-extract')">Sponsored · Extract</div>
+  <div class="tab" onclick="showPage('insights')">Insights &amp; Recs</div>
+  <div class="tab" onclick="showPage('suggestions')">💡 Suggestions</div>
 </div>
 
 <div class="page active" id="page-overview">
+  <div class="quick-links">
+    <span class="ql-label">Quick links</span>
+    <a class="ql-chip tbd" href="#" onclick="return false" title="Link to be added — send me the URL">P&amp;I Lead Gen Tracker →</a>
+    <a class="ql-chip tbd" href="#" onclick="return false" title="Link to be added — send me the URL">Sponsored Content 2025 →</a>
+    <a class="ql-chip tbd" href="#" onclick="return false" title="Link to be added — send me the URL">P&amp;I Content &amp; Pacing →</a>
+    <a class="ql-chip tbd" href="#" onclick="return false" title="Link to be added — send me the URL">+ Add dashboard</a>
+  </div>
   <div class="src-legend">
     <span class="leg-label">Data sources:</span>
     <span class="src-chip src-adobe">Adobe Analytics — site traffic</span>
@@ -180,14 +218,27 @@
   </div>
   <div class="kpi-grid">
     <div class="kpi blue"><div class="label">Revenue Live Today <span class="src-tag src-smart">Smartsheet</span></div><div class="value" id="ov-rev">—</div><div class="sub">across today's launches</div></div>
-    <div class="kpi purple"><div class="label">Unique Visitors · Sponsored 30d <span class="src-tag src-tab">Tableau</span></div><div class="value" id="ov-unique">—</div><div class="sub" id="ov-unique-sub"></div></div>
-    <div class="kpi"><div class="label">Sponsored Page Views · 30d <span class="src-tag src-tab">Tableau</span></div><div class="value" id="ov-extpv">—</div><div class="sub" id="ov-extpv-sub"></div></div>
+    <div class="kpi purple"><div class="label">Unique Visitors · Sponsored 10d <span class="src-tag src-tab">Tableau</span></div><div class="value" id="ov-unique">—</div><div class="sub" id="ov-unique-sub"></div></div>
+    <div class="kpi"><div class="label">Sponsored Page Views · 10d <span class="src-tag src-tab">Tableau</span></div><div class="value" id="ov-extpv">—</div><div class="sub" id="ov-extpv-sub"></div></div>
     <div class="kpi" style="border-left-color:#f59e0b"><div class="label">Delivery Pacing <span class="src-tag src-pio">PIO</span></div><div class="value" id="ov-pace" style="font-size:19px">—</div><div class="sub" id="ov-pace-sub"></div></div>
   </div>
   <div class="chart-grid">
     <div class="chart-card"><h3>Visits by Brand · Last 7 Days <span class="src-tag src-adobe">Adobe</span></h3><canvas id="chart7DayBar" height="220"></canvas></div>
-    <div class="chart-card"><h3>Sponsored Page Views by Brand · 30d <span class="src-tag src-tab">Tableau</span></h3><canvas id="chartOvExtract" height="220"></canvas></div>
+    <div class="chart-card"><h3>Sponsored Page Views by Brand · 10d <span class="src-tag src-tab">Tableau</span></h3><canvas id="chartOvExtract" height="220"></canvas></div>
     <div class="chart-card full"><h3>Average Time on Site · All Brands (Last 7 Days) <span class="src-tag src-adobe">Adobe</span></h3><canvas id="chartEngagement" height="100"></canvas></div>
+  </div>
+  <div class="chart-card full" style="margin-top:4px">
+    <h3>📰 Top 3 Stories · latest report <span class="src-tag src-adobe">Adobe</span> <span class="src-tag src-tab">Tableau</span></h3>
+    <div class="ov-top3-grid">
+      <div>
+        <div class="section-label" style="margin-bottom:10px">Adobe · top by visits (7-day) <span class="src-tag src-adobe">Adobe</span></div>
+        <ol class="ov-top3" id="ov-top3-adobe"></ol>
+      </div>
+      <div>
+        <div class="section-label" style="margin-bottom:10px">Tableau · top sponsored by pageviews <span class="src-tag src-tab">Tableau</span></div>
+        <ol class="ov-top3" id="ov-top3-tab"></ol>
+      </div>
+    </div>
   </div>
   <div class="chart-card full" style="margin-top:4px">
     <h3>💡 Top Insights &amp; Recommendations <span class="src-tag src-adobe">Adobe</span> <span class="src-tag src-smart">Smartsheet</span> <span class="src-tag src-tab">Tableau</span></h3>
@@ -251,6 +302,8 @@
   <div class="src-legend">
     <span class="leg-label">Source:</span>
     <span class="src-chip src-adobe">Adobe Analytics — 7-day topics &amp; engagement</span>
+  
+    <span class="src-chip src-tab">Tableau — sponsored trade brands (Auto News, Plastics News, Tire Business)</span>
   </div>
   <p style="font-size:13px;color:#64748b;margin-bottom:20px">What each audience is reading now — topics, formats, and angles to pitch this week. <span class="src-tag src-adobe">Adobe</span></p>
   <div id="brand-focus-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:20px"></div>
@@ -261,25 +314,18 @@
 <div class="page" id="page-sponsored-extract">
   <div class="src-legend">
     <span class="leg-label">Source:</span>
-    <span class="src-chip src-tab">Tableau — 30-day Content Extract (manual upload)</span>
+    <span class="src-chip src-tab">Tableau — 10-day Content Extract (manual upload)</span>
   </div>
   <div class="section-label">Sponsored Content · Content Extract (all brands) <span class="src-tag src-tab">Tableau</span></div>
-  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Sponsored/custom content only, published in the last 30 days, across <strong>all brands</strong> (more than the Adobe report covers). Added alongside the Adobe views, not replacing them. Metrics are cumulative pageviews / visits / unique per story by publish date (the extract has no avg-time). Stories that also appear in the Adobe Top Stories are tagged by brand + headline. <span style="color:#94a3b8">As of the <span id="ext-asof">Jul 9</span> extract — the manually-uploaded 30-day Tableau Content Extract CSV (sponsored/custom stories published Jun 8–Jul 8, all brands). Metrics are cumulative as of the pull.</span></p>
+  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Sponsored/custom content only, published in the last 10 days, across <strong>all brands</strong> (more than the Adobe report covers). Added alongside the Adobe views, not replacing them. Metrics are cumulative pageviews / visits / unique per story by publish date (the extract has no avg-time). Stories that also appear in the Adobe Top Stories are tagged by brand + headline. <span style="color:#94a3b8">As of the <span id="ext-asof">Jul 9</span> extract — the manually-uploaded 10-day Tableau Content Extract CSV (sponsored/custom stories published Jul 1–Jul 8, all brands). Metrics are cumulative as of the pull.</span></p>
   <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)">
-    <div class="kpi"><div class="label">Sponsored Stories · 30d</div><div class="value" id="ext-stories">0</div><div class="sub">all brands</div></div>
+    <div class="kpi"><div class="label">Sponsored Stories · 10d</div><div class="value" id="ext-stories">0</div><div class="sub">all brands</div></div>
     <div class="kpi green"><div class="label">Total Pageviews</div><div class="value" id="ext-pv">0</div><div class="sub">across sponsored stories</div></div>
     <div class="kpi blue"><div class="label">Brands</div><div class="value" id="ext-brands">0</div><div class="sub">with sponsored content</div></div>
     <div class="kpi purple"><div class="label">Top Brand</div><div class="value" id="ext-top" style="font-size:18px">—</div><div class="sub" id="ext-top-sub"></div></div>
   </div>
-  <div class="chart-card" style="margin-bottom:20px">
-    <h3>🏷 By Brand · Sponsored (last 30 days)</h3>
-    <table class="brand-table">
-      <thead><tr><th>Brand</th><th>Stories</th><th>Pageviews</th><th>Visits</th><th>Share</th></tr></thead>
-      <tbody id="ext-brand-tbody"></tbody>
-    </table>
-  </div>
   <div class="chart-card">
-    <h3>🏆 Top Sponsored Stories (last 30 days, all brands)</h3>
+    <h3>🏆 Top Sponsored Stories (last 10 days, all brands)</h3>
     <table class="brand-table">
       <thead><tr><th>Brand</th><th>Headline</th><th>Published</th><th>Pageviews</th><th>Visits</th><th>Unique</th></tr></thead>
       <tbody id="ext-story-tbody"></tbody>
@@ -297,9 +343,6 @@
   <div style="display:flex;align-items:center;gap:8px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:8px 12px;margin-bottom:12px;font-size:12px;color:#64748b">
     <span style="font-size:14px">🗓️</span>
     <span><strong style="color:#334155">Reframed Jul 9, 2026 — benchmark &amp; forward-move method.</strong> Based on the trailing 7 days (Jul 2–8); refreshed each Monday. Every insight is graded against a comparator and ends in a next move.</span>
-  </div>
-  <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:12px;color:#1e40af;line-height:1.55">
-    <strong>How to read this.</strong> Each point follows the client post-campaign method: <strong>performance vs a benchmark</strong> (content-type benchmark where we have one, else the portfolio 2:09 avg or prior week) → <strong>who &amp; how they engaged</strong> → <strong>a specific next move</strong>. The recommendations below are organized as idea lanes — content, partnerships, products, marketing, and audience. Metrics &amp; caveats are defined at the bottom.
   </div>
   <div class="insight-grid" style="margin-bottom:8px">
     <div class="insight-card">
@@ -331,6 +374,112 @@
     </div>
   </div>
 </div>
+
+<div class="page" id="page-suggestions">
+  <div class="src-legend">
+    <span class="leg-label">Goes to:</span>
+    <span class="src-chip" style="background:#fef2f2;color:#e8140b;border:1px solid #fecaca">Emailed to Grace Garrett</span>
+  </div>
+  <div class="section-label">Suggestion Box — request a change, flag data, or pitch an idea</div>
+  <p style="font-size:13px;color:#64748b;margin-bottom:16px;max-width:680px">Spot something to fix, want a new view or metric, or have an idea for the dashboard? Tell us below and it goes straight to Grace. The more specific you are, the faster it gets actioned.</p>
+  <div class="chart-card sg-card">
+    <form id="suggestion-form" novalidate>
+      <div class="sg-row">
+        <div class="sg-field"><label for="sg-name">Your name <span class="sg-req">*</span></label><input id="sg-name" name="name" type="text" required placeholder="Jane Smith"></div>
+        <div class="sg-field"><label for="sg-email">Your email <span class="sg-req">*</span></label><input id="sg-email" name="email" type="email" required placeholder="jane@crain.com"></div>
+      </div>
+      <div class="sg-row">
+        <div class="sg-field"><label for="sg-type">Type of request <span class="sg-req">*</span></label>
+          <select id="sg-type" name="request_type" required>
+            <option value="" selected disabled>Choose one…</option>
+            <option>New dashboard or data request</option>
+            <option>Edit / update to an existing view</option>
+            <option>Data looks off / possible error</option>
+            <option>New chart, metric, or feature idea</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="sg-field"><label for="sg-brand">Brand / team (optional)</label>
+          <select id="sg-brand" name="brand">
+            <option value="" selected>— Select —</option>
+            <option>Ad Age</option><option>Automotive News</option><option>Crain's Chicago</option><option>Crain's Cleveland</option><option>Crain's Detroit</option><option>Crain's Grand Rapids</option><option>Crain's New York</option><option>Hart Energy</option><option>Modern Healthcare</option><option>P&amp;I</option><option>Plastics / Rubber / Tire</option><option>All brands / Portfolio</option><option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="sg-field">
+        <label for="sg-details">What would you like to see or change? <span class="sg-req">*</span></label>
+        <textarea id="sg-details" name="details" rows="5" required placeholder="Describe the request — which tab/widget, what data, and what you'd use it for."></textarea>
+      </div>
+      <div class="sg-field sg-narrow">
+        <label for="sg-priority">Priority</label>
+        <select id="sg-priority" name="priority"><option>Low</option><option selected>Medium</option><option>High</option></select>
+      </div>
+      <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+      <input type="hidden" name="_subject" value="New Ad Solutions dashboard suggestion">
+      <div class="sg-actions">
+        <button type="submit" class="sg-btn">Open email to Grace →</button>
+        <span id="sg-status" class="sg-status"></span>
+      </div>
+    </form>
+  </div>
+  <p style="font-size:11px;color:#94a3b8;margin-top:10px;max-width:680px">Clicking "Open email" launches your own email app with everything filled in and addressed to Grace — just press send. No login or setup required.</p>
+</div>
+
+<style>
+  #page-suggestions .sg-card { max-width: 680px; }
+  #page-suggestions form { display:flex; flex-direction:column; gap:16px; }
+  #page-suggestions .sg-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  #page-suggestions .sg-field { display:flex; flex-direction:column; gap:6px; }
+  #page-suggestions .sg-field.sg-narrow { max-width:200px; }
+  #page-suggestions label { font-size:12px; font-weight:600; color:#334155; }
+  #page-suggestions .sg-req { color:#e8140b; }
+  #page-suggestions input, #page-suggestions select, #page-suggestions textarea {
+    font-family:inherit; font-size:13px; color:#1e293b; background:#fff;
+    border:1px solid #e2e8f0; border-radius:8px; padding:10px 12px; width:100%; box-sizing:border-box;
+    transition:border-color .15s, box-shadow .15s;
+  }
+  #page-suggestions input:focus, #page-suggestions select:focus, #page-suggestions textarea:focus {
+    outline:none; border-color:#e8140b; box-shadow:0 0 0 3px rgba(232,20,11,0.12);
+  }
+  #page-suggestions textarea { resize:vertical; min-height:96px; }
+  #page-suggestions .sg-actions { display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+  #page-suggestions .sg-btn {
+    background:#e8140b; color:#fff; border:none; border-radius:8px; padding:11px 20px;
+    font-size:13px; font-weight:700; cursor:pointer; transition:background .15s;
+  }
+  #page-suggestions .sg-btn:hover { background:#c0392b; }
+  #page-suggestions .sg-btn:disabled { opacity:.6; cursor:default; }
+  #page-suggestions .sg-status { font-size:12px; font-weight:600; }
+  #page-suggestions .sg-status.ok { color:#166534; }
+  #page-suggestions .sg-status.err { color:#b91c1c; }
+  #page-suggestions .sg-status.warn { color:#c2410c; }
+  @media (max-width:760px){ #page-suggestions .sg-row { grid-template-columns:1fr; } }
+</style>
+<script>
+(function(){
+  var TO = "Grace.Garrett@modernhealthcare.com";
+  var form = document.getElementById('suggestion-form');
+  if (!form) return;
+  var status = document.getElementById('sg-status');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    var f = new FormData(form);
+    var g = function(k){ return (f.get(k) || '').toString().trim(); };
+    var subject = 'Dashboard suggestion: ' + (g('request_type') || 'General') + (g('name') ? ' \u2014 ' + g('name') : '');
+    var body = 'Type of request: ' + (g('request_type') || '\u2014') + '\n'
+             + 'Brand / team: ' + (g('brand') || '\u2014') + '\n'
+             + 'Priority: ' + (g('priority') || '\u2014') + '\n'
+             + 'From: ' + g('name') + (g('email') ? ' <' + g('email') + '>' : '') + '\n\n'
+             + 'Details:\n' + g('details') + '\n\n'
+             + '\u2014 Sent from the Ad Solutions dashboard \u00b7 Suggestions tab';
+    var url = 'mailto:' + TO + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    window.location.href = url;
+    status.className = 'sg-status ok';
+    status.textContent = '\u2705 Opening your email \u2014 just press send.';
+  });
+})();
+</script>
 
 <script>
 const brands = [
@@ -468,8 +617,23 @@ const brandFocus = [
     topics: [{label:"ERP / Tech",hot:true},{label:"Build-to-Rent",hot:false},{label:"Workforce",hot:false},{label:"Health Ed",hot:false}],
     topStory: "Beachwood Connector Road (96, #1); Cox Custom (67); Maloney Novotny Valuations (43)", bestEngagement: "Beachwood Connector 2:13 (96); Cox Custom 0:49 (67); Maloney Novotny Valuations 0:35 (43)",
     pitch: "<strong>Pitch:</strong> Real-estate/infrastructure sponsors on the Beachwood connector; ERP/tech vendors on the ERP white paper; workforce/health-education sponsors on the hidden-workforce series. The Beachwood connector road read led the week at a 2:13 dwell.", visits7: 477, avgTime: "1:46" },
+  { brand: "Automotive News", signal: "🏷 Sponsored", signalClass: "signal-steady", tab: true,
+    topics: [{label:"Publishing Partners",hot:true},{label:"KPI Reporting",hot:false},{label:"Dealer Networks",hot:false}],
+    topStory: "<a href='https://autonews.com/sponsored/publishing-partners/an-bringing-clarity-european-automotive-network-performance-kpi-reporting/' target='_blank' rel='noopener' style='color:#1e293b;border-bottom:1px solid #cbd5e1;text-decoration:none'>Bringing clarity to European automotive network performance through KPI reporting</a> (346 PV · Jul 7)",
+    pv: 346, stories: 1, reach: "336 visits · 321 unique",
+    pitch: "<strong>Pitch:</strong> Automotive suppliers, dealer-tech and mobility-SaaS sponsors on KPI-reporting and network-performance content. Sponsored Publishing Partners drove the read." },
+  { brand: "Plastics News", signal: "🔥 Sponsored", signalClass: "signal-steady", tab: true,
+    topics: [{label:"Medical Molding",hot:true},{label:"Circular / Bio-based",hot:true},{label:"Machinery",hot:false},{label:"Webinars",hot:false}],
+    topStory: "<a href='https://www.plasticsnews.com/sponsored-content/pn-mgs-and-kraussmaffei-scaling-medical-production-worldwide/' target='_blank' rel='noopener' style='color:#1e293b;border-bottom:1px solid #cbd5e1;text-decoration:none'>MGS and KraussMaffei: Scaling medical production worldwide</a> (375 PV · Jul 1)",
+    pv: 713, stories: 6, reach: "708 visits · 689 unique",
+    pitch: "<strong>Pitch:</strong> Machinery, materials and medical-molding sponsors — MGS/KraussMaffei medical production and the bio-based circularity reads led, on the strongest sponsored volume of the trade brands (6 stories)." },
+  { brand: "Tire Business", signal: "🏷 Sponsored", signalClass: "signal-steady", tab: true,
+    topics: [{label:"Commercial Tires",hot:true},{label:"Dealer Enablement",hot:false},{label:"Fleet",hot:false}],
+    topStory: "<a href='https://www.tirebusiness.com/sponsored-content/pn-sailun-terramax-helps-dealers-match-the-tire-to-the-truck/' target='_blank' rel='noopener' style='color:#1e293b;border-bottom:1px solid #cbd5e1;text-decoration:none'>Sailun Terramax helps dealers match the tire to the truck</a> (107 PV · Jul 7)",
+    pv: 107, stories: 1, reach: "106 visits · 99 unique",
+    pitch: "<strong>Pitch:</strong> Tire makers and commercial-fleet sponsors on dealer-enablement content; the Sailun Terramax truck-tire fit read led the week." },
 ];
-document.getElementById('brand-focus-grid').innerHTML = brandFocus.map(b => `<div class="focus-card"><div class="focus-header"><span class="focus-brand">${b.brand}</span><span class="focus-signal ${b.signalClass}">${b.signal}</span></div><div class="focus-topics">${b.topics.map(t => `<span class="topic-tag ${t.hot ? 'hot' : ''}">${t.hot ? '🔥 ' : ''}${t.label}</span>`).join('')}</div><div class="focus-stat"><span>📈 ${b.visits7.toLocaleString()} visits / 7 days</span><span>⏱ ${b.avgTime} avg</span></div><div class="focus-pitch" style="margin-top:12px"><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;color:#94a3b8;margin-bottom:4px">Top story: ${b.topStory}</div><div style="font-size:11px;color:#64748b;margin-bottom:8px">Best dwell: ${b.bestEngagement}</div>${b.pitch}</div></div>`).join('');
+document.getElementById('brand-focus-grid').innerHTML = brandFocus.map(b => `<div class="focus-card"><div class="focus-header"><span class="focus-brand">${b.brand}</span><span class="focus-signal ${b.signalClass}">${b.signal}</span></div><div class="focus-topics">${b.topics.map(t => `<span class="topic-tag ${t.hot ? 'hot' : ''}">${t.hot ? '🔥 ' : ''}${t.label}</span>`).join('')}</div><div class="focus-stat">${b.tab ? `<span>🏷 ${b.pv.toLocaleString()} sponsored PV</span><span>📄 ${b.stories} ${b.stories===1?'story':'stories'}</span><span class="src-tag src-tab">Tableau</span>` : `<span>📈 ${b.visits7.toLocaleString()} visits / 7 days</span><span>⏱ ${b.avgTime} avg</span>`}</div><div class="focus-pitch" style="margin-top:12px"><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;color:#94a3b8;margin-bottom:4px">Top story: ${b.topStory}</div><div style="font-size:11px;color:#64748b;margin-bottom:8px">${b.tab ? '📣 '+b.reach : 'Best dwell: '+b.bestEngagement}</div>${b.pitch}</div></div>`).join('');
 
 // ===== Launching today (Jul 10) — Smartsheet "Digital- Today's Launches" + "Print- Today's Launches" =====
 // ALL projects whose Digital Launch Date (Digital report) or Print Launch Date (Print report) is today, regardless of status.
@@ -522,51 +686,46 @@ document.getElementById('live-list').innerHTML = liveContent.map(x => {
 // P&I Benchmark & Pacing moved to the standalone P&I dashboard artifact (pi-content-pacing-dashboard).
 
 // ===== Sponsored Content Extract (all brands) — incorporated alongside Adobe, matched by brand + headline =====
-const extractMeta = { asOf: "Jul 8", totalStories: 77, totalPV: 25811, brands: 13 };
+const extractMeta = { asOf: "Jul 8", totalStories: 24, totalPV: 3525, brands: 8 };
 const extractBrands = [
-  { brand: "Ad Age", stories: 10, pv: 5476, visits: 5139 },
-  { brand: "Crain's Detroit", stories: 16, pv: 3588, visits: 3279 },
-  { brand: "Crain's Chicago", stories: 2, pv: 3368, visits: 2983 },
-  { brand: "Modern Healthcare", stories: 2, pv: 3077, visits: 2922 },
-  { brand: "Plastics News", stories: 8, pv: 2599, visits: 2556 },
-  { brand: "Automotive News", stories: 3, pv: 2414, visits: 2297 },
-  { brand: "P&I", stories: 2, pv: 1620, visits: 1545 },
-  { brand: "Crain's Cleveland", stories: 10, pv: 1575, visits: 1407 },
-  { brand: "Crain's Grand Rapids", stories: 7, pv: 808, visits: 757 },
-  { brand: "Hart Energy", stories: 1, pv: 608, visits: 536 },
-  { brand: "Crain's New York", stories: 13, pv: 324, visits: 306 },
-  { brand: "Automobilwoche", stories: 1, pv: 245, visits: 217 },
-  { brand: "Tire Business", stories: 2, pv: 109, visits: 107 },
+  { brand: "Crain's New York", stories: 4, pv: 1130, visits: 1066 },
+  { brand: "Ad Age", stories: 7, pv: 967, visits: 894 },
+  { brand: "Plastics News", stories: 6, pv: 713, visits: 708 },
+  { brand: "Automotive News", stories: 1, pv: 346, visits: 336 },
+  { brand: "Modern Healthcare", stories: 2, pv: 214, visits: 182 },
+  { brand: "Tire Business", stories: 1, pv: 107, visits: 106 },
+  { brand: "Crain's Detroit", stories: 2, pv: 36, visits: 35 },
+  { brand: "Crain's Cleveland", stories: 1, pv: 12, visits: 10 },
 ];
 const extractStories = [
-  { brand:"Crain's Chicago", pub:"Jun 22", pv:3118, v:2756, u:2595, title:"CIBC US Faces of Impact Chicago Affordable Housing" },
-  { brand:"Automotive News", pub:"Jun 12", pv:2006, v:1911, u:1829, title:"Taiwan Excellence Brings Trusted AI Innovation to ITS America 2026, Strengthening Taiwan–U.S. Mobility Partnerships" },
-  { brand:"Modern Healthcare", pub:"Jun 15", pv:1900, v:1760, u:1701, title:"Expanding access to lung transplant: How leading health systems are scaling complex care" },
-  { brand:"P&I", pub:"Jun 15", pv:1617, v:1543, u:1513, title:"Fixed Income: A Supportive Ballast" },
-  { brand:"Ad Age", pub:"Jun 17", pv:1349, v:1297, u:1261, title:"Celebrating 30 years of digital advertising growth and innovation" },
-  { brand:"Ad Age", pub:"Jun 15", pv:1212, v:1169, u:1124, title:"The pivot challenge wellness brands must navigate" },
-  { brand:"Modern Healthcare", pub:"Jun 22", pv:1177, v:1162, u:1126, title:"The future of cancer care: Why collaboration is essential" },
-  { brand:"Ad Age", pub:"Jun 18", pv:1121, v:1067, u:1025, title:"Presenting the Ad Age Creativity Awards Best YouTube Creator Collaboration winner" },
-  { brand:"Crain's Cleveland", pub:"Jun 16", pv:1057, v:953, u:913, title:"Cordelia chef Vinnie Cimino celebrates ‘awesome’ James Beard nod despite falling short" },
-  { brand:"Plastics News", pub:"Jun 16", pv:988, v:982, u:973, title:"The Risk You Can’t See: Why Process Drift Is Costing More Than Manufacturers Realize" },
-  { brand:"Crain's Detroit", pub:"Jun 15", pv:840, v:818, u:800, title:"WATCH: Skillman Foundation CEO on Michigan’s education ‘marathon’" },
-  { brand:"Plastics News", pub:"Jun 26", pv:833, v:813, u:788, title:"Milacron Celebrates America’s 250th with a Tribute to U.S. Manufacturing Strength" },
-  { brand:"Ad Age", pub:"Jun 30", pv:683, v:641, u:599, title:"Three TV advertising takeaways from Cannes Lions 2026" },
-  { brand:"Crain's Detroit", pub:"Jun 15", pv:638, v:564, u:543, title:"WATCH: How Michigan credit unions are tackling affordability challenges" },
-  { brand:"Hart Energy", pub:"Jun 22", pv:608, v:536, u:514, title:"The Right Plunger Changes Everything. Here’s the Proof." },
-  { brand:"Crain's Detroit", pub:"Jun 15", pv:396, v:355, u:337, title:"WATCH: How American Center for Mobility is future-proofing Michigan’s mobility and automotive engineering legacy" },
-  { brand:"Plastics News", pub:"Jul 1", pv:382, v:382, u:375, title:"MGS and KraussMaffei: Scaling medical production worldwide" },
-  { brand:"Crain's Cleveland", pub:"Jun 15", pv:373, v:317, u:304, title:"Tackling the hidden workforce crisis behind America’s dental deserts" },
-  { brand:"Crain's Detroit", pub:"Jun 15", pv:331, v:310, u:301, title:"Tackling the hidden workforce crisis behind America’s dental deserts" },
-  { brand:"Crain's Detroit", pub:"Jun 15", pv:314, v:300, u:286, title:"WATCH: How Kettering University bridges education and industry" },
-  { brand:"Ad Age", pub:"Jul 1", pv:295, v:278, u:247, title:"The next frontier through consumer engagement: Building brands through experience" },
-  { brand:"Crain's Detroit", pub:"Jun 15", pv:294, v:252, u:232, title:"WATCH: DTE Energy’s Trevor Lauer on why data centers are a win for Michigan" },
-  { brand:"Ad Age", pub:"Jun 26", pv:284, v:230, u:199, title:"2-minute power plays: FAST, unfiltered" },
-  { brand:"Automotive News", pub:"Jun 29", pv:277, v:270, u:261, title:"Evaluating dealership expansion and operational improvements" },
+  { brand:"Crain's New York", pub:"Jul 6", pv:1059, v:1001, u:945, title:"Manhattan’s office rebound is fueling demand for high-end construction", url:"https://www.crainsnewyork.com//crains-content-studio/publishing-partner/cny-manhattan-office-recovery-boosts-contractors/" },
+  { brand:"Plastics News", pub:"Jul 1", pv:375, v:376, u:370, title:"MGS and KraussMaffei: Scaling medical production worldwide", url:"https://www.plasticsnews.com//sponsored-content/pn-mgs-and-kraussmaffei-scaling-medical-production-worldwide/" },
+  { brand:"Automotive News", pub:"Jul 7", pv:346, v:336, u:321, title:"Bringing clarity to European automotive network performance through KPI reporting", url:"https://autonews.com/sponsored/publishing-partners/an-bringing-clarity-european-automotive-network-performance-kpi-reporting/" },
+  { brand:"Ad Age", pub:"Jul 6", pv:335, v:303, u:278, title:"AI is changing local TV advertising, but who holds the best data still decides who wins", url:"https://adage.com/studio-30/publishing-partners/aa-ai-is-changing-local-tv-advertising-but-who-holds-the-best-data-still-decides-who-wins/" },
+  { brand:"Ad Age", pub:"Jul 1", pv:273, v:261, u:232, title:"The next frontier through consumer engagement: Building brands through experience", url:"https://adage.com/studio-30/custom-conversation/aa-next-frontier-through-consumer-engagement-building-brands-through-experience/" },
+  { brand:"Plastics News", pub:"Jul 2", pv:252, v:251, u:244, title:"The circularity standard: how bio-based plastic supports recyclability and reusability", url:"https://www.plasticsnews.com//sponsored-content/pn-the-circularity-standard-how-bio-based-plastic-supports-recyclability-and-reusability/" },
+  { brand:"Ad Age", pub:"Jul 1", pv:163, v:153, u:144, title:"Locals only: How local strategy fuels national performance", url:"https://adage.com/studio-30/custom-conversation/aa-how-local-strategy-fuels-national-performance/" },
+  { brand:"Modern Healthcare", pub:"Jul 6", pv:159, v:136, u:133, title:"How compatibility-based care could transform patient engagement", url:"https://modernhealthcare.com/content-studio/quicktake/mh-compatibility-based-care-transform-patient-engagement/" },
+  { brand:"Tire Business", pub:"Jul 7", pv:107, v:106, u:99, title:"Sailun Terramax helps dealers match the tire to the truck", url:"https://www.tirebusiness.com//sponsored-content/pn-sailun-terramax-helps-dealers-match-the-tire-to-the-truck/" },
+  { brand:"Ad Age", pub:"Jul 6", pv:107, v:101, u:89, title:"Reimagining discovery: How Target and Roundel are connecting guests and brands", url:"https://adage.com/studio-30/custom-conversation/aa-reimagining-discovery-how-target-roundel-connecting-guests-brands/" },
+  { brand:"Plastics News", pub:"Jul 2", pv:59, v:56, u:53, title:"Fuelling supply chain resilience: how sustainable practices help weather incoming storms", url:"https://www.plasticsnews.com//sustainable-plastics/sponsored-content/sp-fuelling-supply-chain-resilience-how-sustainable-practices-help-weather-incoming-storms-why-starting-at-the-source-can-help-businesses-balance-cost-and-resilience/" },
+  { brand:"Modern Healthcare", pub:"Jul 6", pv:55, v:46, u:41, title:"City of Hope’s Dr. Marcel van den Brink on the microbiome, cancer research and patient impact", url:"https://modernhealthcare.com/content-studio/quicktake/mh-city-hope-microbiome-cancer-research-patient-impact/" },
+  { brand:"Crain's New York", pub:"Jul 6", pv:49, v:43, u:32, title:"Ross B. Dickman", url:"https://www.crainsnewyork.com//people-on-the-move/cny-ross-b-dickman/" },
+  { brand:"Ad Age", pub:"Jul 8", pv:37, v:31, u:29, title:"From integration to immersion: Building brands through storytelling", url:"https://adage.com/studio-30/custom-conversation/aa-integration-immersion-building-brands-through-storytelling/" },
+  { brand:"Ad Age", pub:"Jul 8", pv:31, v:25, u:21, title:"The new playbook for sports, streaming and fandom", url:"https://adage.com/studio-30/custom-conversation/aa-the-new-playbook-sports-streaming-fandom/" },
+  { brand:"Crain's Detroit", pub:"Jul 1", pv:23, v:23, u:22, title:"Kraig Hansen", url:"https://www.crainsdetroit.com//people-on-the-move/cdb-kraig-hansen/" },
+  { brand:"Plastics News", pub:"Jul 8", pv:23, v:19, u:16, title:"TaipeiPLAS 2026 Opens Booth Application and Visitor Registration: Advancing Circularity, Material Innovation and Sustainable Manufacturing", url:"https://www.plasticsnews.com//sustainable-plastics/sponsored-content/sp-taipeiplas-2026-opens-booth-application-and-visitor-registration-advancing-circularity-material-innovation-and-sustainable-manufacturing/" },
+  { brand:"Ad Age", pub:"Jul 8", pv:21, v:20, u:20, title:"Delivering on local: DoorDash Ads at Cannes 2026", url:"https://adage.com/studio-30/custom-conversation/aa-delivering-on-local-doordash-ads-at-cannes-2026/" },
+  { brand:"Crain's Detroit", pub:"Jul 7", pv:13, v:12, u:12, title:"Gaetano Vitale", url:"https://www.crainsdetroit.com//people-on-the-move/ccb-gaetano-vitale/" },
+  { brand:"Crain's Cleveland", pub:"Jul 7", pv:12, v:10, u:10, title:"Alex Jones", url:"https://www.crainscleveland.com//people-on-the-move/ccl-alex-jones/" },
+  { brand:"Crain's New York", pub:"Jul 6", pv:11, v:11, u:10, title:"Shani Chill", url:"https://www.crainsnewyork.com//people-on-the-move/cny-shani-chill/" },
+  { brand:"Crain's New York", pub:"Jul 1", pv:11, v:11, u:11, title:"Matthew A. Brown", url:"https://www.crainsnewyork.com//people-on-the-move/cny-matthew-a-brown/" },
+  { brand:"Plastics News", pub:"Jul 8", pv:2, v:3, u:3, title:"Practical AI for Plastics Innovation: Lessons from an R&D Leaders", url:"https://www.plasticsnews.com//events/webinars/pn-practical-ai-plastics-innovation-lessons-rd-leaders/" },
+  { brand:"Plastics News", pub:"Jul 1", pv:2, v:3, u:3, title:"Stop Negotiating Blind: How Resin Buyers Can Take Back Leverage", url:"https://www.plasticsnews.com//events/webinars/pn-how-resin-buyers-can-take-back-leverage/" },
 ];
 const _extTop = [...extractBrands].sort((a,b)=>b.pv-a.pv).slice(0,8);
 const _cOvExtract = new Chart(document.getElementById('chartOvExtract'), { type:'bar',
-  data:{ labels:_extTop.map(b=>b.brand.replace("Crain's ","")), datasets:[{ label:'Sponsored PV (30d)', data:_extTop.map(b=>b.pv), backgroundColor:'#22c55e', borderRadius:6 }] },
+  data:{ labels:_extTop.map(b=>b.brand.replace("Crain's ","")), datasets:[{ label:'Sponsored PV (10d)', data:_extTop.map(b=>b.pv), backgroundColor:'#22c55e', borderRadius:6 }] },
   options:{ responsive:true, plugins:{ legend:{ display:false } }, scales:{ y:{ beginAtZero:true, grid:{ color:'#f1f5f9' }, ticks:{ font:{ size:11 } } }, x:{ grid:{ display:false }, ticks:{ font:{ size:9 }, maxRotation:60, minRotation:45 } } } } });
 
 const _dashTitles = (typeof topStories !== 'undefined' ? topStories.map(s => s.title) : [])
@@ -584,7 +743,7 @@ document.getElementById('ext-brands').textContent = extractMeta.brands;
 document.getElementById('ext-asof').textContent = extractMeta.asOf;
 document.getElementById('ext-top').textContent = extractBrands[0].brand;
 document.getElementById('ext-top-sub').textContent = extractBrands[0].pv.toLocaleString() + ' PV · ' + extractBrands[0].stories + ' stories';
-document.getElementById('ext-brand-tbody').innerHTML = extractBrands.map(b => `<tr>
+var _eb=document.getElementById('ext-brand-tbody'); if(_eb) _eb.innerHTML = extractBrands.map(b => `<tr>
   <td style="font-weight:600;font-size:13px">${b.brand}</td>
   <td style="font-size:13px;color:#334155">${b.stories}</td>
   <td>${barCell(b.pv, extractBrands[0].pv, 'green')}</td>
@@ -633,18 +792,39 @@ const ovInsights = [
   { src:'src-adobe', tag:'Adobe', text:`<strong>${sorted7[0].name} leads the portfolio</strong> — ${sorted7[0].visits7.toLocaleString()} visits over 7 days at a ${sorted7[0].time7} avg. ${sorted7[1].name} is #2 (${sorted7[1].visits7.toLocaleString()}).` },
   { src:'src-adobe', tag:'Adobe', text:`<strong>Engagement holds strong</strong> — portfolio weighted avg time ${_fmtSec(_ovEngSec)}; ${_ovTopEng.name} tops the brands at ${_ovTopEng.time7}.` },
   { src:'src-smart', tag:'Smartsheet', text:`<strong>${liveContent.length} project${liveContent.length===1?'':'s'} live today</strong> across ${_ovLiveBrands} brand${_ovLiveBrands===1?'':'s'}, $${liveRevTotal.toLocaleString()} booked revenue.` },
-  { src:'src-tab', tag:'Tableau', text:`<strong>${extractMeta.totalStories} sponsored stories</strong> ran in the last 30 days across ${extractMeta.brands} brands (${extractMeta.totalPV.toLocaleString()} pageviews).` },
+  { src:'src-tab', tag:'Tableau', text:`<strong>${extractMeta.totalStories} sponsored stories</strong> ran in the last 10 days across ${extractMeta.brands} brands (${extractMeta.totalPV.toLocaleString()} pageviews).` },
 ];
 document.getElementById('ov-insights').innerHTML = ovInsights.map(o=>`<div class="insight-item"><span class="src-tag ${o.src}" style="margin-top:2px">${o.tag}</span><p>${o.text}</p></div>`).join('');
+var _t3a = (typeof topStories!=='undefined'?topStories:[]).slice(0,3).map(function(s){return {title:s.title,url:s.url,brand:s.brand,m:s.visits,u:'visits'};});
+var _t3t = (typeof extractStories!=='undefined'?extractStories:[]).slice(0,3).map(function(s){return {title:s.title,url:s.url,brand:s.brand,m:s.pv,u:'PV'};});
+function _t3render(list){ return list.map(function(s){ var t=s.url?('<a href="'+s.url+'" target="_blank" rel="noopener">'+s.title+'</a>'):s.title; return '<li>'+t+'<span class="ov-top3-meta">'+s.brand+' \u00b7 '+((s.m||0).toLocaleString())+' '+s.u+'</span></li>'; }).join(''); }
+var _t3e1=document.getElementById('ov-top3-adobe'); if(_t3e1) _t3e1.innerHTML=_t3render(_t3a);
+var _t3e2=document.getElementById('ov-top3-tab'); if(_t3e2) _t3e2.innerHTML=_t3render(_t3t);
 const _charts = { overview: [_c7Day, _cEng, _cOvExtract], traffic: [_cYesterday], stories: [_cFormats] };
 
 function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('page-' + id).classList.add('active');
-  document.querySelectorAll('.tab').forEach(t => { const oc = t.getAttribute('onclick') || ''; if (oc.indexOf("'" + id + "'") !== -1) t.classList.add('active'); });
+  var pg = document.getElementById('page-' + id); if (pg) pg.classList.add('active');
+  document.querySelectorAll('.tab, .dropitem').forEach(t => {
+    const oc = t.getAttribute('onclick') || '';
+    if (oc.indexOf("'" + id + "'") !== -1) {
+      const grp = t.closest('.tabdrop');
+      if (grp) { const par = grp.querySelector('.tab-parent'); if (par) par.classList.add('active'); }
+      else t.classList.add('active');
+    }
+  });
+  document.querySelectorAll('.dropmenu').forEach(m => m.classList.remove('open'));
   if (typeof _charts !== 'undefined') (_charts[id] || []).forEach(c => { try { c.resize(); } catch(e) {} });
 }
+function toggleDrop(e, id) {
+  e.stopPropagation();
+  var m = document.getElementById(id); if (!m) return;
+  var wasOpen = m.classList.contains('open');
+  document.querySelectorAll('.dropmenu').forEach(x => x.classList.remove('open'));
+  if (!wasOpen) m.classList.add('open');
+}
+document.addEventListener('click', function() { document.querySelectorAll('.dropmenu').forEach(m => m.classList.remove('open')); });
 </script>
 </body>
 </html>
