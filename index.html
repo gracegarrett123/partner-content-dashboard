@@ -306,11 +306,12 @@
   <div class="section-label">Sponsored Content · Content Extract (all brands) <span class="src-tag src-tab">Tableau</span></div>
   <p style="font-size:13px;color:#64748b;margin-bottom:16px">Sponsored/custom content only, published in the last 30 days, across <strong>all brands</strong> (more than the Adobe report covers). Added alongside the Adobe views, not replacing them. Metrics are cumulative pageviews / visits / unique per story by publish date (the extract has no avg-time). Stories that also appear in the Adobe Top Stories are tagged by brand + headline. <span style="color:#94a3b8">As of the <span id="ext-asof">Jul 8</span> extract — the manually-uploaded 30-day Tableau Content Extract CSV (91 sponsored/custom stories published Jun 8–Jul 8, all brands — a full 30-day window). Metrics are cumulative as of the pull.</span></p>
   <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)">
-    <div class="kpi"><div class="label">Sponsored Stories · 30d</div><div class="value" id="ext-stories">0</div><div class="sub">all brands</div></div>
-    <div class="kpi green"><div class="label">Total Pageviews</div><div class="value" id="ext-pv">0</div><div class="sub">across sponsored stories</div></div>
+    <div class="kpi"><div class="label">Sponsored Stories · 30d</div><div class="value" id="ext-stories">0</div><div class="sub">custom content · all brands</div></div>
+    <div class="kpi green"><div class="label">Total Pageviews</div><div class="value" id="ext-pv">0</div><div class="sub">across custom content</div></div>
     <div class="kpi blue"><div class="label">Brands</div><div class="value" id="ext-brands">0</div><div class="sub">with sponsored content</div></div>
     <div class="kpi purple"><div class="label">Top Brand</div><div class="value" id="ext-top" style="font-size:18px">—</div><div class="sub" id="ext-top-sub"></div></div>
   </div>
+  <div id="ext-listings-note" style="display:flex;align-items:flex-start;gap:10px;background:#f8fafc;border:1px solid #e2e8f0;border-left:3px solid #94a3b8;border-radius:8px;padding:10px 14px;margin-bottom:18px;font-size:12px;color:#475569;line-height:1.5"></div>
   <div class="chart-card">
     <h3>🏆 Top Sponsored Stories (last 30 days, all brands)</h3>
     <table class="brand-table">
@@ -708,48 +709,48 @@ document.getElementById('live-list').innerHTML = liveContent.map(x => {
 // P&I Benchmark & Pacing moved to the standalone P&I dashboard artifact (pi-content-pacing-dashboard).
 
 // ===== Sponsored Content Extract (all brands) — incorporated alongside Adobe, matched by brand + headline =====
-const extractMeta = { asOf: "Jul 8", totalStories: 91, totalPV: 30396, brands: 14 };
+const extractMeta = { asOf: "Jul 8", totalStories: 48, totalPV: 25088, brands: 13 };
+const extractListings = { stories: 34, pv: 865, brands: 4 };  // People/Companies on the Move paid listings — reported separately, NOT in the headline numbers
 const extractBrands = [
-  { brand: "Ad Age", stories: 11, pv: 6662, visits: 6256 },
-  { brand: "Modern Healthcare", stories: 3, pv: 5096, visits: 4672 },
-  { brand: "Crain's Detroit", stories: 17, pv: 3675, visits: 3355 },
+  { brand: "Ad Age", stories: 10, pv: 5502, visits: 5161 },
   { brand: "Crain's Chicago", stories: 2, pv: 3373, visits: 2988 },
-  { brand: "Plastics News", stories: 10, pv: 3233, visits: 3181 },
+  { brand: "Crain's Detroit", stories: 9, pv: 3368, visits: 3085 },
+  { brand: "Modern Healthcare", stories: 2, pv: 3077, visits: 2922 },
+  { brand: "Plastics News", stories: 9, pv: 2600, visits: 2557 },
   { brand: "Automotive News", stories: 3, pv: 2414, visits: 2297 },
-  { brand: "Crain's Cleveland", stories: 13, pv: 1823, visits: 1620 },
   { brand: "P&I", stories: 2, pv: 1620, visits: 1545 },
-  { brand: "Crain's Grand Rapids", stories: 9, pv: 837, visits: 781 },
-  { brand: "Crain's New York", stories: 16, pv: 699, visits: 656 },
+  { brand: "Crain's Cleveland", stories: 2, pv: 1446, visits: 1284 },
+  { brand: "Crain's Grand Rapids", stories: 4, pv: 724, visits: 687 },
   { brand: "Hart Energy", stories: 1, pv: 608, visits: 536 },
   { brand: "Automobilwoche", stories: 1, pv: 245, visits: 217 },
   { brand: "Tire Business", stories: 2, pv: 109, visits: 107 },
   { brand: "Rubber News", stories: 1, pv: 2, visits: 1 },
 ];
 const extractStories = [
-  { brand: "Crain's Chicago", pub: "Jun 22", pv: 3123, v: 2761, u: 2600, title: "CIBC US Faces of Impact Chicago Affordable Housing", url: "https://www.chicagobusiness.com/crains-content-studio/publishing-partner/ccb-cibc-faces-impact/" },
-  { brand: "Modern Healthcare", pub: "Jun 8", pv: 2019, v: 1750, u: 1678, title: "Premier’s strategic collaboratives help health systems improve through shared knowledge", url: "https://modernhealthcare.com/content-studio/webinar/mh-premier-strategic-collaboratives-health-systems-shared-knowledge-improvement/" },
-  { brand: "Automotive News", pub: "Jun 12", pv: 2006, v: 1911, u: 1829, title: "Taiwan Excellence Brings Trusted AI Innovation to ITS America 2026, Strengthening Taiwan–U.S. Mobility Partnerships", url: "https://autonews.com/sponsored/publishing-partners/an-taiwan-excellence-brings-trusted-ai-innovation-to-its-america-2026/" },
-  { brand: "Modern Healthcare", pub: "Jun 15", pv: 1900, v: 1760, u: 1701, title: "Expanding access to lung transplant: How leading health systems are scaling complex care", url: "https://modernhealthcare.com/content-studio/publishing-partner/mh-expanding-access-to-lung-transplant-how-leading-health-systems-are-scaling-complex-care/" },
-  { brand: "P&I", pub: "Jun 15", pv: 1617, v: 1543, u: 1513, title: "Fixed Income: A Supportive Ballast", url: "https://pionline.com/partner-content/pi-fixed-income-supportive-ballast/" },
-  { brand: "Ad Age", pub: "Jun 17", pv: 1363, v: 1308, u: 1269, title: "Celebrating 30 years of digital advertising growth and innovation", url: "https://adage.com/studio-30/interactive-reports/aa-celebrating-30-years-digital-advertising-growth-innovation/" },
-  { brand: "Ad Age", pub: "Jun 15", pv: 1224, v: 1180, u: 1133, title: "The pivot challenge wellness brands must navigate", url: "https://adage.com/studio-30/publishing-partners/aa-the-pivot-challenge-wellness-brands-must-navigate/" },
-  { brand: "Modern Healthcare", pub: "Jun 22", pv: 1177, v: 1162, u: 1126, title: "The future of cancer care: Why collaboration is essential", url: "https://modernhealthcare.com/content-studio/quicktake/mh-future-cancer-care-collaboration-robert-stone-city-of-hope/" },
-  { brand: "Ad Age", pub: "Jun 8", pv: 1160, v: 1095, u: 1064, title: "How Monks builds immersive experiences that resonate with national pride", url: "https://adage.com/studio-30/publishing-partners/aa-anchoring-global-brand-moments-in-local-ritual-and-truths/" },
-  { brand: "Ad Age", pub: "Jun 18", pv: 1121, v: 1067, u: 1025, title: "Presenting the Ad Age Creativity Awards Best YouTube Creator Collaboration winner", url: "https://adage.com/studio-30/publishing-partners/aa-presenting-the-adage-creativity-awards-best-youtube-creator-collaboration-winner/" },
-  { brand: "Crain's Cleveland", pub: "Jun 16", pv: 1057, v: 953, u: 913, title: "Cordelia chef Vinnie Cimino celebrates ‘awesome’ James Beard nod despite falling short", url: "https://www.crainscleveland.com/restaurants/ccl-cleveland-shut-out-from-james-beard-awards-20260615/" },
-  { brand: "Plastics News", pub: "Jun 16", pv: 988, v: 982, u: 973, title: "The Risk You Can’t See: Why Process Drift Is Costing More Than Manufacturers Realize", url: "https://www.plasticsnews.com/sponsored-content/pn-the-risk-you-cant-see-why-process-drift-is-costing-more-than-manufacturers-realize/" },
-  { brand: "Crain's Detroit", pub: "Jun 15", pv: 843, v: 821, u: 803, title: "WATCH: Skillman Foundation CEO on Michigan’s education ‘marathon’", url: "https://www.crainsdetroit.com/crains-content-studio/quicktake/cdb-skillman-foundation-ceo-on-michigans-education-marathon/" },
-  { brand: "Plastics News", pub: "Jun 26", pv: 833, v: 813, u: 788, title: "Milacron Celebrates America’s 250th with a Tribute to U.S. Manufacturing Strength", url: "https://www.plasticsnews.com/sponsored-content/pn-milacron-celebrates-americas-250th-with-a-tribute-to-us-manufacturing-strength/" },
-  { brand: "Ad Age", pub: "Jun 30", pv: 683, v: 641, u: 599, title: "Three TV advertising takeaways from Cannes Lions 2026", url: "https://adage.com/studio-30/publishing-partners/aa-three-tv-advertising-takeaways-cannes-lions-2026/" },
-  { brand: "Crain's Detroit", pub: "Jun 15", pv: 640, v: 566, u: 545, title: "WATCH: How Michigan credit unions are tackling affordability challenges", url: "https://www.crainsdetroit.com/crains-content-studio/quicktake/cdb-michigan-credit-unions-tackle-affordability/" },
-  { brand: "Plastics News", pub: "Jun 8", pv: 633, v: 624, u: 622, title: "MyNexeo: Your Plastics Sourcing Hub", url: "https://www.plasticsnews.com/sponsored-content/pn-mynexeo-your-plastics-sourcing-hub/" },
-  { brand: "Hart Energy", pub: "Jun 22", pv: 608, v: 536, u: 514, title: "The Right Plunger Changes Everything. Here’s the Proof.", url: "https://www.hartenergy.com/sponsored/industry-voice/he-right-plunger-changes-everything/" },
-  { brand: "Crain's Detroit", pub: "Jun 15", pv: 396, v: 355, u: 337, title: "WATCH: How American Center for Mobility is future-proofing Michigan’s mobility and automotive engineering legacy", url: "https://www.crainsdetroit.com/crains-content-studio/quicktake/cdb-american-center-mobility-future-proofing-michigan-mobility/" },
-  { brand: "Crain's Cleveland", pub: "Jun 15", pv: 389, v: 331, u: 314, title: "Tackling the hidden workforce crisis behind America’s dental deserts", url: "https://www.crainscleveland.com/crains-content-studio/executive-insights/ccl-tackling-hidden-workforce-crisis-americas-dental-deserts/" },
-  { brand: "Plastics News", pub: "Jul 1", pv: 382, v: 382, u: 375, title: "MGS and KraussMaffei: Scaling medical production worldwide", url: "https://www.plasticsnews.com/sponsored-content/pn-mgs-and-kraussmaffei-scaling-medical-production-worldwide/" },
-  { brand: "Crain's New York", pub: "Jun 8", pv: 350, v: 326, u: 308, title: "On the right track: A new era of accessible healthcare", url: "https://www.crainsnewyork.com/crains-content-studio/thought-leader-report/cny-hackensack-new-era-accessible-healthcare/" },
-  { brand: "Crain's Detroit", pub: "Jun 15", pv: 331, v: 310, u: 301, title: "Tackling the hidden workforce crisis behind America’s dental deserts", url: "https://www.crainsdetroit.com/crains-content-studio/executive-insights/ccl-tackling-hidden-workforce-crisis-americas-dental-deserts/" },
-  { brand: "Crain's Detroit", pub: "Jun 15", pv: 318, v: 304, u: 290, title: "WATCH: How Kettering University bridges education and industry", url: "https://www.crainsdetroit.com/crains-content-studio/quicktake/cdb-kettering-university-connects-students-to-careers/" },
+  { brand:"Crain's Chicago", pub:"Jun 22", pv:3123, v:2761, u:2600, title:"CIBC US Faces of Impact Chicago Affordable Housing", url:"https://www.chicagobusiness.com/crains-content-studio/publishing-partner/ccb-cibc-faces-impact/" },
+  { brand:"Automotive News", pub:"Jun 12", pv:2006, v:1911, u:1829, title:"Taiwan Excellence Brings Trusted AI Innovation to ITS America 2026, Strengthening Taiwan–U.S. Mobility Partnerships", url:"https://autonews.com/sponsored/publishing-partners/an-taiwan-excellence-brings-trusted-ai-innovation-to-its-america-2026/" },
+  { brand:"Modern Healthcare", pub:"Jun 15", pv:1900, v:1760, u:1701, title:"Expanding access to lung transplant: How leading health systems are scaling complex care", url:"https://modernhealthcare.com/content-studio/publishing-partner/mh-expanding-access-to-lung-transplant-how-leading-health-systems-are-scaling-complex-care/" },
+  { brand:"P&I", pub:"Jun 15", pv:1617, v:1543, u:1513, title:"Fixed Income: A Supportive Ballast", url:"https://pionline.com/partner-content/pi-fixed-income-supportive-ballast/" },
+  { brand:"Ad Age", pub:"Jun 17", pv:1363, v:1308, u:1269, title:"Celebrating 30 years of digital advertising growth and innovation", url:"https://adage.com/studio-30/interactive-reports/aa-celebrating-30-years-digital-advertising-growth-innovation/" },
+  { brand:"Ad Age", pub:"Jun 15", pv:1224, v:1180, u:1133, title:"The pivot challenge wellness brands must navigate", url:"https://adage.com/studio-30/publishing-partners/aa-the-pivot-challenge-wellness-brands-must-navigate/" },
+  { brand:"Modern Healthcare", pub:"Jun 22", pv:1177, v:1162, u:1126, title:"The future of cancer care: Why collaboration is essential", url:"https://modernhealthcare.com/content-studio/quicktake/mh-future-cancer-care-collaboration-robert-stone-city-of-hope/" },
+  { brand:"Ad Age", pub:"Jun 18", pv:1121, v:1067, u:1025, title:"Presenting the Ad Age Creativity Awards Best YouTube Creator Collaboration winner", url:"https://adage.com/studio-30/publishing-partners/aa-presenting-the-adage-creativity-awards-best-youtube-creator-collaboration-winner/" },
+  { brand:"Crain's Cleveland", pub:"Jun 16", pv:1057, v:953, u:913, title:"Cordelia chef Vinnie Cimino celebrates ‘awesome’ James Beard nod despite falling short", url:"https://www.crainscleveland.com/restaurants/ccl-cleveland-shut-out-from-james-beard-awards-20260615/" },
+  { brand:"Plastics News", pub:"Jun 16", pv:988, v:982, u:973, title:"The Risk You Can’t See: Why Process Drift Is Costing More Than Manufacturers Realize", url:"https://www.plasticsnews.com/sponsored-content/pn-the-risk-you-cant-see-why-process-drift-is-costing-more-than-manufacturers-realize/" },
+  { brand:"Crain's Detroit", pub:"Jun 15", pv:843, v:821, u:803, title:"WATCH: Skillman Foundation CEO on Michigan’s education ‘marathon’", url:"https://www.crainsdetroit.com/crains-content-studio/quicktake/cdb-skillman-foundation-ceo-on-michigans-education-marathon/" },
+  { brand:"Plastics News", pub:"Jun 26", pv:833, v:813, u:788, title:"Milacron Celebrates America’s 250th with a Tribute to U.S. Manufacturing Strength", url:"https://www.plasticsnews.com/sponsored-content/pn-milacron-celebrates-americas-250th-with-a-tribute-to-us-manufacturing-strength/" },
+  { brand:"Ad Age", pub:"Jun 30", pv:683, v:641, u:599, title:"Three TV advertising takeaways from Cannes Lions 2026", url:"https://adage.com/studio-30/publishing-partners/aa-three-tv-advertising-takeaways-cannes-lions-2026/" },
+  { brand:"Crain's Detroit", pub:"Jun 15", pv:640, v:566, u:545, title:"WATCH: How Michigan credit unions are tackling affordability challenges", url:"https://www.crainsdetroit.com/crains-content-studio/quicktake/cdb-michigan-credit-unions-tackle-affordability/" },
+  { brand:"Hart Energy", pub:"Jun 22", pv:608, v:536, u:514, title:"The Right Plunger Changes Everything. Here’s the Proof.", url:"https://www.hartenergy.com/sponsored/industry-voice/he-right-plunger-changes-everything/" },
+  { brand:"Crain's Detroit", pub:"Jun 15", pv:396, v:355, u:337, title:"WATCH: How American Center for Mobility is future-proofing Michigan’s mobility and automotive engineering legacy", url:"https://www.crainsdetroit.com/crains-content-studio/quicktake/cdb-american-center-mobility-future-proofing-michigan-mobility/" },
+  { brand:"Crain's Cleveland", pub:"Jun 15", pv:389, v:331, u:314, title:"Tackling the hidden workforce crisis behind America’s dental deserts", url:"https://www.crainscleveland.com/crains-content-studio/executive-insights/ccl-tackling-hidden-workforce-crisis-americas-dental-deserts/" },
+  { brand:"Plastics News", pub:"Jul 1", pv:382, v:382, u:375, title:"MGS and KraussMaffei: Scaling medical production worldwide", url:"https://www.plasticsnews.com/sponsored-content/pn-mgs-and-kraussmaffei-scaling-medical-production-worldwide/" },
+  { brand:"Crain's Detroit", pub:"Jun 15", pv:331, v:310, u:301, title:"Tackling the hidden workforce crisis behind America’s dental deserts", url:"https://www.crainsdetroit.com/crains-content-studio/executive-insights/ccl-tackling-hidden-workforce-crisis-americas-dental-deserts/" },
+  { brand:"Crain's Detroit", pub:"Jun 15", pv:318, v:304, u:290, title:"WATCH: How Kettering University bridges education and industry", url:"https://www.crainsdetroit.com/crains-content-studio/quicktake/cdb-kettering-university-connects-students-to-careers/" },
+  { brand:"Crain's Detroit", pub:"Jun 15", pv:302, v:261, u:238, title:"WATCH: DTE Energy’s Trevor Lauer on why data centers are a win for Michigan", url:"https://www.crainsdetroit.com/crains-content-studio/quicktake/cd-dte-energy-trevor-lauer-on-michigan-data-centers/" },
+  { brand:"Ad Age", pub:"Jul 1", pv:295, v:278, u:247, title:"The next frontier through consumer engagement: Building brands through experience", url:"https://adage.com/studio-30/custom-conversation/aa-next-frontier-through-consumer-engagement-building-brands-through-experience/" },
+  { brand:"Ad Age", pub:"Jun 26", pv:284, v:230, u:199, title:"2-minute power plays: FAST, unfiltered", url:"https://adage.com/studio-30/custom-conversation/aa-2-minute-power-plays-fast-unfiltered/" },
+  { brand:"Automotive News", pub:"Jun 29", pv:277, v:270, u:261, title:"Evaluating dealership expansion and operational improvements", url:"https://autonews.com/sponsored/executive-insights/an-evaluating-dealership-expansion-operational-improvements/" },
 ];
 const _extTop = [...extractBrands].sort((a,b)=>b.pv-a.pv).slice(0,8);
 const _cOvExtract = new Chart(document.getElementById('chartOvExtract'), { type:'bar',
@@ -769,6 +770,8 @@ document.getElementById('ext-stories').textContent = extractMeta.totalStories;
 document.getElementById('ext-pv').textContent = extractMeta.totalPV.toLocaleString();
 document.getElementById('ext-brands').textContent = extractMeta.brands;
 document.getElementById('ext-asof').textContent = extractMeta.asOf;
+var _ln=document.getElementById('ext-listings-note');
+if(_ln && typeof extractListings !== 'undefined') _ln.innerHTML = '<span style="font-size:14px">\u2139\uFE0F</span><span><strong style="color:#334155">Excludes '+extractListings.stories+' People / Companies on the Move paid listings</strong> ('+extractListings.pv.toLocaleString()+' PV across '+extractListings.brands+' brands). Sold as sponsored, but they are short paid listings rather than custom-content campaigns \u2014 counting them inflates story volume and drags down per-story averages. The headline figures above are custom content only.</span>';
 document.getElementById('ext-top').textContent = extractBrands[0].brand;
 document.getElementById('ext-top-sub').textContent = extractBrands[0].pv.toLocaleString() + ' PV · ' + extractBrands[0].stories + ' stories';
 var _eb=document.getElementById('ext-brand-tbody'); if(_eb) _eb.innerHTML = extractBrands.map(b => `<tr>
