@@ -2,7 +2,7 @@
 {
   "name": "Ad Solutions Team Dashboard",
   "schemaVersion": 1,
-  "description": "Ad Solutions Team dashboard — big-picture, revenue-aware performance across Adobe (traffic), Smartsheet (launches & revenue), and Tableau (sponsored content). Nav: Overview, Today's Go Lives, Tableau Data (Top Stories), Adobe Data (Top Stories, Traffic), Brand Focus, Insights & Recs, Suggestions. P&I is on its own dashboard. Auto-refreshed daily.",
+  "description": "Ad Solutions Team dashboard — big-picture, revenue-aware performance across Adobe (traffic), Smartsheet (launches & revenue), and Tableau (sponsored content). Overview (portfolio KPIs + top insights, all source-tagged), Traffic (brand detail), Top Stories, Went Live, Insights & Recs, Brand Focus, Sponsored · Extract. P&I is on its own dashboard. Auto-refreshed daily.",
   "mcpTools": [
     "mcp__09e4c9dd-00d9-44a0-94d7-573300fdabc9__get_report"
   ],
@@ -205,13 +205,13 @@
   </div>
   <div class="kpi-grid">
     <div class="kpi blue"><div class="label">Revenue Live Today <span class="src-tag src-smart">Smartsheet</span></div><div class="value" id="ov-rev">—</div><div class="sub">across today's launches</div></div>
-    <div class="kpi purple"><div class="label">Unique Visitors · Sponsored 10d <span class="src-tag src-tab">Tableau</span></div><div class="value" id="ov-unique">—</div><div class="sub" id="ov-unique-sub"></div></div>
-    <div class="kpi"><div class="label">Sponsored Page Views · 10d <span class="src-tag src-tab">Tableau</span></div><div class="value" id="ov-extpv">—</div><div class="sub" id="ov-extpv-sub"></div></div>
+    <div class="kpi purple"><div class="label">Unique Visitors · Sponsored 30d <span class="src-tag src-tab">Tableau</span></div><div class="value" id="ov-unique">—</div><div class="sub" id="ov-unique-sub"></div></div>
+    <div class="kpi"><div class="label">Sponsored Page Views · 30d <span class="src-tag src-tab">Tableau</span></div><div class="value" id="ov-extpv">—</div><div class="sub" id="ov-extpv-sub"></div></div>
     <div class="kpi" style="border-left-color:#f59e0b"><div class="label">Delivery Pacing <span class="src-tag src-pio">PIO</span></div><div class="value" id="ov-pace" style="font-size:19px">—</div><div class="sub" id="ov-pace-sub"></div></div>
   </div>
   <div class="chart-grid">
     <div class="chart-card"><h3>Visits by Brand · Last 7 Days <span class="src-tag src-adobe">Adobe</span></h3><canvas id="chart7DayBar" height="220"></canvas></div>
-    <div class="chart-card"><h3>Sponsored Page Views by Brand · 10d <span class="src-tag src-tab">Tableau</span></h3><canvas id="chartOvExtract" height="220"></canvas></div>
+    <div class="chart-card"><h3>Sponsored Page Views by Brand · 30d <span class="src-tag src-tab">Tableau</span></h3><canvas id="chartOvExtract" height="220"></canvas></div>
     <div class="chart-card full"><h3>Average Time on Site · All Brands (Last 7 Days) <span class="src-tag src-adobe">Adobe</span></h3><canvas id="chartEngagement" height="100"></canvas></div>
   </div>
   <div class="chart-card full" style="margin-top:4px">
@@ -301,18 +301,18 @@
 <div class="page" id="page-sponsored-extract">
   <div class="src-legend">
     <span class="leg-label">Source:</span>
-    <span class="src-chip src-tab">Tableau — 10-day Content Extract (manual upload)</span>
+    <span class="src-chip src-tab">Tableau — 30-day Content Extract (manual upload)</span>
   </div>
   <div class="section-label">Sponsored Content · Content Extract (all brands) <span class="src-tag src-tab">Tableau</span></div>
-  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Sponsored/custom content only, published in the last 10 days, across <strong>all brands</strong> (more than the Adobe report covers). Added alongside the Adobe views, not replacing them. Metrics are cumulative pageviews / visits / unique per story by publish date (the extract has no avg-time). Stories that also appear in the Adobe Top Stories are tagged by brand + headline. <span style="color:#94a3b8">As of the <span id="ext-asof">Jul 9</span> extract — the manually-uploaded 10-day Tableau Content Extract CSV (sponsored/custom stories published Jul 1–Jul 8, all brands). Metrics are cumulative as of the pull.</span></p>
+  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Sponsored/custom content only, published in the last 30 days, across <strong>all brands</strong> (more than the Adobe report covers). Added alongside the Adobe views, not replacing them. Metrics are cumulative pageviews / visits / unique per story by publish date (the extract has no avg-time). Stories that also appear in the Adobe Top Stories are tagged by brand + headline. <span style="color:#94a3b8">As of the <span id="ext-asof">Jul 9</span> extract — the manually-uploaded 30-day Tableau Content Extract CSV (sponsored/custom stories published Jun 14–Jul 8, all brands — the pull begins Jun 14, so the window is ~24 days rather than a full 30). Metrics are cumulative as of the pull.</span></p>
   <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)">
-    <div class="kpi"><div class="label">Sponsored Stories · 10d</div><div class="value" id="ext-stories">0</div><div class="sub">all brands</div></div>
+    <div class="kpi"><div class="label">Sponsored Stories · 30d</div><div class="value" id="ext-stories">0</div><div class="sub">all brands</div></div>
     <div class="kpi green"><div class="label">Total Pageviews</div><div class="value" id="ext-pv">0</div><div class="sub">across sponsored stories</div></div>
     <div class="kpi blue"><div class="label">Brands</div><div class="value" id="ext-brands">0</div><div class="sub">with sponsored content</div></div>
     <div class="kpi purple"><div class="label">Top Brand</div><div class="value" id="ext-top" style="font-size:18px">—</div><div class="sub" id="ext-top-sub"></div></div>
   </div>
   <div class="chart-card">
-    <h3>🏆 Top Sponsored Stories (last 10 days, all brands)</h3>
+    <h3>🏆 Top Sponsored Stories (last 30 days, all brands)</h3>
     <table class="brand-table">
       <thead><tr><th>Brand</th><th>Headline</th><th>Published</th><th>Pageviews</th><th>Visits</th><th>Unique</th></tr></thead>
       <tbody id="ext-story-tbody"></tbody>
@@ -673,46 +673,51 @@ document.getElementById('live-list').innerHTML = liveContent.map(x => {
 // P&I Benchmark & Pacing moved to the standalone P&I dashboard artifact (pi-content-pacing-dashboard).
 
 // ===== Sponsored Content Extract (all brands) — incorporated alongside Adobe, matched by brand + headline =====
-const extractMeta = { asOf: "Jul 8", totalStories: 24, totalPV: 3525, brands: 8 };
+const extractMeta = { asOf: "Jul 8", totalStories: 76, totalPV: 23628, brands: 13 };
 const extractBrands = [
-  { brand: "Crain's New York", stories: 4, pv: 1130, visits: 1066 },
-  { brand: "Ad Age", stories: 7, pv: 967, visits: 894 },
-  { brand: "Plastics News", stories: 6, pv: 713, visits: 708 },
-  { brand: "Automotive News", stories: 1, pv: 346, visits: 336 },
-  { brand: "Modern Healthcare", stories: 2, pv: 214, visits: 182 },
-  { brand: "Tire Business", stories: 1, pv: 107, visits: 106 },
-  { brand: "Crain's Detroit", stories: 2, pv: 36, visits: 35 },
-  { brand: "Crain's Cleveland", stories: 1, pv: 12, visits: 10 },
+  { brand: "Ad Age", stories: 10, pv: 5425, visits: 5103 },
+  { brand: "Crain's Detroit", stories: 16, pv: 3553, visits: 3256 },
+  { brand: "Crain's Chicago", stories: 2, pv: 3367, visits: 2982 },
+  { brand: "Modern Healthcare", stories: 2, pv: 3077, visits: 2922 },
+  { brand: "Plastics News", stories: 8, pv: 2599, visits: 2556 },
+  { brand: "P&I", stories: 2, pv: 1581, visits: 1533 },
+  { brand: "Crain's Cleveland", stories: 10, pv: 1526, visits: 1386 },
+  { brand: "Crain's Grand Rapids", stories: 7, pv: 807, visits: 756 },
+  { brand: "Hart Energy", stories: 1, pv: 607, visits: 535 },
+  { brand: "Automotive News", stories: 2, pv: 408, visits: 386 },
+  { brand: "Crain's New York", stories: 13, pv: 324, visits: 306 },
+  { brand: "Automobilwoche", stories: 1, pv: 245, visits: 217 },
+  { brand: "Tire Business", stories: 2, pv: 109, visits: 107 },
 ];
 const extractStories = [
-  { brand:"Crain's New York", pub:"Jul 6", pv:1059, v:1001, u:945, title:"Manhattan’s office rebound is fueling demand for high-end construction", url:"https://www.crainsnewyork.com//crains-content-studio/publishing-partner/cny-manhattan-office-recovery-boosts-contractors/" },
-  { brand:"Plastics News", pub:"Jul 1", pv:375, v:376, u:370, title:"MGS and KraussMaffei: Scaling medical production worldwide", url:"https://www.plasticsnews.com//sponsored-content/pn-mgs-and-kraussmaffei-scaling-medical-production-worldwide/" },
-  { brand:"Automotive News", pub:"Jul 7", pv:346, v:336, u:321, title:"Bringing clarity to European automotive network performance through KPI reporting", url:"https://autonews.com/sponsored/publishing-partners/an-bringing-clarity-european-automotive-network-performance-kpi-reporting/" },
-  { brand:"Ad Age", pub:"Jul 6", pv:335, v:303, u:278, title:"AI is changing local TV advertising, but who holds the best data still decides who wins", url:"https://adage.com/studio-30/publishing-partners/aa-ai-is-changing-local-tv-advertising-but-who-holds-the-best-data-still-decides-who-wins/" },
-  { brand:"Ad Age", pub:"Jul 1", pv:273, v:261, u:232, title:"The next frontier through consumer engagement: Building brands through experience", url:"https://adage.com/studio-30/custom-conversation/aa-next-frontier-through-consumer-engagement-building-brands-through-experience/" },
-  { brand:"Plastics News", pub:"Jul 2", pv:252, v:251, u:244, title:"The circularity standard: how bio-based plastic supports recyclability and reusability", url:"https://www.plasticsnews.com//sponsored-content/pn-the-circularity-standard-how-bio-based-plastic-supports-recyclability-and-reusability/" },
-  { brand:"Ad Age", pub:"Jul 1", pv:163, v:153, u:144, title:"Locals only: How local strategy fuels national performance", url:"https://adage.com/studio-30/custom-conversation/aa-how-local-strategy-fuels-national-performance/" },
-  { brand:"Modern Healthcare", pub:"Jul 6", pv:159, v:136, u:133, title:"How compatibility-based care could transform patient engagement", url:"https://modernhealthcare.com/content-studio/quicktake/mh-compatibility-based-care-transform-patient-engagement/" },
-  { brand:"Tire Business", pub:"Jul 7", pv:107, v:106, u:99, title:"Sailun Terramax helps dealers match the tire to the truck", url:"https://www.tirebusiness.com//sponsored-content/pn-sailun-terramax-helps-dealers-match-the-tire-to-the-truck/" },
-  { brand:"Ad Age", pub:"Jul 6", pv:107, v:101, u:89, title:"Reimagining discovery: How Target and Roundel are connecting guests and brands", url:"https://adage.com/studio-30/custom-conversation/aa-reimagining-discovery-how-target-roundel-connecting-guests-brands/" },
-  { brand:"Plastics News", pub:"Jul 2", pv:59, v:56, u:53, title:"Fuelling supply chain resilience: how sustainable practices help weather incoming storms", url:"https://www.plasticsnews.com//sustainable-plastics/sponsored-content/sp-fuelling-supply-chain-resilience-how-sustainable-practices-help-weather-incoming-storms-why-starting-at-the-source-can-help-businesses-balance-cost-and-resilience/" },
-  { brand:"Modern Healthcare", pub:"Jul 6", pv:55, v:46, u:41, title:"City of Hope’s Dr. Marcel van den Brink on the microbiome, cancer research and patient impact", url:"https://modernhealthcare.com/content-studio/quicktake/mh-city-hope-microbiome-cancer-research-patient-impact/" },
-  { brand:"Crain's New York", pub:"Jul 6", pv:49, v:43, u:32, title:"Ross B. Dickman", url:"https://www.crainsnewyork.com//people-on-the-move/cny-ross-b-dickman/" },
-  { brand:"Ad Age", pub:"Jul 8", pv:37, v:31, u:29, title:"From integration to immersion: Building brands through storytelling", url:"https://adage.com/studio-30/custom-conversation/aa-integration-immersion-building-brands-through-storytelling/" },
-  { brand:"Ad Age", pub:"Jul 8", pv:31, v:25, u:21, title:"The new playbook for sports, streaming and fandom", url:"https://adage.com/studio-30/custom-conversation/aa-the-new-playbook-sports-streaming-fandom/" },
-  { brand:"Crain's Detroit", pub:"Jul 1", pv:23, v:23, u:22, title:"Kraig Hansen", url:"https://www.crainsdetroit.com//people-on-the-move/cdb-kraig-hansen/" },
-  { brand:"Plastics News", pub:"Jul 8", pv:23, v:19, u:16, title:"TaipeiPLAS 2026 Opens Booth Application and Visitor Registration: Advancing Circularity, Material Innovation and Sustainable Manufacturing", url:"https://www.plasticsnews.com//sustainable-plastics/sponsored-content/sp-taipeiplas-2026-opens-booth-application-and-visitor-registration-advancing-circularity-material-innovation-and-sustainable-manufacturing/" },
-  { brand:"Ad Age", pub:"Jul 8", pv:21, v:20, u:20, title:"Delivering on local: DoorDash Ads at Cannes 2026", url:"https://adage.com/studio-30/custom-conversation/aa-delivering-on-local-doordash-ads-at-cannes-2026/" },
-  { brand:"Crain's Detroit", pub:"Jul 7", pv:13, v:12, u:12, title:"Gaetano Vitale", url:"https://www.crainsdetroit.com//people-on-the-move/ccb-gaetano-vitale/" },
-  { brand:"Crain's Cleveland", pub:"Jul 7", pv:12, v:10, u:10, title:"Alex Jones", url:"https://www.crainscleveland.com//people-on-the-move/ccl-alex-jones/" },
-  { brand:"Crain's New York", pub:"Jul 6", pv:11, v:11, u:10, title:"Shani Chill", url:"https://www.crainsnewyork.com//people-on-the-move/cny-shani-chill/" },
-  { brand:"Crain's New York", pub:"Jul 1", pv:11, v:11, u:11, title:"Matthew A. Brown", url:"https://www.crainsnewyork.com//people-on-the-move/cny-matthew-a-brown/" },
-  { brand:"Plastics News", pub:"Jul 8", pv:2, v:3, u:3, title:"Practical AI for Plastics Innovation: Lessons from an R&D Leaders", url:"https://www.plasticsnews.com//events/webinars/pn-practical-ai-plastics-innovation-lessons-rd-leaders/" },
-  { brand:"Plastics News", pub:"Jul 1", pv:2, v:3, u:3, title:"Stop Negotiating Blind: How Resin Buyers Can Take Back Leverage", url:"https://www.plasticsnews.com//events/webinars/pn-how-resin-buyers-can-take-back-leverage/" },
+  { brand:"Crain's Chicago", pub:"Jun 22", pv:3117, v:2755, u:2594, title:"CIBC US Faces of Impact Chicago Affordable Housing", url:"https://www.chicagobusiness.com//crains-content-studio/publishing-partner/ccb-cibc-faces-impact/" },
+  { brand:"Modern Healthcare", pub:"Jun 15", pv:1900, v:1760, u:1701, title:"Expanding access to lung transplant: How leading health systems are scaling complex care", url:"https://modernhealthcare.com/content-studio/publishing-partner/mh-expanding-access-to-lung-transplant-how-leading-health-systems-are-scaling-complex-care/" },
+  { brand:"P&I", pub:"Jun 15", pv:1578, v:1531, u:1507, title:"Fixed Income: A Supportive Ballast", url:"https://pionline.com/partner-content/pi-fixed-income-supportive-ballast/" },
+  { brand:"Ad Age", pub:"Jun 17", pv:1337, v:1287, u:1255, title:"Celebrating 30 years of digital advertising growth and innovation", url:"https://adage.com/studio-30/interactive-reports/aa-celebrating-30-years-digital-advertising-growth-innovation/" },
+  { brand:"Modern Healthcare", pub:"Jun 22", pv:1177, v:1162, u:1126, title:"The future of cancer care: Why collaboration is essential", url:"https://modernhealthcare.com/content-studio/quicktake/mh-future-cancer-care-collaboration-robert-stone-city-of-hope/" },
+  { brand:"Ad Age", pub:"Jun 15", pv:1173, v:1143, u:1104, title:"The pivot challenge wellness brands must navigate", url:"https://adage.com/studio-30/publishing-partners/aa-the-pivot-challenge-wellness-brands-must-navigate/" },
+  { brand:"Ad Age", pub:"Jun 18", pv:1121, v:1067, u:1025, title:"Presenting the Ad Age Creativity Awards Best YouTube Creator Collaboration winner", url:"https://adage.com/studio-30/publishing-partners/aa-presenting-the-adage-creativity-awards-best-youtube-creator-collaboration-winner/" },
+  { brand:"Crain's Cleveland", pub:"Jun 16", pv:1057, v:953, u:913, title:"Cordelia chef Vinnie Cimino celebrates ‘awesome’ James Beard nod despite falling short", url:"https://www.crainscleveland.com//restaurants/ccl-cleveland-shut-out-from-james-beard-awards-20260615/" },
+  { brand:"Plastics News", pub:"Jun 16", pv:988, v:982, u:973, title:"The Risk You Can’t See: Why Process Drift Is Costing More Than Manufacturers Realize", url:"https://www.plasticsnews.com//sponsored-content/pn-the-risk-you-cant-see-why-process-drift-is-costing-more-than-manufacturers-realize/" },
+  { brand:"Crain's Detroit", pub:"Jun 15", pv:839, v:817, u:799, title:"WATCH: Skillman Foundation CEO on Michigan’s education ‘marathon’", url:"https://www.crainsdetroit.com//crains-content-studio/quicktake/cdb-skillman-foundation-ceo-on-michigans-education-marathon/" },
+  { brand:"Plastics News", pub:"Jun 26", pv:833, v:813, u:788, title:"Milacron Celebrates America’s 250th with a Tribute to U.S. Manufacturing Strength", url:"https://www.plasticsnews.com//sponsored-content/pn-milacron-celebrates-americas-250th-with-a-tribute-to-us-manufacturing-strength/" },
+  { brand:"Ad Age", pub:"Jun 30", pv:683, v:641, u:599, title:"Three TV advertising takeaways from Cannes Lions 2026", url:"https://adage.com/studio-30/publishing-partners/aa-three-tv-advertising-takeaways-cannes-lions-2026/" },
+  { brand:"Crain's Detroit", pub:"Jun 15", pv:629, v:561, u:540, title:"WATCH: How Michigan credit unions are tackling affordability challenges", url:"https://www.crainsdetroit.com//crains-content-studio/quicktake/cdb-michigan-credit-unions-tackle-affordability/" },
+  { brand:"Hart Energy", pub:"Jun 22", pv:607, v:535, u:513, title:"The Right Plunger Changes Everything. Here’s the Proof.", url:"https://www.hartenergy.com//sponsored/industry-voice/he-right-plunger-changes-everything/" },
+  { brand:"Crain's Detroit", pub:"Jun 15", pv:385, v:347, u:330, title:"WATCH: How American Center for Mobility is future-proofing Michigan’s mobility and automotive engineering legacy", url:"https://www.crainsdetroit.com//crains-content-studio/quicktake/cdb-american-center-mobility-future-proofing-michigan-mobility/" },
+  { brand:"Plastics News", pub:"Jul 1", pv:382, v:382, u:375, title:"MGS and KraussMaffei: Scaling medical production worldwide", url:"https://www.plasticsnews.com//sponsored-content/pn-mgs-and-kraussmaffei-scaling-medical-production-worldwide/" },
+  { brand:"Crain's Detroit", pub:"Jun 15", pv:331, v:310, u:301, title:"Tackling the hidden workforce crisis behind America’s dental deserts", url:"https://www.crainsdetroit.com//crains-content-studio/executive-insights/ccl-tackling-hidden-workforce-crisis-americas-dental-deserts/" },
+  { brand:"Crain's Cleveland", pub:"Jun 15", pv:324, v:296, u:284, title:"Tackling the hidden workforce crisis behind America’s dental deserts", url:"https://www.crainscleveland.com//crains-content-studio/executive-insights/ccl-tackling-hidden-workforce-crisis-americas-dental-deserts/" },
+  { brand:"Crain's Detroit", pub:"Jun 15", pv:306, v:294, u:283, title:"WATCH: How Kettering University bridges education and industry", url:"https://www.crainsdetroit.com//crains-content-studio/quicktake/cdb-kettering-university-connects-students-to-careers/" },
+  { brand:"Ad Age", pub:"Jul 1", pv:295, v:278, u:247, title:"The next frontier through consumer engagement: Building brands through experience", url:"https://adage.com/studio-30/custom-conversation/aa-next-frontier-through-consumer-engagement-building-brands-through-experience/" },
+  { brand:"Crain's Detroit", pub:"Jun 15", pv:290, v:249, u:230, title:"WATCH: DTE Energy’s Trevor Lauer on why data centers are a win for Michigan", url:"https://www.crainsdetroit.com//crains-content-studio/quicktake/cd-dte-energy-trevor-lauer-on-michigan-data-centers/" },
+  { brand:"Ad Age", pub:"Jun 26", pv:284, v:230, u:199, title:"2-minute power plays: FAST, unfiltered", url:"https://adage.com/studio-30/custom-conversation/aa-2-minute-power-plays-fast-unfiltered/" },
+  { brand:"Automotive News", pub:"Jun 29", pv:277, v:270, u:261, title:"Evaluating dealership expansion and operational improvements", url:"https://autonews.com/sponsored/executive-insights/an-evaluating-dealership-expansion-operational-improvements/" },
+  { brand:"Plastics News", pub:"Jul 2", pv:266, v:264, u:256, title:"The circularity standard: how bio-based plastic supports recyclability and reusability", url:"https://www.plasticsnews.com//sponsored-content/pn-the-circularity-standard-how-bio-based-plastic-supports-recyclability-and-reusability/" },
 ];
 const _extTop = [...extractBrands].sort((a,b)=>b.pv-a.pv).slice(0,8);
 const _cOvExtract = new Chart(document.getElementById('chartOvExtract'), { type:'bar',
-  data:{ labels:_extTop.map(b=>b.brand.replace("Crain's ","")), datasets:[{ label:'Sponsored PV (10d)', data:_extTop.map(b=>b.pv), backgroundColor:'#22c55e', borderRadius:6 }] },
+  data:{ labels:_extTop.map(b=>b.brand.replace("Crain's ","")), datasets:[{ label:'Sponsored PV (30d)', data:_extTop.map(b=>b.pv), backgroundColor:'#22c55e', borderRadius:6 }] },
   options:{ responsive:true, plugins:{ legend:{ display:false } }, scales:{ y:{ beginAtZero:true, grid:{ color:'#f1f5f9' }, ticks:{ font:{ size:11 } } }, x:{ grid:{ display:false }, ticks:{ font:{ size:9 }, maxRotation:60, minRotation:45 } } } } });
 
 const _dashTitles = (typeof topStories !== 'undefined' ? topStories.map(s => s.title) : [])
@@ -779,7 +784,7 @@ const ovInsights = [
   { src:'src-adobe', tag:'Adobe', text:`<strong>${sorted7[0].name} leads the portfolio</strong> — ${sorted7[0].visits7.toLocaleString()} visits over 7 days at a ${sorted7[0].time7} avg. ${sorted7[1].name} is #2 (${sorted7[1].visits7.toLocaleString()}).` },
   { src:'src-adobe', tag:'Adobe', text:`<strong>Engagement holds strong</strong> — portfolio weighted avg time ${_fmtSec(_ovEngSec)}; ${_ovTopEng.name} tops the brands at ${_ovTopEng.time7}.` },
   { src:'src-smart', tag:'Smartsheet', text:`<strong>${liveContent.length} project${liveContent.length===1?'':'s'} live today</strong> across ${_ovLiveBrands} brand${_ovLiveBrands===1?'':'s'}, $${liveRevTotal.toLocaleString()} booked revenue.` },
-  { src:'src-tab', tag:'Tableau', text:`<strong>${extractMeta.totalStories} sponsored stories</strong> ran in the last 10 days across ${extractMeta.brands} brands (${extractMeta.totalPV.toLocaleString()} pageviews).` },
+  { src:'src-tab', tag:'Tableau', text:`<strong>${extractMeta.totalStories} sponsored stories</strong> ran in the last 30 days across ${extractMeta.brands} brands (${extractMeta.totalPV.toLocaleString()} pageviews).` },
 ];
 document.getElementById('ov-insights').innerHTML = ovInsights.map(o=>`<div class="insight-item"><span class="src-tag ${o.src}" style="margin-top:2px">${o.tag}</span><p>${o.text}</p></div>`).join('');
 var _t3a = (typeof topStories!=='undefined'?topStories:[]).slice(0,3).map(function(s){return {title:s.title,url:s.url,brand:s.brand,m:s.visits,u:'visits'};});
