@@ -318,11 +318,12 @@
   <div class="section-label">Sponsored Content · Content Extract (all brands) <span class="src-tag src-tab">Tableau</span></div>
   <p style="font-size:13px;color:#64748b;margin-bottom:16px">Sponsored/custom content only, published in the last 32 days, across <strong>all brands</strong> (more than the Adobe report covers). Added alongside the Adobe views, not replacing them. Metrics are cumulative pageviews / visits / unique per story by publish date (the extract has no avg-time). Stories that also appear in the Adobe Top Stories are tagged by brand + headline. <span style="color:#94a3b8">As of the <span id="ext-asof">Jul 9</span> extract — the manually-uploaded 32-day Tableau Content Extract CSV (sponsored/custom stories published Jun 12–Jul 13, all brands). Metrics are cumulative as of the pull.</span></p>
   <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)">
-    <div class="kpi"><div class="label">Sponsored Stories · 32d</div><div class="value" id="ext-stories">0</div><div class="sub">all brands</div></div>
-    <div class="kpi green"><div class="label">Total Pageviews</div><div class="value" id="ext-pv">0</div><div class="sub">across sponsored stories</div></div>
+    <div class="kpi"><div class="label">Sponsored Stories · 32d</div><div class="value" id="ext-stories">0</div><div class="sub">custom content · all brands</div></div>
+    <div class="kpi green"><div class="label">Total Pageviews</div><div class="value" id="ext-pv">0</div><div class="sub">across custom content</div></div>
     <div class="kpi blue"><div class="label">Brands</div><div class="value" id="ext-brands">0</div><div class="sub">with sponsored content</div></div>
     <div class="kpi purple"><div class="label">Top Brand</div><div class="value" id="ext-top" style="font-size:18px">—</div><div class="sub" id="ext-top-sub"></div></div>
   </div>
+  <div id="ext-listings-note" style="display:flex;align-items:flex-start;gap:10px;background:#f8fafc;border:1px solid #e2e8f0;border-left:3px solid #94a3b8;border-radius:8px;padding:10px 14px;margin-bottom:18px;font-size:12px;color:#475569;line-height:1.5"></div>
   <div class="chart-card">
     <h3>🏆 Top Sponsored Stories (last 32 days, all brands)</h3>
     <table class="brand-table">
@@ -700,12 +701,12 @@ const brandFocus = [
     pitch: "<strong>Pitch:</strong> Energy-tech, data platforms and cloud sponsors on IndustryVoice and white papers. <em>Watch:</em> volume fell again to 264 visits (from 312) — the smallest brand this week. Pair the standards/field-ops reads with retargeting before adding new inventory.", visits7: 264, avgTime: "0:57" },
   { brand: "Automotive News", signal: "🔥 Sponsored", signalClass: "signal-steady", tab: true,
     topics: [{label:"AI / Mobility Tech",hot:true},{label:"Dealer Operations",hot:true},{label:"Executive Insights",hot:false},{label:"Women of Influence",hot:false}],
-    topStory: "<a href='https://autonews.com/sponsored/publishing-partners/an-taiwan-excellence-brings-trusted-ai-innovation-to-its-america-2026/' target='_blank' rel='noopener' style='color:#1e293b;border-bottom:1px solid #cbd5e1;text-decoration:none'>Taiwan Excellence Brings Trusted AI Innovation to ITS America 2026, Strengthening Taiwan–U.S. Mobility Partnerships</a> (2042 PV · Jun 12)",
-    pv: 2531, stories: 3, reach: "2415 visits · 2308 unique",
+    topStory: "<a href='https://autonews.com/sponsored/executive-insights/an-evaluating-dealership-expansion-operational-improvements/' target='_blank' rel='noopener' style='color:#1e293b;border-bottom:1px solid #cbd5e1;text-decoration:none'>Evaluating dealership expansion and operational improvements</a> (355 PV · Jun 29)",
+    pv: 489, stories: 2, reach: "468 visits · 443 unique",
     pitch: "<strong>Pitch:</strong> Mobility-tech, AI/ITS and dealer-software sponsors. The Taiwan Excellence AI/ITS read dominated the window (2,042 PV) — pair it with the dealership-expansion and Executive Insights Q&amp;A formats." },
   { brand: "Plastics News", signal: "🔥 Sponsored", signalClass: "signal-steady", tab: true,
     topics: [{label:"Machinery / OEM",hot:true},{label:"Medical Molding",hot:true},{label:"Process Control",hot:false},{label:"Webinars",hot:false}],
-    topStory: "<a href='https://www.plasticsnews.com/sponsored-content/pn-milacron-celebrates-americas-250th-with-a-tribute-to-us-manufacturing-strength/' target='_blank' rel='noopener' style='color:#1e293b;border-bottom:1px solid #cbd5e1;text-decoration:none'>Milacron Celebrates America’s 250th with a Tribute to U.S. Manufacturing Strength</a> (1252 PV · Jun 26)",
+    topStory: "<a href='https://www.plasticsnews.com/sponsored-content/pn-milacron-celebrates-americas-250th-with-a-tribute-to-us-manufacturing-strength/' target='_blank' rel='noopener' style='color:#1e293b;border-bottom:1px solid #cbd5e1;text-decoration:none'>Milacron Celebrates America’s 250th with a Tribute to U.S. Manufacturing Strength</a> (1,252 PV · Jun 26)",
     pv: 3620, stories: 8, reach: "3573 visits · 3503 unique",
     pitch: "<strong>Pitch:</strong> Machinery OEMs (Milacron, Engel, KraussMaffei), medical-molding and process-control sponsors. Strongest sponsored volume of the trade brands (9 stories) — Milacron's U.S. manufacturing tribute and the process-drift read both cleared 1,100 PV." },
   { brand: "Tire Business", signal: "🏷 Sponsored", signalClass: "signal-steady", tab: true,
@@ -833,19 +834,19 @@ document.getElementById('live-list').innerHTML = liveContent.map(x => {
 // P&I Benchmark & Pacing moved to the standalone P&I dashboard artifact (pi-content-pacing-dashboard).
 
 // ===== Sponsored Content Extract (all brands) — incorporated alongside Adobe, matched by brand + headline =====
-const extractMeta = { asOf: "Jul 13", totalStories: 99, totalPV: 33278, brands: 14 };
+const extractMeta = { asOf: "Jul 13", totalStories: 53, totalPV: 29866, brands: 13 };
+const extractListings = { stories: 45, pv: 1370, brands: 4 };  // People/Companies on the Move paid listings — reported separately, NOT in the headline numbers
 const extractBrands = [
   { brand: "Ad Age", stories: 11, pv: 8604, visits: 8168 },
-  { brand: "Crain's Detroit", stories: 26, pv: 4131, visits: 3783 },
   { brand: "Modern Healthcare", stories: 2, pv: 4013, visits: 3833 },
+  { brand: "Crain's Detroit", stories: 10, pv: 3672, visits: 3374 },
   { brand: "Plastics News", stories: 8, pv: 3620, visits: 3573 },
   { brand: "Crain's Chicago", stories: 3, pv: 3479, visits: 3075 },
-  { brand: "Automotive News", stories: 3, pv: 2531, visits: 2415 },
   { brand: "P&I", stories: 5, pv: 2061, visits: 1944 },
-  { brand: "Crain's Cleveland", stories: 13, pv: 1815, visits: 1633 },
-  { brand: "Crain's Grand Rapids", stories: 9, pv: 1105, visits: 1022 },
+  { brand: "Crain's Cleveland", stories: 2, pv: 1449, visits: 1286 },
+  { brand: "Crain's Grand Rapids", stories: 5, pv: 963, visits: 903 },
   { brand: "Hart Energy", stories: 1, pv: 637, visits: 566 },
-  { brand: "Crain's New York", stories: 14, pv: 403, visits: 379 },
+  { brand: "Automotive News", stories: 2, pv: 489, visits: 468 },
   { brand: "Tire Business", stories: 2, pv: 305, visits: 303 },
   { brand: "Rubber News", stories: 1, pv: 301, visits: 283 },
   { brand: "Automobilwoche", stories: 1, pv: 273, visits: 243 },
@@ -853,7 +854,6 @@ const extractBrands = [
 const extractStories = [
   { brand:"Crain's Chicago", pub:"Jun 22", pv:3158, v:2793, u:2630, title:"CIBC US Faces of Impact Chicago Affordable Housing", url:"https://www.chicagobusiness.com/crains-content-studio/publishing-partner/ccb-cibc-faces-impact/" },
   { brand:"Modern Healthcare", pub:"Jun 15", pv:2504, v:2333, u:2252, title:"Expanding access to lung transplant: How leading health systems are scaling complex care", url:"https://modernhealthcare.com/content-studio/publishing-partner/mh-expanding-access-to-lung-transplant-how-leading-health-systems-are-scaling-complex-care/" },
-  { brand:"Automotive News", pub:"Jun 12", pv:2042, v:1947, u:1865, title:"Taiwan Excellence Brings Trusted AI Innovation to ITS America 2026, Strengthening Taiwan–U.S. Mobility Partnerships", url:"https://autonews.com/sponsored/publishing-partners/an-taiwan-excellence-brings-trusted-ai-innovation-to-its-america-2026/" },
   { brand:"P&I", pub:"Jun 15", pv:1834, v:1753, u:1721, title:"Fixed Income: A Supportive Ballast", url:"https://pionline.com/partner-content/pi-fixed-income-supportive-ballast/" },
   { brand:"Modern Healthcare", pub:"Jun 22", pv:1509, v:1500, u:1455, title:"The future of cancer care: Why collaboration is essential", url:"https://modernhealthcare.com/content-studio/quicktake/mh-future-cancer-care-collaboration-robert-stone-city-of-hope/" },
   { brand:"Ad Age", pub:"Jun 17", pv:1417, v:1361, u:1321, title:"Celebrating 30 years of digital advertising growth and innovation", url:"https://adage.com/studio-30/interactive-reports/aa-celebrating-30-years-digital-advertising-growth-innovation/" },
@@ -875,6 +875,7 @@ const extractStories = [
   { brand:"Plastics News", pub:"Jul 2", pv:402, v:394, u:383, title:"The circularity standard: how bio-based plastic supports recyclability and reusability", url:"https://www.plasticsnews.com/sponsored-content/pn-the-circularity-standard-how-bio-based-plastic-supports-recyclability-and-reusability/" },
   { brand:"Crain's Detroit", pub:"Jun 15", pv:399, v:358, u:340, title:"WATCH: How American Center for Mobility is future-proofing Michigan’s mobility and automotive engineering legacy", url:"https://www.crainsdetroit.com/crains-content-studio/quicktake/cdb-american-center-mobility-future-proofing-michigan-mobility/" },
   { brand:"Ad Age", pub:"Jul 1", pv:390, v:367, u:333, title:"Locals only: How local strategy fuels national performance", url:"https://adage.com/studio-30/custom-conversation/aa-how-local-strategy-fuels-national-performance/" },
+  { brand:"Crain's Cleveland", pub:"Jun 15", pv:389, v:330, u:317, title:"Tackling the hidden workforce crisis behind America’s dental deserts", url:"https://www.crainscleveland.com/crains-content-studio/executive-insights/ccl-tackling-hidden-workforce-crisis-americas-dental-deserts/" },
 ];
 const _extTop = [...extractBrands].sort((a,b)=>b.pv-a.pv).slice(0,8);
 const _cOvExtract = new Chart(document.getElementById('chartOvExtract'), { type:'bar',
@@ -894,6 +895,8 @@ document.getElementById('ext-stories').textContent = extractMeta.totalStories;
 document.getElementById('ext-pv').textContent = extractMeta.totalPV.toLocaleString();
 document.getElementById('ext-brands').textContent = extractMeta.brands;
 document.getElementById('ext-asof').textContent = extractMeta.asOf;
+var _ln=document.getElementById('ext-listings-note');
+if(_ln && typeof extractListings !== 'undefined') _ln.innerHTML = '<span style="font-size:14px">\u2139\uFE0F</span><span><strong style="color:#334155">Excludes '+extractListings.stories+' People / Companies on the Move paid listings</strong> ('+extractListings.pv.toLocaleString()+' PV across '+extractListings.brands+' brands). Sold as sponsored, but they are short paid listings rather than custom-content campaigns \u2014 counting them inflates story volume and drags down per-story averages. The headline figures above are custom content only.</span>';
 document.getElementById('ext-top').textContent = extractBrands[0].brand;
 document.getElementById('ext-top-sub').textContent = extractBrands[0].pv.toLocaleString() + ' PV · ' + extractBrands[0].stories + ' stories';
 var _eb=document.getElementById('ext-brand-tbody'); if(_eb) _eb.innerHTML = extractBrands.map(b => `<tr>
