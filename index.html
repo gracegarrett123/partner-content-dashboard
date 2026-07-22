@@ -2,7 +2,7 @@
 {
   "name": "Ad Solutions Team Dashboard",
   "schemaVersion": 1,
-  "description": "Ad Solutions Team dashboard — big-picture, revenue-aware performance across Adobe Analytics (site traffic + content extract) and Smartsheet (launches & revenue). Nav: Overview, Today's Go Lives, Tableau Data (Top Stories), Adobe Data (Top Stories, Traffic), Brand Focus, Insights & Recs, Suggestions. P&I is on its own dashboard. Auto-refreshed daily.",
+  "description": "Ad Solutions Team dashboard — big-picture, revenue-aware performance across Adobe Analytics (site traffic + content extract) and Smartsheet (launches & revenue). Nav: Overview, Today's Go Lives, Adobe Data (Top Stories, Traffic, Content Extract), Audience, Brand Focus, Insights & Recs, Actions, Suggestions. P&I is on its own dashboard. Auto-refreshed daily.",
   "mcpTools": [
     "mcp__09e4c9dd-00d9-44a0-94d7-573300fdabc9__get_report"
   ],
@@ -218,22 +218,17 @@
     <button data-ct="Sponsored">Sponsored</button>
   </div>
   <span class="fb-context" id="fb-context"></span>
-  <span class="fb-note">Drives the <b>Audience</b> &amp; <b>Tableau Data ▸ Top Stories</b> views. Site traffic, go-lives &amp; the engagement quadrant keep their own fixed windows.</span>
+  <span class="fb-note">Drives the <b>Audience</b> &amp; <b>Adobe Data ▸ Content Extract</b> views. Site traffic, go-lives &amp; the engagement quadrant keep their own fixed windows.</span>
 </div>
 <div class="tabs">
   <div class="tab active" onclick="showPage('overview')">Overview</div>
   <div class="tab" onclick="showPage('live')">Today's Go Lives</div>
   <div class="tabdrop">
-    <div class="tab tab-parent" onclick="toggleDrop(event,'d-tableau')">Tableau Data <span class="caret">▾</span></div>
-    <div class="dropmenu" id="d-tableau">
-      <div class="dropitem" onclick="showPage('sponsored-extract')">Top Stories</div>
-    </div>
-  </div>
-  <div class="tabdrop">
     <div class="tab tab-parent" onclick="toggleDrop(event,'d-adobe')">Adobe Data <span class="caret">▾</span></div>
     <div class="dropmenu" id="d-adobe">
       <div class="dropitem" onclick="showPage('stories')">Top Stories</div>
       <div class="dropitem" onclick="showPage('traffic')">Traffic</div>
+      <div class="dropitem" onclick="showPage('sponsored-extract')">Content Extract (Sponsored)</div>
     </div>
   </div>
   <div class="tab" onclick="showPage('audience')">Audience</div>
@@ -257,7 +252,7 @@
     <span class="src-chip src-tab">Adobe Analytics — content extract</span>
     <span class="src-chip src-pio">PIO Pacing — delivery</span>
   </div>
-  <p class="ov-note">Big-picture performance across the portfolio — Adobe site traffic, today's go-lives, sponsored-content reach, and delivery pacing. Every figure is tagged with its source. Brand-level traffic sits under <a onclick="showPage('traffic')">Adobe Data → Traffic</a>; sponsored-content depth under <a onclick="showPage('sponsored-extract')">Tableau Data → Top Stories</a>; P&amp;I now lives on its own dashboard.</p>
+  <p class="ov-note">Big-picture performance across the portfolio — Adobe site traffic, today's go-lives, sponsored-content reach, and delivery pacing. Every figure is tagged with its source. Brand-level traffic sits under <a onclick="showPage('traffic')">Adobe Data → Traffic</a>; sponsored-content depth under <a onclick="showPage('sponsored-extract')">Adobe Data → Content Extract</a>; P&amp;I now lives on its own dashboard.</p>
   <div class="kpi-grid">
     <div class="kpi"><div class="label">Page Views · Last 7 Days <span class="src-tag src-adobe">Adobe</span></div><div class="value" id="ov-pv">—</div><div class="sub" id="ov-pv-sub"></div></div>
     <div class="kpi green"><div class="label">Visits · Last 7 Days <span class="src-tag src-adobe">Adobe</span></div><div class="value" id="ov-visits">—</div><div class="sub" id="ov-visits-sub"></div></div>
