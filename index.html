@@ -204,22 +204,6 @@
   </div>
 </div>
 
-<div class="filter-bar">
-  <span class="fb-title">FILTERS</span>
-  <div class="fb-group" id="fb-window">
-    <button data-win="Last 7 days">7 days</button>
-    <button data-win="Last 30 days" class="active">30 days</button>
-    <button data-win="Lifetime (YTD)">Lifetime</button>
-  </div>
-  <select id="fb-brand" class="fb-select"><option value="All brands">All brands</option><option value="Modern Healthcare">Modern Healthcare</option><option value="Ad Age">Ad Age</option><option value="Automotive News">Automotive News</option><option value="Crain's Chicago">Crain's Chicago</option><option value="Plastics News">Plastics News</option><option value="Crain's Detroit">Crain's Detroit</option><option value="Crain's New York">Crain's New York</option><option value="Crain's Grand Rapids">Crain's Grand Rapids</option><option value="Crain's Cleveland">Crain's Cleveland</option><option value="Hart Energy">Hart Energy</option><option value="Rubber News">Rubber News</option><option value="P&amp;I">P&amp;I</option><option value="Tire Business">Tire Business</option><option value="Automobilwoche">Automobilwoche</option></select>
-  <div class="fb-group" id="fb-ctype">
-    <button data-ct="All" class="active">All</button>
-    <button data-ct="Editorial">Editorial</button>
-    <button data-ct="Sponsored">Sponsored</button>
-  </div>
-  <span class="fb-context" id="fb-context"></span>
-  <span class="fb-note">Drives the <b>Overview</b> sponsored metrics, <b>Audience</b> &amp; <b>Adobe Data ▸ Content Extract</b>. Site traffic, go-lives &amp; the engagement quadrant keep their own fixed windows.</span>
-</div>
 <div class="tabs">
   <div class="tab active" onclick="showPage('overview')">Overview</div>
   <div class="tab" onclick="showPage('live')">Today's Go Lives</div>
@@ -247,6 +231,23 @@
     </div>
   </div>
   <div class="tab" onclick="showPage('suggestions')">💡 Suggestions</div>
+</div>
+
+<div class="filter-bar">
+  <span class="fb-title">FILTERS</span>
+  <div class="fb-group" id="fb-window">
+    <button data-win="Last 7 days">7 days</button>
+    <button data-win="Last 30 days" class="active">30 days</button>
+    <button data-win="Lifetime (YTD)">Lifetime</button>
+  </div>
+  <select id="fb-brand" class="fb-select"><option value="All brands">All brands</option><option value="Modern Healthcare">Modern Healthcare</option><option value="Ad Age">Ad Age</option><option value="Automotive News">Automotive News</option><option value="Crain's Chicago">Crain's Chicago</option><option value="Plastics News">Plastics News</option><option value="Crain's Detroit">Crain's Detroit</option><option value="Crain's New York">Crain's New York</option><option value="Crain's Grand Rapids">Crain's Grand Rapids</option><option value="Crain's Cleveland">Crain's Cleveland</option><option value="Hart Energy">Hart Energy</option><option value="Rubber News">Rubber News</option><option value="P&amp;I">P&amp;I</option><option value="Tire Business">Tire Business</option><option value="Automobilwoche">Automobilwoche</option></select>
+  <div class="fb-group" id="fb-ctype">
+    <button data-ct="All" class="active">All</button>
+    <button data-ct="Editorial">Editorial</button>
+    <button data-ct="Sponsored">Sponsored</button>
+  </div>
+  <span class="fb-context" id="fb-context"></span>
+  <span class="fb-note">Drives the <b>Overview</b> sponsored metrics, <b>Audience</b> &amp; <b>Adobe Data ▸ Content Extract</b>. Site traffic, go-lives &amp; the engagement quadrant keep their own fixed windows.</span>
 </div>
 
 <div class="page active" id="page-overview">
