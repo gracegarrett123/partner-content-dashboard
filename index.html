@@ -236,7 +236,7 @@
     <button data-win="Lifetime (YTD)">YTD 2026</button>
   </div>
   <select id="fb-brand" class="fb-select"><option value="All brands">All brands</option><option value="Automotive News">Automotive News</option><option value="Crain's Chicago">Crain's Chicago</option><option value="Ad Age">Ad Age</option><option value="Automobilwoche">Automobilwoche</option><option value="Modern Healthcare">Modern Healthcare</option><option value="Crain's Detroit">Crain's Detroit</option><option value="Crain's Cleveland">Crain's Cleveland</option><option value="Crain's New York">Crain's New York</option><option value="Hart Energy">Hart Energy</option><option value="P&amp;I">P&amp;I</option><option value="Crain's Grand Rapids">Crain's Grand Rapids</option><option value="Plastics News">Plastics News</option><option value="Tire Business">Tire Business</option><option value="Rubber News">Rubber News</option></select>
-  <div class="fb-group" id="fb-ctype">
+  <div class="fb-group" id="fb-ctype" style="display:none">
     <button data-ct="All">All</button>
     <button data-ct="Editorial">Editorial</button>
     <button data-ct="Sponsored" class="active">Sponsored</button>
@@ -1171,6 +1171,8 @@ function showPage(id) {
   if (typeof _charts !== 'undefined') (_charts[id] || []).forEach(c => { try { c.resize(); } catch(e) {} });
   var _fp={overview:1, audience:1, 'sponsored-extract':1};
   var _fb=document.querySelector('.filter-bar'); if(_fb) _fb.style.display=_fp[id]?'flex':'none';
+  var _ctg=document.getElementById('fb-ctype'); if(_ctg) _ctg.style.display=(id==='audience')?'inline-flex':'none';
+  if(id!=='audience' && FILTER.ctype!=='Sponsored'){ FILTER.ctype='Sponsored'; document.querySelectorAll('#fb-ctype button').forEach(function(b){b.classList.toggle('active', b.getAttribute('data-ct')==='Sponsored');}); applyFilters(); }
 }
 function toggleDrop(e, id) {
   e.stopPropagation();
