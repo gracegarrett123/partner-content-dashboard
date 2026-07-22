@@ -181,6 +181,10 @@
 .filter-bar .fb-select{font-family:inherit;font-size:12px;color:#1e293b;background:#fff;border:1px solid #dbe3ec;border-radius:8px;padding:6px 10px;min-width:170px}
 .filter-bar .fb-context{font-size:12px;color:#1c3a5e;font-weight:600}
 .filter-bar .fb-note{font-size:11px;color:#94a3b8;flex-basis:100%;line-height:1.4}
+.prod-pill{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:2px 7px;border-radius:20px;background:#eef2f7;color:#1c3a5e;white-space:nowrap}
+.brand-block{margin-bottom:20px}
+.brand-block-h{display:flex;align-items:baseline;gap:10px;font-size:15px;font-weight:800;color:#1c3a5e;padding:6px 0;border-bottom:2px solid #e2e8f0;margin-bottom:6px}
+.brand-block-h span{font-size:11px;font-weight:600;color:#94a3b8;text-transform:none;letter-spacing:0}
 </style>
 </head>
 <body>
@@ -362,20 +366,17 @@
     <span class="leg-label">Source:</span>
     <span class="src-chip src-tab">Adobe Analytics — content extract (manual upload)</span>
   </div>
-  <div class="section-label">Sponsored Content · Content Extract (all brands) <span class="src-tag src-adobe">Adobe</span></div>
-  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Sponsored/custom content across <strong>all brands</strong>, from the Adobe content extract. Use the filter bar to switch <strong>window</strong> (7-day / 30-day / lifetime) and <strong>brand</strong>. Figures are each story’s cumulative pageviews / visits / unique to date (the extract has no avg-time). Stories that also appear in the Adobe Top Stories are tagged. <span style="color:#94a3b8">Showing the <span id="ext-window">Last 30 days</span> window · as of the <span id="ext-asof">Jul 18</span> pull.</span></p>
+  <div class="section-label">Top 10 Stories by Brand · Content Extract <span class="src-tag src-adobe">Adobe</span></div>
+  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Each brand’s <strong>top 10 stories</strong> from the Adobe content extract. Use the filter bar to switch <strong>window</strong> (7-day / 30-day / lifetime), <strong>brand</strong>, and <strong>content type</strong> (All / Editorial / Sponsored). <strong>Product</strong> is inferred from the URL &amp; site section (Webinar, Podcast, Video, Conversation, Report/Guide, People Move, Awards, Quick Take, Article) — directional, not from a formal field. Figures are each story’s cumulative pageviews / visits to date. <span style="color:#94a3b8">Showing the <span id="ext-window">Last 30 days</span> window · as of the <span id="ext-asof">Jul 18</span> pull.</span></p>
   <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)">
-    <div class="kpi"><div class="label">Sponsored Stories</div><div class="value" id="ext-stories">0</div><div class="sub">all brands</div></div>
-    <div class="kpi green"><div class="label">Total Pageviews</div><div class="value" id="ext-pv">0</div><div class="sub">across sponsored stories</div></div>
-    <div class="kpi blue"><div class="label">Brands</div><div class="value" id="ext-brands">0</div><div class="sub">with sponsored content</div></div>
+    <div class="kpi"><div class="label"><span id="ext-stories-lbl">Stories</span></div><div class="value" id="ext-stories">0</div><div class="sub">in this view</div></div>
+    <div class="kpi green"><div class="label">Total Pageviews</div><div class="value" id="ext-pv">0</div><div class="sub">across stories shown</div></div>
+    <div class="kpi blue"><div class="label">Brands</div><div class="value" id="ext-brands">0</div><div class="sub">with content</div></div>
     <div class="kpi purple"><div class="label">Top Brand</div><div class="value" id="ext-top" style="font-size:18px">—</div><div class="sub" id="ext-top-sub"></div></div>
   </div>
   <div class="chart-card">
-    <h3>🏆 Top Sponsored Stories</h3>
-    <table class="brand-table">
-      <thead><tr><th>Brand</th><th>Headline</th><th>Published</th><th>Pageviews</th><th>Visits</th><th>Unique</th></tr></thead>
-      <tbody id="ext-story-tbody"></tbody>
-    </table>
+    <h3>🏆 Top 10 Stories by Brand</h3>
+    <div id="ext-brand-blocks"></div>
   </div>
 </div>
 
@@ -941,34 +942,47 @@ function matchedOnDash(title) {
   return _dashTitles.some(d => { const dn = _normT(d); if (dn.length < 14 || !t) return false;
     for (let i = 0; i + 14 <= dn.length; i++) { if (t.includes(dn.substr(i, 14))) return true; } return false; });
 }
+function inferProduct(u,sec,t){
+  u=(u||'').toLowerCase(); sec=(sec||'').toLowerCase(); t=(t||'').toLowerCase(); var h=u+' '+sec+' '+t;
+  if(/webinar|webcast/.test(h)) return 'Webinar';
+  if(/podcast/.test(h)) return 'Podcast';
+  if(/\/video(s)?\/|video-|-video/.test(u)) return 'Video';
+  if(/people on the move|people-organizations|on the move|-appoint|-promot|-hire|-named/.test(sec+' '+u)) return 'People Move';
+  if(/awards|orbie/.test(h)) return 'Awards';
+  if(/quick-?take|quicktake/.test(h)) return 'Quick Take';
+  if(/custom-conversation|executive-conversation|conversation|q-and-a|q&a|interview|roundtable/.test(h)) return 'Conversation';
+  if(/interactive-report|thought-leader|thought leader|report|giving-guide|guide|whitepaper|white-paper|infographic|studio-30\/interactive/.test(h)) return 'Report/Guide';
+  return 'Article';
+}
 function renderExtract(){
-  var W = WINDOWS[FILTER.win];
-  var eB = W.extractBrands.slice(), eS = W.extractStories.slice();
-  var tStories = W.meta.totalStories, tPV = W.meta.totalPV, tBrands = W.meta.brands;
-  if(FILTER.brand !== "All brands"){
-    var bn = FILTER.brand.replace(/&amp;/g,'&');
-    eB = eB.filter(function(b){return b.brand===bn;});
-    eS = eS.filter(function(x){return x.brand===bn;});
-    tPV = eB.reduce(function(a,b){return a+b.pv;},0); tBrands = eB.length; tStories = eS.length;
-  }
-  var extTotalPV = eB.reduce(function(a,b){return a+b.pv;},0)||1;
-  document.getElementById('ext-stories').textContent = tStories;
-  document.getElementById('ext-pv').textContent = tPV.toLocaleString();
-  document.getElementById('ext-brands').textContent = tBrands;
-  document.getElementById('ext-asof').textContent = W.meta.asOf;
-  document.getElementById('ext-top').textContent = eB.length?eB[0].brand:'\u2014';
-  document.getElementById('ext-top-sub').textContent = eB.length?(eB[0].pv.toLocaleString()+' PV \u00b7 '+eB[0].stories+' stories'):'no stories in this view';
-  var wb=document.getElementById('ext-window'); if(wb) wb.textContent = W.meta.label+' \u00b7 '+W.meta.rng;
-  var _eb=document.getElementById('ext-brand-tbody'); if(_eb) _eb.innerHTML = eB.map(function(b){ return '<tr><td style="font-weight:600;font-size:13px">'+b.brand+'</td><td style="font-size:13px;color:#334155">'+b.stories+'</td><td>'+barCell(b.pv, eB[0].pv, 'green')+'</td><td style="font-size:13px;color:#334155">'+b.visits.toLocaleString()+'</td><td style="font-size:12px;color:#64748b">'+(b.pv/extTotalPV*100).toFixed(1)+'%</td></tr>'; }).join('');
-  document.getElementById('ext-story-tbody').innerHTML = eS.slice(0,24).map(function(s){
-    var m = matchedOnDash(s.title);
-    return '<tr><td><span class="brand-pill">'+s.brand+'</span></td>'
-      +'<td style="max-width:320px;font-weight:600;font-size:13px">'+s.title+(m?' <span class="status-badge" style="background:#eff6ff;color:#1d4ed8">\u25cf on Top Stories</span>':'')+'</td>'
-      +'<td style="font-size:13px;color:#334155">'+s.pub+'</td>'
-      +'<td style="font-size:13px;color:#334155">'+s.pv.toLocaleString()+'</td>'
-      +'<td style="font-size:13px;color:#334155">'+s.v.toLocaleString()+'</td>'
-      +'<td style="font-size:13px;color:#334155">'+s.u.toLocaleString()+'</td></tr>';
+  var W=WINDOWS[FILTER.win], ct=FILTER.ctype, bf=FILTER.brand, aud=W.aud;
+  var brs=Object.keys(aud).filter(function(k){return k!=='All brands';});
+  if(bf!=="All brands") brs=brs.filter(function(b){return b===bf;});
+  function statFor(b){ var a=aud[b]||{}; if(ct==='Editorial') return {n:(a.ed?a.ed.n:0),pv:(a.ed?a.ed.pv:0)}; if(ct==='Sponsored') return {n:(a.sp?a.sp.n:0),pv:(a.sp?a.sp.pv:0)}; return {n:((a.ed?a.ed.n:0)+(a.sp?a.sp.n:0)),pv:(a.pv||0)}; }
+  function storiesFor(b){ var a=aud[b]; if(!a) return []; if(ct==='Editorial') return (a.topEd||[]).slice(0,10); if(ct==='Sponsored') return (a.topSp||[]).slice(0,10); return (a.topEd||[]).concat(a.topSp||[]).sort(function(x,y){return y.pv-x.pv;}).slice(0,10); }
+  var totN=0,totPV=0,nBrands=0,topB=null,topBpv=-1;
+  brs.forEach(function(b){ var st=statFor(b); if(st.n>0){nBrands++; totN+=st.n; totPV+=st.pv; if(st.pv>topBpv){topBpv=st.pv; topB=b;}} });
+  var setT=function(id,v){var e=document.getElementById(id); if(e) e.textContent=v;};
+  setT('ext-stories-lbl', ct==='All'?'Stories':ct+' Stories');
+  setT('ext-stories', totN.toLocaleString()); setT('ext-pv', totPV.toLocaleString()); setT('ext-brands', nBrands);
+  setT('ext-asof', W.meta.asOf); setT('ext-top', topB||'—'); setT('ext-top-sub', topB?topBpv.toLocaleString()+' PV':'');
+  setT('ext-window', W.meta.label);
+  var ranked=brs.map(function(b){return {b:b,st:statFor(b)};}).filter(function(o){return o.st.n>0;}).sort(function(a,b){return b.st.pv-a.st.pv;});
+  var typ=(ct==='All'?'stories':ct.toLowerCase());
+  var html=ranked.map(function(o){
+    var rows=storiesFor(o.b).map(function(x){
+      var prod=inferProduct(x.u,x.s,x.t);
+      var head=x.u?'<a href="'+x.u+'" target="_blank" rel="noopener" style="color:#1e293b;text-decoration:none;border-bottom:1px solid #cbd5e1">'+x.t+'</a>':x.t;
+      return '<tr><td><span class="prod-pill">'+prod+'</span></td>'
+        +'<td style="max-width:340px;font-weight:600;font-size:13px">'+head+'</td>'
+        +'<td style="font-size:12px;color:#64748b">'+(x.s||'')+'</td>'
+        +'<td style="font-size:13px;color:#334155">'+x.pv.toLocaleString()+'</td>'
+        +'<td style="font-size:13px;color:#334155">'+x.v.toLocaleString()+'</td></tr>';
+    }).join('');
+    return '<div class="brand-block"><div class="brand-block-h">'+o.b+' <span>'+o.st.n.toLocaleString()+' '+typ+' · '+o.st.pv.toLocaleString()+' PV</span></div>'
+      +'<table class="brand-table"><thead><tr><th>Product</th><th>Headline</th><th>Section</th><th>Pageviews</th><th>Visits</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
   }).join('');
+  var cont=document.getElementById('ext-brand-blocks'); if(cont) cont.innerHTML=html||'<div style="color:#94a3b8;font-size:13px;padding:12px">No '+typ+' in this window / brand.</div>';
 }
 
 // ===== Overview roll-up (computed from the arrays above; every card is source-tagged) =====
