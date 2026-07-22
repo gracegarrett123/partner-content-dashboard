@@ -185,6 +185,17 @@
 .brand-block{margin-bottom:20px}
 .brand-block-h{display:flex;align-items:baseline;gap:10px;font-size:15px;font-weight:800;color:#1c3a5e;padding:6px 0;border-bottom:2px solid #e2e8f0;margin-bottom:6px}
 .brand-block-h span{font-size:11px;font-weight:600;color:#94a3b8;text-transform:none;letter-spacing:0}
+.src-legend{display:none}
+.src-tag{display:none}
+.tab-footer{margin:30px 0 8px;padding:14px 2px 0;border-top:1px solid #e2e8f0;display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;font-size:11px;color:#94a3b8;line-height:1.55}
+.tab-footer .tf-badge{font-size:9px;font-weight:800;letter-spacing:1px;color:#b45309;background:#fef3c7;border:1px solid #fde68a;padding:2px 7px;border-radius:20px}
+.tab-footer b{color:#64748b;font-weight:700}
+.tab-footer .tf-gaps{flex-basis:100%;color:#cbd5e1}
+.hero{background:linear-gradient(135deg,#1e3a5f,#4a6fa0);color:#fff;border-radius:14px;padding:20px 24px;margin-bottom:16px;box-shadow:0 2px 10px rgba(28,58,94,.18)}
+.hero .hero-eyebrow{font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;opacity:.72}
+.hero .hero-head{font-size:21px;font-weight:800;line-height:1.28;margin-top:5px}
+.hero .hero-sub{font-size:13px;opacity:.92;margin-top:7px}
+.kpi-sub-lbl{font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:#94a3b8;margin:14px 2px 8px}
 </style>
 </head>
 <body>
@@ -192,42 +203,29 @@
 <div class="header">
   <div class="brandlock"><svg class="cmark" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-label="Crain Communications"><defs><linearGradient id="craincg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1e3a5f"/><stop offset="1" stop-color="#5c82ae"/></linearGradient></defs><g fill="none" stroke="url(#craincg)" stroke-linecap="round"><circle cx="50" cy="50" r="41" stroke-width="8" stroke-dasharray="112 18" stroke-dashoffset="18"/><circle cx="50" cy="50" r="26" stroke-width="8" stroke-dasharray="70 12" stroke-dashoffset="52"/></g></svg><span class="wordmark"><b>CRAIN</b>&nbsp;COMMUNICATIONS</span></div>
   <h1>Ad Solutions · Daily Analytics Dashboard</h1>
-  <p>Updated Jul 18, 2026 · Content views are filter-driven · Sources: Adobe Analytics · Smartsheet</p>
-</div>
-
-<div class="data-status">
-  <span class="ds-badge">⚠ PROTOTYPE</span>
-  <div class="ds-body">
-    <strong>Internal working tool — not yet a source of truth.</strong> Adobe's site report and its content extract cover different windows and definitions, so figures won't tie out exactly; treat them as directional and flag anything that looks off.
-    <div class="ds-meta">
-      <span><b>Adobe · site traffic</b> — Jul 9–15 (refreshed Jul 16)</span>
-      <span><b>Adobe · content extract</b> — 7-day / 30-day / lifetime (YTD) windows selectable in the filter, through Jul 18; metrics = cumulative pageviews to date</span>
-      <span><b>Smartsheet · go-lives</b> — Jul 16</span>
-    </div>
-    <div class="ds-gaps"><b>Pending stakeholder input:</b> campaign/flight mapping &amp; AdOps pacing/delivery (Judy · Bernice · AdOps) and a SharePoint feed. Content-extract metrics are windowed per the pull, not daily.</div>
-  </div>
+  <p>Sponsored content performance across the portfolio · Adobe Analytics + Smartsheet</p>
 </div>
 
 <div class="tabs">
   <div class="tab active" onclick="showPage('overview')">Overview</div>
-  <div class="tab" onclick="showPage('live')">Today's Go Lives</div>
-  <div class="tab" onclick="showPage('sponsored-extract')">Adobe Data</div>
+  <div class="tab" onclick="showPage('sponsored-extract')">Sponsored Content</div>
   <div class="tab" onclick="showPage('audience')">Audience</div>
   <div class="tabdrop">
-    <div class="tab tab-parent" onclick="toggleDrop(event,'d-analysis')">Analysis <span class="caret">▾</span></div>
-    <div class="dropmenu" id="d-analysis">
+    <div class="tab tab-parent" onclick="toggleDrop(event,'d-insights')">Insights <span class="caret">▾</span></div>
+    <div class="dropmenu" id="d-insights">
       <div class="dropitem" onclick="showPage('focus')">Brand Focus</div>
-      <div class="dropitem" onclick="showPage('insights')">Insights &amp; Recs</div>
+      <div class="dropitem" onclick="showPage('insights')">Recommendations</div>
     </div>
   </div>
   <div class="tabdrop">
-    <div class="tab tab-parent" onclick="toggleDrop(event,'d-actions')">⚡ Actions <span class="caret">▾</span></div>
-    <div class="dropmenu" id="d-actions">
+    <div class="tab tab-parent" onclick="toggleDrop(event,'d-more')">More <span class="caret">▾</span></div>
+    <div class="dropmenu" id="d-more">
+      <div class="dropitem" onclick="showPage('live')">Today's Go Lives</div>
       <div class="dropitem" onclick="showPage('action-pcr')">Create Post-Campaign Report</div>
       <div class="dropitem" onclick="showPage('action-pitch')">Create Sales Pitch</div>
+      <div class="dropitem" onclick="showPage('suggestions')">Suggestions</div>
     </div>
   </div>
-  <div class="tab" onclick="showPage('suggestions')">💡 Suggestions</div>
 </div>
 
 <div class="filter-bar">
@@ -244,29 +242,27 @@
     <button data-ct="Sponsored" class="active">Sponsored</button>
   </div>
   <span class="fb-context" id="fb-context"></span>
-  <span class="fb-note"><b>Window</b> = stories published in that period; figures are each story’s cumulative pageviews to date (Adobe content extract). Drives <b>Overview</b>, <b>Audience</b> &amp; <b>Adobe Data</b> (sponsored content). Go-lives and the Brand Focus quadrant keep their own windows.</span>
+  <span class="fb-note">Filters drive every tab · window = publish period; figures are cumulative pageviews to date.</span>
 </div>
 
 <div class="page active" id="page-overview">
-  <div class="src-legend">
-    <span class="leg-label">Data sources:</span>
-    <span class="src-chip src-adobe">Adobe Analytics — site traffic</span>
-    <span class="src-chip src-smart">Smartsheet — launches &amp; revenue</span>
-    <span class="src-chip src-tab">Adobe Analytics — content extract</span>
-    <span class="src-chip src-pio">PIO Pacing — delivery</span>
-  </div>
-  <p class="ov-note">Big-picture performance across the portfolio — content pageviews, engagement, today's go-lives, and sponsored reach, all driven by the filter above. Every figure is tagged with its source. Sponsored-content detail sits under <a onclick="showPage('sponsored-extract')">Adobe Data</a>; P&amp;I now lives on its own dashboard.</p>
-  <div class="kpi-grid">
-    <div class="kpi"><div class="label">Page Views <span class="src-tag src-adobe">Adobe</span></div><div class="value" id="ov-pv">—</div><div class="sub" id="ov-pv-sub"></div></div>
-    <div class="kpi green"><div class="label">Visits <span class="src-tag src-adobe">Adobe</span></div><div class="value" id="ov-visits">—</div><div class="sub" id="ov-visits-sub"></div></div>
-    <div class="kpi purple"><div class="label">Engagement <span class="src-tag src-adobe">Adobe</span></div><div class="value" id="ov-eng">—</div><div class="sub" id="ov-eng-sub"></div></div>
-    <div class="kpi blue"><div class="label">Go-Lives Today <span class="src-tag src-smart">Smartsheet</span></div><div class="value" id="ov-live">—</div><div class="sub" id="ov-live-sub"></div></div>
+  <div class="hero">
+    <div class="hero-eyebrow">Sponsored Content · <span id="hero-window">Last 7 days</span></div>
+    <div class="hero-head" id="ov-hero">—</div>
+    <div class="hero-sub" id="ov-hero-sub"></div>
   </div>
   <div class="kpi-grid">
-    <div class="kpi blue"><div class="label">Revenue Live Today <span class="src-tag src-smart">Smartsheet</span></div><div class="value" id="ov-rev">—</div><div class="sub">across today's launches</div></div>
-    <div class="kpi purple"><div class="label">Unique Visitors <span class="src-tag src-adobe">Adobe</span></div><div class="value" id="ov-unique">—</div><div class="sub" id="ov-unique-sub"></div></div>
-    <div class="kpi"><div class="label">Sponsored Page Views <span class="src-tag src-adobe">Adobe</span></div><div class="value" id="ov-extpv">—</div><div class="sub" id="ov-extpv-sub"></div></div>
-    <div class="kpi" style="border-left-color:#f59e0b"><div class="label">Delivery Pacing <span class="src-tag src-pio">PIO</span></div><div class="value" id="ov-pace" style="font-size:19px">—</div><div class="sub" id="ov-pace-sub"></div></div>
+    <div class="kpi"><div class="label">Sponsored Page Views</div><div class="value" id="ov-extpv">—</div><div class="sub" id="ov-extpv-sub"></div></div>
+    <div class="kpi green"><div class="label">Sponsored Stories</div><div class="value" id="ov-spstories">—</div><div class="sub" id="ov-spstories-sub"></div></div>
+    <div class="kpi purple"><div class="label">Top Brand</div><div class="value" id="ov-topbrand" style="font-size:18px">—</div><div class="sub" id="ov-topbrand-sub"></div></div>
+    <div class="kpi blue"><div class="label">Top Format</div><div class="value" id="ov-topproduct" style="font-size:18px">—</div><div class="sub" id="ov-topproduct-sub"></div></div>
+  </div>
+  <div class="kpi-sub-lbl">Portfolio context · all content, same window</div>
+  <div class="kpi-grid">
+    <div class="kpi"><div class="label">Page Views</div><div class="value" id="ov-pv">—</div><div class="sub" id="ov-pv-sub"></div></div>
+    <div class="kpi green"><div class="label">Visits</div><div class="value" id="ov-visits">—</div><div class="sub" id="ov-visits-sub"></div></div>
+    <div class="kpi purple"><div class="label">Engagement</div><div class="value" id="ov-eng">—</div><div class="sub" id="ov-eng-sub"></div></div>
+    <div class="kpi blue"><div class="label">Live Today</div><div class="value" id="ov-live">—</div><div class="sub" id="ov-live-sub"></div></div>
   </div>
   <div class="chart-grid">
     <div class="chart-card"><h3>Visits by Brand <span class="src-tag src-adobe">Adobe</span></h3><canvas id="chart7DayBar" height="220"></canvas></div>
@@ -274,22 +270,22 @@
     <div class="chart-card full"><h3>Median Subscriber Dwell by Brand <span class="src-tag src-adobe">Adobe</span></h3><canvas id="chartEngagement" height="100"></canvas></div>
   </div>
   <div class="chart-card full" style="margin-top:4px">
-    <h3>📰 Top 3 Stories · latest report <span class="src-tag src-adobe">Adobe</span> <span class="src-tag src-adobe">Adobe</span></h3>
+    <h3>📰 Top Stories</h3>
     <div class="ov-top3-grid">
       <div>
-        <div class="section-label" style="margin-bottom:10px">Adobe · top by visits (7-day) <span class="src-tag src-adobe">Adobe</span></div>
+        <div class="section-label" style="margin-bottom:10px">Editorial</div>
         <ol class="ov-top3" id="ov-top3-adobe"></ol>
       </div>
       <div>
-        <div class="section-label" style="margin-bottom:10px">Adobe · top sponsored by pageviews <span class="src-tag src-adobe">Adobe</span></div>
+        <div class="section-label" style="margin-bottom:10px">Sponsored</div>
         <ol class="ov-top3" id="ov-top3-tab"></ol>
       </div>
     </div>
   </div>
   <div class="chart-card full" style="margin-top:4px">
-    <h3>💡 Top Insights &amp; Recommendations <span class="src-tag src-adobe">Adobe</span> <span class="src-tag src-smart">Smartsheet</span> <span class="src-tag src-adobe">Adobe</span></h3>
+    <h3>💡 Insights</h3>
     <ul class="story-list" id="ov-insights"></ul>
-    <p class="ov-note" style="margin-top:10px;margin-bottom:0">Full weekly insights, watch areas, and department recommendations are in the <a onclick="showPage('insights')">Insights &amp; Recs</a> tab.</p>
+    <p class="ov-note" style="margin-top:10px;margin-bottom:0">More detail in <a onclick="showPage('insights')">Recommendations</a>.</p>
   </div>
 </div>
 
@@ -1003,14 +999,9 @@ document.getElementById('ov-visits-sub').innerHTML = (_ovWoW>=0?'↑':'↓')+' '
 document.getElementById('ov-eng').textContent = _fmtSec(_ovEngSec);
 document.getElementById('ov-eng-sub').textContent = 'Weighted avg · top brand '+_ovTopEng.name+' '+_ovTopEng.time7;
 document.getElementById('ov-live').textContent = liveContent.length;
-document.getElementById('ov-live-sub').textContent = _ovLiveBrands+' brand'+(_ovLiveBrands===1?'':'s')+' · today';
-document.getElementById('ov-rev').textContent = '$'+liveRevTotal.toLocaleString();
-document.getElementById('ov-unique').textContent = _ovUnique.toLocaleString();
-document.getElementById('ov-unique-sub').textContent = 'across top sponsored stories';
+document.getElementById('ov-live-sub').textContent = _ovLiveBrands+' brand'+(_ovLiveBrands===1?'':'s')+' · $'+liveRevTotal.toLocaleString()+' revenue';
 document.getElementById('ov-extpv').textContent = extractMeta.totalPV.toLocaleString();
 document.getElementById('ov-extpv-sub').textContent = extractMeta.totalStories+' stories · '+extractMeta.brands+' brands';
-document.getElementById('ov-pace').textContent = ovPacing.flags+' flag'+(ovPacing.flags===1?'':'s');
-document.getElementById('ov-pace-sub').textContent = ovPacing.note;
 function renderOvInsights(){
   var W=WINDOWS[FILTER.win], br=FILTER.brand;
   var A=W.aud[br]||W.aud["All brands"];
@@ -1121,7 +1112,18 @@ function renderOverview(){
   setT('ov-unique',A.u.toLocaleString()); setT('ov-unique-sub','all content');
   var eB=W.extractBrands.slice(), meta=W.meta, sppv=meta.totalPV, nS=meta.totalStories, nB=meta.brands;
   if(FILTER.brand!=="All brands"){var bn=FILTER.brand.replace(/&amp;/g,'&'); eB=eB.filter(function(b){return b.brand===bn;}); sppv=eB.reduce(function(a,b){return a+b.pv;},0); nS=eB.length?eB[0].stories:0; nB=eB.length;}
-  setT('ov-extpv',sppv.toLocaleString()); setT('ov-extpv-sub',nS+' sponsored stories · '+nB+' brand'+(nB===1?'':'s'));
+  setT('ov-extpv',sppv.toLocaleString()); setT('ov-extpv-sub','');
+  setT('ov-spstories',nS.toLocaleString()); setT('ov-spstories-sub',nB+' brand'+(nB===1?'':'s'));
+  setT('ov-topbrand', eB.length?eB[0].brand:'â'); setT('ov-topbrand-sub', eB.length?eB[0].pv.toLocaleString()+' PV':'');
+  var _brs2=Object.keys(W.aud).filter(function(k){return k!=='All brands';});
+  if(FILTER.brand!=="All brands") _brs2=[FILTER.brand];
+  var _pt={}; _brs2.forEach(function(b){var a=W.aud[b]; if(a&&a.topSp) a.topSp.forEach(function(x){var p=inferProduct(x.u,x.s,x.t); _pt[p]=(_pt[p]||0)+1;});});
+  var _tp='â',_tpn=-1; for(var _k in _pt){ if(_pt[_k]>_tpn){_tpn=_pt[_k]; _tp=_k;} }
+  setT('ov-topproduct', _tpn>0?_tp:'â'); setT('ov-topproduct-sub', _tpn>0?_tpn+' of top stories':'');
+  setT('hero-window', W.meta.label);
+  var _hb=(FILTER.brand==="All brands")?(eB.length?eB[0].brand:'â'):FILTER.brand;
+  setT('ov-hero', sppv.toLocaleString()+' sponsored pageviews across '+nS.toLocaleString()+' stor'+(nS===1?'y':'ies')+(FILTER.brand==="All brands"&&eB.length?' · '+_hb+' leads':''));
+  setT('ov-hero-sub', (FILTER.brand==="All brands"?'Portfolio':_hb)+' · '+W.meta.label+(_tpn>0?' · top format: '+_tp:'')+' · '+A.pv.toLocaleString()+' total pageviews (all content)');
   var BRS=Object.keys(W.aud).filter(function(k){return k!=='All brands';});
   var byV=BRS.map(function(b){return {b:b,v:W.aud[b].v};}).sort(function(a,b){return b.v-a.v;}).slice(0,13);
   _c7Day.data.labels=byV.map(function(x){return x.b.replace("Crain's ","");}); _c7Day.data.datasets[0].data=byV.map(function(x){return x.v;}); _c7Day.update();
@@ -1179,5 +1181,10 @@ function toggleDrop(e, id) {
 }
 document.addEventListener('click', function() { document.querySelectorAll('.dropmenu').forEach(m => m.classList.remove('open')); });
 </script>
+<div class="tab-footer">
+  <span class="tf-badge">⚠ PROTOTYPE</span>
+  <span class="tf-txt"><b>Internal working tool — figures are directional, not yet a source of truth.</b> Sources: <b>Adobe content extract</b> (7-day / 30-day / lifetime, windowed by publish date; cumulative pageviews to date) · <b>Smartsheet</b> go-lives &amp; revenue (today). Updated Jul 18, 2026.</span>
+  <span class="tf-txt tf-gaps">Pending stakeholder input: campaign/flight mapping &amp; AdOps pacing/delivery (Judy · Bernice · AdOps).</span>
+</div>
 </body>
 </html>
