@@ -396,18 +396,18 @@
   <div class="section-label">Webinar Registrants</div>
   <div style="display:flex;align-items:center;gap:10px;margin:8px 0 6px;flex-wrap:wrap">
     <label for="web-brand" style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#94a3b8">Brand</label>
-    <select id="web-brand" class="fb-select"><option value="All brands">All brands</option><option value="P&amp;I">P&amp;I</option></select>
+    <select id="web-brand" class="fb-select"><option value="All brands">All brands</option><option value="P&amp;I">P&amp;I</option><option value="Modern Healthcare">Modern Healthcare</option></select>
     <span id="web-total" style="font-size:12px;color:#64748b"></span>
   </div>
-  <p style="font-size:11px;color:#94a3b8;margin:0 0 14px;line-height:1.5">Registrants are sourced from the <strong>Email Data &amp; KPI Input</strong> Smartsheet (email promo/replay sends). Each webinar's sends below show <strong>where the registrations came from</strong> at the send level. Non-email channels from the P&amp;I Webinar Pulse page can be layered in.</p>
+  <p style="font-size:11px;color:#94a3b8;margin:0 0 14px;line-height:1.5">Source: <strong>P&amp;I Webinar Pulse</strong> (external registrants, internal Crain employees excluded), cross-referenced with the <strong>Email Data &amp; KPI Input</strong> Smartsheet. Data window May 24–Jul 24, 2026. <strong>Email</strong> = registrations attributed to a named email campaign; <strong>non-email</strong> = organic / direct / other.</p>
   <div class="kpi-grid">
     <div class="kpi"><div class="label">Webinars</div><div class="value" id="web-count">—</div><div class="sub" id="web-count-sub"></div></div>
-    <div class="kpi green"><div class="label">Total Registrants</div><div class="value" id="web-reg">—</div><div class="sub">email-sourced</div></div>
-    <div class="kpi purple"><div class="label">Avg per Webinar</div><div class="value" id="web-avg">—</div><div class="sub">registrants</div></div>
+    <div class="kpi green"><div class="label">Total Registrants</div><div class="value" id="web-reg">—</div><div class="sub" id="web-reg-sub"></div></div>
+    <div class="kpi purple"><div class="label">Email-Attributed</div><div class="value" id="web-email">—</div><div class="sub" id="web-email-sub"></div></div>
     <div class="kpi blue"><div class="label">Top Webinar</div><div class="value" id="web-top" style="font-size:15px">—</div><div class="sub" id="web-top-sub"></div></div>
   </div>
-  <div class="chart-card"><h3>Registrants by Webinar</h3><div style="position:relative;height:400px"><canvas id="chartWebinars"></canvas></div></div>
-  <div class="section-label" style="margin-top:22px">Where registrations came from · by email send</div>
+  <div class="chart-card"><h3>Registrants by Webinar · email vs other</h3><div style="position:relative;height:400px"><canvas id="chartWebinars"></canvas></div></div>
+  <div class="section-label" style="margin-top:22px">Where registrations came from</div>
   <div id="web-list"></div>
 </div>
 
@@ -1034,35 +1034,41 @@ var _fbb=document.getElementById('fb-brand'); if(_fbb) _fbb.addEventListener('ch
 document.querySelectorAll('#fb-ctype button').forEach(function(btn){ btn.addEventListener('click',function(){ if(btn.disabled) return; FILTER.ctype=btn.getAttribute('data-ct'); document.querySelectorAll('#fb-ctype button').forEach(function(b){b.classList.remove('active');}); btn.classList.add('active'); applyFilters(); }); });
 applyFilters();
 
-const webinarData = [{"brand":"P&I","sponsor":"Supplement","title":"Optimizing OCIO Strategy","sends":[{"date":"2026-03-23","label":"Promo 1","reg":453},{"date":"2026-03-30","label":"Promo 2","reg":134},{"date":"2026-04-07","label":"Promo 3","reg":78},{"date":"2026-04-12","label":"Promo 4","reg":43},{"date":"2026-04-15","label":"Promo 5","reg":26}],"registrants":734,"firstDate":"2026-03-23","sendCount":5},{"brand":"P&I","sponsor":"Nuveen","title":"Navigating the new landscape: DOL's response to private market investment in DC plans","sends":[{"date":"2026-03-06","label":"Promo 1","reg":103},{"date":"2026-03-12","label":"Promo 2","reg":56},{"date":"2026-03-19","label":"Promo 3","reg":83},{"date":"2026-03-25","label":"Promo 4","reg":59},{"date":"2026-04-01","label":"Promo 5","reg":104}],"registrants":405,"firstDate":"2026-03-06","sendCount":5},{"brand":"P&I","sponsor":"Supplement","title":"PRIVATE EQUITY: MEETING THE MOMENT","sends":[{"date":"2026-06-22","label":"Promo 1","reg":87},{"date":"2026-06-29","label":"Promo 2","reg":72},{"date":"2026-07-08","label":"Promo 3","reg":90},{"date":"2026-07-12","label":"Promo 4","reg":66},{"date":"2026-07-15","label":"Promo 5","reg":45}],"registrants":360,"firstDate":"2026-06-22","sendCount":5},{"brand":"P&I","sponsor":"Principal","title":"When Retirement is Delayed, Employers Pay: Workforce Costs and DC Solutions","sends":[{"date":"2026-03-13","label":"Promo 1","reg":56},{"date":"2026-03-20","label":"Promo 2","reg":32},{"date":"2026-03-26","label":"Promo 3","reg":48},{"date":"2026-04-06","label":"Promo 4","reg":33},{"date":"2026-04-08","label":"Promo 5","reg":21}],"registrants":190,"firstDate":"2026-03-13","sendCount":5},{"brand":"P&I","sponsor":"StateStreet","title":"Expanding Access & Innovation in Retirement: Policy, Structures, and Solutions","sends":[{"date":"2026-06-26","label":"Promo 1","reg":53},{"date":"2026-07-02","label":"Promo 2","reg":43},{"date":"2026-07-09","label":"Promo 3","reg":51},{"date":"2026-07-19","label":"Promo 4","reg":26}],"registrants":173,"firstDate":"2026-06-26","sendCount":4},{"brand":"P&I","sponsor":"MultiSponsor","title":"Emerging Markets: A Selective View","sends":[{"date":"2026-04-03","label":"Promo 1","reg":64},{"date":"2026-04-09","label":"Promo 2","reg":39},{"date":"2026-04-17","label":"Promo 3","reg":29}],"registrants":132,"firstDate":"2026-04-03","sendCount":3},{"brand":"P&I","sponsor":"Supplement","title":"Income Ballast","sends":[{"date":"2026-06-08","label":"3","reg":48},{"date":"2026-06-17","label":"5","reg":23}],"registrants":71,"firstDate":"2026-06-08","sendCount":2},{"brand":"P&I","sponsor":"Supplement","title":"A Granular View on Global Infrastructure","sends":[{"date":"2026-04-19","label":"Promo 1","reg":55}],"registrants":55,"firstDate":"2026-04-19","sendCount":1},{"brand":"P&I","sponsor":"RBC","title":"Evolving-Alternatives-Playbook","sends":[{"date":"2026-06-25","label":"Replay","reg":21}],"registrants":21,"firstDate":"2026-06-25","sendCount":1},{"brand":"P&I","sponsor":"MetLife","title":"High Yield and Investment Grade Credit: Finding Opportunity (and Avoiding Landmines) in a Fully Funded World","sends":[{"date":"2026-06-19","label":"Replay","reg":18},{"date":"2026-06-19","label":"Replay","reg":0}],"registrants":18,"firstDate":"2026-06-19","sendCount":2},{"brand":"P&I","sponsor":"Supplement","title":"Fixed Income: A Supportive Ballast","sends":[{"date":"2026-07-01","label":"Replay","reg":14}],"registrants":14,"firstDate":"2026-07-01","sendCount":1},{"brand":"P&I","sponsor":"Nuveen","title":"Navigating the new landscape: DOL's response to private market investments in DC plans","sends":[{"date":"2026-04-16","label":"Replay","reg":12}],"registrants":12,"firstDate":"2026-04-16","sendCount":1}];
+const webinarData = [{"brand":"P&I","title":"Optimizing OCIO Strategy","event":1756839,"total":879,"email":782,"sources":{"Eblast 1":454,"Eblast 2":141,"Eblast 3":79,"Eblast 4":43,"Eblast 5":26,"WOD eblast":39}},{"brand":"P&I","title":"Private Credit: Navigating Growth and Complexity","event":1753188,"total":654,"email":0,"sources":{}},{"brand":"P&I","title":"Navigating the new landscape: DOL's response to private market investments in DC plans","event":1754227,"total":537,"email":446,"sources":{"Eblast 1":103,"Eblast 2":56,"Eblast 3":111,"Eblast 4":60,"Eblast 5":102,"WOD eblast":14}},{"brand":"Modern Healthcare","title":"Beyond the Visit: How Ochsner Health is Using AI to Transform Primary Care Delivery","event":1759381,"total":392,"email":142,"sources":{"Eblast 1":44,"Eblast 2":49,"Eblast 3":20,"ICYMI":5,"NL":6,"Lumeris":6,"Lumeris email":8,"RC":3,"ROS":1}},{"brand":"P&I","title":"Emerging Markets: A Selective View","event":1757324,"total":313,"email":227,"sources":{"Eblast 1":67,"Eblast 2":39,"Eblast 3":29,"Eblast 4":17,"Eblast 5":13,"WOD eblast":17,"Federated Hermes email":45}},{"brand":"P&I","title":"Fixed Income: A Supportive Ballast","event":1764621,"total":291,"email":182,"sources":{"Eblast 1":46,"Eblast 2":38,"Eblast 3":48,"Eblast 4":15,"Eblast 5":22,"WOD eblast":13}},{"brand":"P&I","title":"When Retirement is Delayed, Employers Pay: Workforce Costs and DC Solutions","event":1755248,"total":257,"email":210,"sources":{"Eblast 1":67,"Eblast 2":33,"Eblast 3":48,"Eblast 4":33,"Eblast 5":21,"WOD eblast":8}},{"brand":"P&I","title":"High Yield and Investment Grade Credit: Finding Opportunity (and Avoiding Landmines) in a Fully Funded World","event":1763321,"total":251,"email":216,"sources":{"Eblast 1":61,"Eblast 2":28,"Eblast 3":43,"Eblast 4":29,"Eblast 5":33,"WOD eblast":22}},{"brand":"P&I","title":"A Granular View on Global Infrastructure","event":1759800,"total":250,"email":227,"sources":{"Eblast 1":61,"Eblast 2":48,"Eblast 3":52,"Eblast 4":26,"Eblast 5":26,"WOD eblast":14}},{"brand":"P&I","title":"The Evolving Alternatives Playbook","event":1763148,"total":246,"email":206,"sources":{"Eblast 1":42,"Eblast 2":36,"Eblast 3":41,"Eblast 4":36,"Eblast 5":27,"WOD eblast":24}},{"brand":"Modern Healthcare","title":"Collaborate to Be Competitive: How Health Systems are Partnering to Improve Performance","event":1759786,"total":149,"email":68,"sources":{"Eblast 1":26,"Eblast 2":13,"Eblast 3":8,"Eblast 4":11,"ICYMI":6,"NL":1,"No Campaign ID":3}}];
 const _cWeb = new Chart(document.getElementById('chartWebinars'), { type:'bar',
-  data:{ labels:[], datasets:[{ label:'Registrants', data:[], backgroundColor:'#1c3a5e', borderRadius:6 }] },
-  options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ label:function(ctx){return ' '+ctx.raw.toLocaleString()+' registrants';} } } },
-    scales:{ x:{ beginAtZero:true, grid:{ color:'#f1f5f9' }, ticks:{ font:{size:10} } }, y:{ grid:{ display:false }, ticks:{ font:{size:10}, autoSkip:false } } } } });
-function _webShort(w){ var t=w.title.replace(/:.*$/,''); return (w.sponsor+' · '+t).slice(0,42); }
+  data:{ labels:[], datasets:[{ label:'Email', data:[], backgroundColor:'#1c3a5e', borderRadius:4, stack:'s' },{ label:'Other', data:[], backgroundColor:'#9db4cc', borderRadius:4, stack:'s' }] },
+  options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:true, position:'bottom', labels:{ font:{size:11}, boxWidth:12 } }, tooltip:{ callbacks:{ label:function(ctx){return ' '+ctx.dataset.label+': '+ctx.raw.toLocaleString();} } } },
+    scales:{ x:{ stacked:true, beginAtZero:true, grid:{ color:'#f1f5f9' }, ticks:{ font:{size:10} } }, y:{ stacked:true, grid:{ display:false }, ticks:{ font:{size:10}, autoSkip:false } } } } });
+function _webShort(w){ return (w.title.replace(/:.*$/,'')).slice(0,44); }
 function renderWebinars(brand){
   var list=webinarData.filter(function(w){return brand==="All brands"||w.brand===brand;});
   var setT=function(id,v){var e=document.getElementById(id); if(e) e.textContent=v;};
-  var total=list.reduce(function(s,w){return s+w.registrants;},0);
+  var total=list.reduce(function(s,w){return s+w.total;},0);
+  var email=list.reduce(function(s,w){return s+w.email;},0);
+  var nonE=total-email;
+  var ePct=total?Math.round(email/total*100):0;
   setT('web-total', list.length+' webinars · '+total.toLocaleString()+' registrants · '+brand);
-  setT('web-count', list.length); setT('web-count-sub','P&I year-to-date');
-  setT('web-reg', total.toLocaleString());
-  setT('web-avg', list.length?Math.round(total/list.length).toLocaleString():'0');
-  setT('web-top', list.length?(list[0].sponsor+' — '+list[0].title.replace(/:.*$/,'')):'—');
-  setT('web-top-sub', list.length?list[0].registrants.toLocaleString()+' registrants':'');
+  setT('web-count', list.length); setT('web-count-sub','rolling ~2-month window');
+  setT('web-reg', total.toLocaleString()); setT('web-reg-sub', nonE.toLocaleString()+' non-email ('+(100-ePct)+'%)');
+  setT('web-email', email.toLocaleString()); setT('web-email-sub', ePct+'% of registrations');
+  setT('web-top', list.length?list[0].title.replace(/:.*$/,''):'—'); setT('web-top-sub', list.length?list[0].total.toLocaleString()+' registrants':'');
   var top=list.slice(0,12);
-  _cWeb.data.labels=top.map(_webShort); _cWeb.data.datasets[0].data=top.map(function(w){return w.registrants;}); _cWeb.update();
+  _cWeb.data.labels=top.map(_webShort);
+  _cWeb.data.datasets[0].data=top.map(function(w){return w.email;});
+  _cWeb.data.datasets[1].data=top.map(function(w){return w.total-w.email;});
+  _cWeb.update();
   var html=list.map(function(w){
-    var mx=Math.max.apply(null,w.sends.map(function(x){return x.reg;}).concat([1]));
-    var rows=w.sends.map(function(x){
-      var pct=Math.round(x.reg/mx*100);
-      return '<tr><td style="font-size:12px;font-weight:600;color:#334155;white-space:nowrap">'+(x.label||'Send')+'</td>'
-        +'<td style="font-size:12px;color:#64748b;white-space:nowrap">'+x.date+'</td>'
-        +'<td style="width:60%"><div style="background:#eef2f7;border-radius:4px;height:16px;position:relative"><div style="width:'+Math.max(pct,2)+'%;background:#1c3a5e;height:16px;border-radius:4px"></div></div></td>'
-        +'<td style="font-size:13px;font-weight:600;color:#1c3a5e;text-align:right">'+x.reg.toLocaleString()+'</td></tr>';
+    var other=w.total-w.email; var ep=w.total?Math.round(w.email/w.total*100):0;
+    var srcEntries=Object.keys(w.sources).map(function(k){return [k,w.sources[k]];}).sort(function(a,b){return b[1]-a[1];});
+    var mx=Math.max.apply(null,srcEntries.map(function(x){return x[1];}).concat([other,1]));
+    var rowsHtml=srcEntries.map(function(x){
+      var pct=Math.round(x[1]/mx*100);
+      return '<tr><td style="font-size:12px;font-weight:600;color:#334155;white-space:nowrap">'+x[0]+'</td><td style="width:60%"><div style="background:#eef2f7;border-radius:4px;height:15px"><div style="width:'+Math.max(pct,2)+'%;background:#1c3a5e;height:15px;border-radius:4px"></div></div></td><td style="font-size:13px;font-weight:600;color:#1c3a5e;text-align:right">'+x[1].toLocaleString()+'</td></tr>';
     }).join('');
-    return '<div class="brand-block"><div class="brand-block-h">'+w.title+' <span>'+w.sponsor+' · '+w.registrants.toLocaleString()+' registrants · '+w.sendCount+' email send'+(w.sendCount===1?'':'s')+'</span></div>'
-      +'<table class="brand-table"><thead><tr><th>Send</th><th>Date</th><th>Registrants (relative)</th><th style="text-align:right">Count</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
+    var otherPct=Math.round(other/mx*100);
+    rowsHtml+='<tr><td style="font-size:12px;font-weight:600;color:#64748b;white-space:nowrap">Other (non-email)</td><td><div style="background:#eef2f7;border-radius:4px;height:15px"><div style="width:'+Math.max(otherPct,2)+'%;background:#9db4cc;height:15px;border-radius:4px"></div></div></td><td style="font-size:13px;font-weight:600;color:#64748b;text-align:right">'+other.toLocaleString()+'</td></tr>';
+    return '<div class="brand-block"><div class="brand-block-h">'+w.title+' <span><span class="brand-pill">'+w.brand+'</span> · '+w.total.toLocaleString()+' registrants · '+ep+'% email</span></div>'
+      +'<table class="brand-table"><thead><tr><th>Source</th><th>Registrants (relative)</th><th style="text-align:right">Count</th></tr></thead><tbody>'+rowsHtml+'</tbody></table></div>';
   }).join('');
   var el=document.getElementById('web-list'); if(el) el.innerHTML=html||'<div style="color:#94a3b8;font-size:13px;padding:12px">No webinar data for this brand yet.</div>';
 }
