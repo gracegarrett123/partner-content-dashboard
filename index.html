@@ -325,11 +325,11 @@
     <span class="src-chip src-smart">Smartsheet — Today's Launches (Digital + Print)</span>
   </div>
   <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr)">
-    <div class="kpi green"><div class="label">Projects · Today (Aug 10)</div><div class="value" id="live-count">0</div><div class="sub">All statuses · Digital or Print today</div></div>
+    <div class="kpi green"><div class="label">Projects · Today (Aug 11)</div><div class="value" id="live-count">0</div><div class="sub">All statuses · Digital or Print today</div></div>
     <div class="kpi blue"><div class="label">Total Revenue · These Projects</div><div class="value" id="live-rev">$0</div><div class="sub">Where revenue is recorded</div></div>
     <div class="kpi purple"><div class="label">Brands</div><div class="value" id="live-brands">0</div><div class="sub">Distinct brands today</div></div>
   </div>
-  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Every project with a Digital or Print Launch Date of today (Aug 10) — sources: Smartsheet "Digital- Today's Launches" + "Print- Today's Launches." All statuses are shown (Live/Complete, Launched, In Progress, Scheduled, Ready for Kickoff), sorted live-first. The channel tag shows Digital, Print, or both.</p>
+  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Every project with a Digital or Print Launch Date of today (Aug 11) — sources: Smartsheet "Digital- Today's Launches" + "Print- Today's Launches." All statuses are shown (Live/Complete, Launched, In Progress, Scheduled, Ready for Kickoff), sorted live-first. The channel tag shows Digital, Print, or both.</p>
   <div id="live-list"></div>
 </div>
 
@@ -820,33 +820,13 @@ brandFocus.forEach((b,i)=>{
   + `<p style="font-size:11px;color:#94a3b8;margin-top:8px">Source: Adobe content extract · median split (reach ${QMED.mx.toLocaleString()} PV, dwell ${_fmtSecQ(QMED.my)}). Dwell = subscriber seconds ÷ qualifying pages. Only the ${QMED.n} of ${QMED.total} sponsored stories with subscriber dwell data are plotted — the rest have no subscriber time recorded and are excluded rather than shown as zero.</p>`;
 })();
 
-// ===== Launching today (Aug 10) — Smartsheet "Digital- Today's Launches" + "Print- Today's Launches" =====
+// ===== Launching today (Aug 11) — Smartsheet "Digital- Today's Launches" + "Print- Today's Launches" =====
 // ALL projects whose Digital Launch Date (Digital report) or Print Launch Date (Print report) is today, regardless of status.
-// Aug 10: Digital report returned 22 rows, Print report returned 14 rows (13 overlap by Brand+Product+Client). 23 unique go-lives total, none Canceled.
+// Aug 11: Digital report returned 3 rows, Print report returned 0 rows. 3 unique go-lives total, none Canceled.
 const liveContent = [
-  { brand:"Modern Healthcare", product:"Executive Conversation", client:"Exact Sciences", revenue:25000, status:"Launched", owner:"Shannon Mortland", channel:"Digital + Print", url:"https://www.modernhealthcare.com/content-studio/executive-conversation/altamed-crc-screening-population-health-ehr-innovation/" },
-  { brand:"Modern Healthcare", product:"Executive Conversation", client:"City of Hope", revenue:14450, status:"Launched", owner:"Shannon Mortland", channel:"Digital + Print", url:"https://www.modernhealthcare.com/content-studio/executive-conversation/mh-ending-cancer-building-brand-inspires-action/" },
-  { brand:"Modern Healthcare", product:"Sponsored Content Posting", client:"Stericycle", revenue:11500, status:"In Progress", owner:"Sarah Loeffler", channel:"Digital", url:"https://www.modernhealthcare.com/content-studio/publishing-partner/pharmaceutical-waste-home-healthcare/" },
-  { brand:"Modern Healthcare", product:"Executive Conversation (Digital + Print)", client:"JLL", revenue:20000, status:"In Progress", owner:"Sarah Loeffler", channel:"Digital", url:"https://www.modernhealthcare.com/content-studio/executive-conversation/mh-health-systems-moving-beyond-ambulatory-growth/" },
-  { brand:"Modern Healthcare", product:"Executive Conversation (Digital + Print)", client:"Valley Health", revenue:0, status:"Launched", owner:"Sarah Loeffler", channel:"Digital + Print", url:"https://www.modernhealthcare.com/content-studio/executive-conversation/mh-how-valley-health-built-top-15-health-system/" },
-  { brand:"Modern Healthcare", product:"Winner/Honoree Digital Spotlight", client:"Valley Health", revenue:0, status:"Launched", owner:"Sarah Loeffler", channel:"Digital + Print", url:"https://www.modernhealthcare.com/content-studio/publishing-partner/mh-committed-making-our-communities-healthier-valley-health/" },
-  { brand:"P&I", product:"Thought Leadership White Paper Program", client:"HSBC", revenue:12500, status:"In Progress", owner:"Bethany Ford, Shelly Maldonado", channel:"Digital" },
-  { brand:"P&I", product:"Industry Intel (3pp) & Webinar \u2013 Direct Lending", client:"Fidelity ICG, Morgan Stanley Investment Management", revenue:45000, status:"In Progress", owner:"Corina Lewis", channel:"Digital + Print", url:"https://www.pionline.com/partner-content/pi-direct-lending-selective-exposure/" },
-  { brand:"P&I", product:"Supplement Polybag & TLP", client:"EDHEC Infrastructure & Private Assets Research Institute", revenue:57000, status:"In Progress", owner:"Corina Lewis", channel:"Digital + Print", url:"https://www.pionline.com/white-papers/pi-private-markets-what-the-evidence-shows/" },
-  { brand:"Crain's Cleveland", product:"Digital + Print \u2013 Crain's writes", client:"CIBC", revenue:12000, status:"Scheduled", owner:"Brittany Brown", channel:"Digital + Print", url:"https://www.crainscleveland.com/crains-content-studio/publishing-partner/ccl-faces-of-impact/" },
-  { brand:"Crain's Chicago", product:"Digital + Print \u2013 Client writes", client:"City of Hope Cancer Center Chicago", revenue:8606, status:"In Progress", owner:"Jordan Dziura", channel:"Digital + Print" },
-  { brand:"Crain's Detroit", product:"Digital \u2013 Client writes", client:"Detroit Zoo", revenue:4800, status:"In Progress", owner:"Natalie Bonadeo", channel:"Digital" },
-  { brand:"Crain's Detroit", product:"Digital \u2013 Client writes", client:"DTE Energy", revenue:4080, status:"Scheduled", owner:"Natalie Bonadeo", channel:"Digital", url:"https://www.crainsdetroit.com/crains-content-studio/publishing-partner/cdb-dte-energy-business-energy-rebates/" },
-  { brand:"Crain's Cleveland", product:"Thought Leader Report \u2013 Client writes", client:"Fit Technologies", revenue:6840, status:"Scheduled", owner:"Natalie Bonadeo", channel:"Digital + Print", url:"https://www.crainscleveland.com/crains-content-studio/thought-leader-report/ccl-ai-cybersecurity-data-governance/" },
-  { brand:"Crain's New York", product:"Notable Spotlight", client:"Forvis Mazars", revenue:9000, status:"Scheduled", owner:"Brittany Brown", channel:"Digital + Print", url:"https://www.crainsnewyork.com/recognitions/notables/accounting-consulting-law/2026/cny-ryan-reiff/" },
-  { brand:"Crain's Chicago", product:"Thought Leader Report \u2013 Client writes", client:"Levenfeld Pearlstein", revenue:8667, status:"Scheduled", owner:"Natalie Bonadeo", channel:"Digital + Print", url:"https://www.chicagobusiness.com/crains-content-studio/thought-leader-report/ccb-commercial-office-lease-negotiations/" },
-  { brand:"Crain's Grand Rapids", product:"Notable Spotlight", client:"Straub, Seaman & Allen P.C.", revenue:3900, status:"Scheduled", owner:"Brittany Brown", channel:"Digital + Print", url:"https://www.crainsgrandrapids.com/recognitions/notables/accounting-consulting-law/2026/cgr-dale-arndt/" },
-  { brand:"Crain's Grand Rapids", product:"Thought Leader Report \u2013 Client writes", client:"Talent First Inc.", revenue:4500, status:"Scheduled", owner:"Natalie Bonadeo", channel:"Digital + Print", url:"https://www.crainsgrandrapids.com/crains-content-studio/thought-leader-report/cgr-workforce-development-talent-pipeline/" },
-  { brand:"Crain's New York", product:"Digital \u2013 Client writes", client:"Under Construction News", revenue:3500, status:"In Progress", owner:"Jennifer Keirn", channel:"Digital", url:"https://www.crainsnewyork.com/crains-content-studio/publishing-partner/cny-how-new-york-data-center-pause-affects-construction/" },
-  { brand:"Crain's Detroit", product:"Quick Take Video", client:"Yeo & Yeo", revenue:5000, status:"In Progress", owner:"Jordan Dziura", channel:"Digital", url:"https://www.crainsdetroit.com/crains-content-studio/quicktake/cdb-employee-retention-strategies-that-work/" },
-  { brand:"Automotive News", product:"Up to Speed Video", client:"RouteOne", revenue:11500, status:"Scheduled", owner:"Veronica Johnson", channel:"Digital" },
-  { brand:"Automotive News", product:"Content Intelligence Engine", client:"GP Strategies", revenue:3332, status:"In Progress", owner:"Chris Davis", channel:"Digital" },
-  { brand:"Crain's Detroit", product:"Custom Spread \u2013 Habitat Summer", client:"Detroit Zoo", revenue:12000, status:"In Progress", owner:"Natalie Bonadeo", channel:"Print" },
+  { brand:"Ad Age", product:"Pub Partner (CW)", client:"Horizon Media", revenue:10000, status:"In Progress", owner:"Sophia Juarez", channel:"Digital", url:"https://adage.com/studio-30/publishing-partners/aa-the-open-ecosystem-was-never-built-right" },
+  { brand:"Automotive News", product:"In the Driver Seat Video", client:"Hamlin and Associates", revenue:0, status:"Complete", owner:"Veronica Johnson", channel:"Digital", url:"https://www.autonews.com/sponsored/in-the-drivers-seat/an-20260811-how-hamlin-and-associates-rethinking-automotive-direct-mail/" },
+  { brand:"Automotive News", product:"Custom Webinar Mini", client:"Payjunction", revenue:8160, status:"Scheduled", owner:"Jessica Leydet", channel:"Digital", url:"https://www.autonews.com/sponsored/webinars/an-20260811-modernize-dealership-payments-without-replacing-your-dms/" },
 ];
 // Sort: live/complete first, then launched, in progress, scheduled — each by revenue desc.
 const _statusRank = { "Complete": 0, "Launched": 1, "In Progress": 2, "Scheduled": 3 };
@@ -858,7 +838,7 @@ document.getElementById('live-rev').textContent = '$' + liveRevTotal.toLocaleStr
 document.getElementById('live-brands').textContent = new Set(liveContent.map(x => x.brand)).size;
 
 if (liveContent.length === 0) {
-  document.getElementById('live-list').innerHTML = `<div style="background:white;border-radius:12px;padding:28px;text-align:center;color:#94a3b8;font-size:13px;box-shadow:0 1px 3px rgba(0,0,0,0.07)">Nothing launching today (Aug 10). Neither the Digital nor Print report shows an item with a Aug 10 launch date. Check back tomorrow.</div>`;
+  document.getElementById('live-list').innerHTML = `<div style="background:white;border-radius:12px;padding:28px;text-align:center;color:#94a3b8;font-size:13px;box-shadow:0 1px 3px rgba(0,0,0,0.07)">Nothing launching today (Aug 11). Neither the Digital nor Print report shows an item with a Aug 11 launch date. Check back tomorrow.</div>`;
 } else {
 const _statusMeta = {
   "Complete":    { label: "✅ Live",        css: "background:#eff6ff;color:#1d4ed8", border: "#10b981" },
@@ -1235,7 +1215,7 @@ document.addEventListener('click', function() { document.querySelectorAll('.drop
 </script>
 <div class="tab-footer">
   <span class="tf-badge">⚠ PROTOTYPE</span>
-  <span class="tf-txt"><b>Internal working tool — figures are directional, not yet a source of truth.</b> Sources: <b>Adobe content extract</b> (7-day / 30-day / lifetime, windowed by publish date; cumulative pageviews to date) · <b>Smartsheet</b> go-lives &amp; revenue (today). Updated August 10, 2026.</span>
+  <span class="tf-txt"><b>Internal working tool — figures are directional, not yet a source of truth.</b> Sources: <b>Adobe content extract</b> (7-day / 30-day / lifetime, windowed by publish date; cumulative pageviews to date) · <b>Smartsheet</b> go-lives &amp; revenue (today). Updated August 11, 2026.</span>
   <span class="tf-txt tf-gaps">Pending stakeholder input: campaign/flight mapping &amp; AdOps pacing/delivery (Judy · Bernice · AdOps).</span>
 </div>
 </body>
