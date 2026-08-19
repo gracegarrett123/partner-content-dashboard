@@ -325,11 +325,11 @@
     <span class="src-chip src-smart">Smartsheet — Today's Launches (Digital + Print)</span>
   </div>
   <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr)">
-    <div class="kpi green"><div class="label">Projects · Today (Aug 18)</div><div class="value" id="live-count">0</div><div class="sub">All statuses · Digital or Print today</div></div>
+    <div class="kpi green"><div class="label">Projects · Today (Aug 19)</div><div class="value" id="live-count">0</div><div class="sub">All statuses · Digital or Print today</div></div>
     <div class="kpi blue"><div class="label">Total Revenue · These Projects</div><div class="value" id="live-rev">$0</div><div class="sub">Where revenue is recorded</div></div>
     <div class="kpi purple"><div class="label">Brands</div><div class="value" id="live-brands">0</div><div class="sub">Distinct brands today</div></div>
   </div>
-  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Every project with a Digital or Print Launch Date of today (Aug 18) — sources: Smartsheet "Digital- Today's Launches" + "Print- Today's Launches." All statuses are shown (Live/Complete, Launched, In Progress, Scheduled, Ready for Kickoff), sorted live-first. The channel tag shows Digital, Print, or both.</p>
+  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Every project with a Digital or Print Launch Date of today (Aug 19) — sources: Smartsheet "Digital- Today's Launches" + "Print- Today's Launches." All statuses are shown (Live/Complete, Launched, In Progress, Scheduled, Ready for Kickoff), sorted live-first. The channel tag shows Digital, Print, or both.</p>
   <div id="live-list"></div>
 </div>
 
@@ -820,12 +820,15 @@ brandFocus.forEach((b,i)=>{
   + `<p style="font-size:11px;color:#94a3b8;margin-top:8px">Source: Adobe content extract · median split (reach ${QMED.mx.toLocaleString()} PV, dwell ${_fmtSecQ(QMED.my)}). Dwell = subscriber seconds ÷ qualifying pages. Only the ${QMED.n} of ${QMED.total} sponsored stories with subscriber dwell data are plotted — the rest have no subscriber time recorded and are excluded rather than shown as zero.</p>`;
 })();
 
-// ===== Launching today (Aug 18) — Smartsheet "Digital- Today's Launches" + "Print- Today's Launches" =====
+// ===== Launching today (Aug 19) — Smartsheet "Digital- Today's Launches" + "Print- Today's Launches" =====
 // ALL projects whose Digital Launch Date (Digital report) or Print Launch Date (Print report) is today, regardless of status.
-// Aug 18: Digital report returned 2 rows, Print report returned 0 rows. 2 unique go-lives total, none Canceled.
+// Aug 19: Digital report returned 5 rows, Print report returned 0 rows. 5 unique go-lives total, none Canceled.
 const liveContent = [
-  { brand: "Modern Healthcare", product: "Custom Webinar", client: "Lumeris", revenue: 20000, status: "Launched", owner: "Alison Caceres", channel: "Digital", url: "https://www.modernhealthcare.com/content-studio/webinar/mh-restoring-clinical-capacity-frictionless-technology-ecosystem/" },
-  { brand: "Automotive News", product: "Custom Webinar Mini", client: "StoneEagle F&I, Inc.", revenue: 8160, status: "Scheduled", owner: "Jessica Leydet", channel: "Digital", url: "https://www.autonews.com/sponsored/webinars/an-stoneeagledata-inside-h1-2026-f-and-i-growth-engine/" },
+  { brand: "P&I", product: "Sponsored Content Post", client: "IFM", revenue: 15000, status: "Scheduled", owner: "Corina Lewis", channel: "Digital", url: "https://www.pionline.com/sponsored-content/pi-rising-fuel-prices-infrastructure-resilience" },
+  { brand: "Ad Age", product: "White Paper Posting", client: "StackAdapt", revenue: 15000, status: "Scheduled", owner: "Shelly Maldonado", channel: "Digital", url: "https://adage.com/studio-30/white-paper/aa-how-to-win-peak-season-before-it-peaks/" },
+  { brand: "Ad Age", product: "Pub Partner (AAW)", client: "Qatar Airways", revenue: 15000, status: "In Progress", owner: "Sophia Juarez", channel: "Digital", url: "www.adage.com/studio-30/publishing-partners/aa-qatar-airways-jessica-alba-social-films-turn-premium-travel-into-plot-twist/" },
+  { brand: "Automotive News", product: "Custom Webinar Mini", client: "Capital One", revenue: 6120, status: "Scheduled", owner: "Jessica Leydet", channel: "Digital", url: "https://www.autonews.com/resource_center/CapitalOne/an-build-a-modern-tech-stack-to-boost-efficiency-and-profits/" },
+  { brand: "GenomeWeb", product: "Webinar", client: "Discovery Life Sciences", revenue: 10000, status: "In Progress", owner: "Ian Levenstein", channel: "Digital" },
 ];
 // Sort: live/complete first, then launched, in progress, scheduled — each by revenue desc.
 const _statusRank = { "Complete": 0, "Launched": 1, "In Progress": 2, "Scheduled": 3 };
@@ -837,7 +840,7 @@ document.getElementById('live-rev').textContent = '$' + liveRevTotal.toLocaleStr
 document.getElementById('live-brands').textContent = new Set(liveContent.map(x => x.brand)).size;
 
 if (liveContent.length === 0) {
-  document.getElementById('live-list').innerHTML = `<div style="background:white;border-radius:12px;padding:28px;text-align:center;color:#94a3b8;font-size:13px;box-shadow:0 1px 3px rgba(0,0,0,0.07)">Nothing launching today (Aug 18). Neither the Digital nor Print report shows an item with a Aug 18 launch date. Check back tomorrow.</div>`;
+  document.getElementById('live-list').innerHTML = `<div style="background:white;border-radius:12px;padding:28px;text-align:center;color:#94a3b8;font-size:13px;box-shadow:0 1px 3px rgba(0,0,0,0.07)">Nothing launching today (Aug 19). Neither the Digital nor Print report shows an item with a Aug 19 launch date. Check back tomorrow.</div>`;
 } else {
 const _statusMeta = {
   "Complete":    { label: "✅ Live",        css: "background:#eff6ff;color:#1d4ed8", border: "#10b981" },
@@ -1214,7 +1217,7 @@ document.addEventListener('click', function() { document.querySelectorAll('.drop
 </script>
 <div class="tab-footer">
   <span class="tf-badge">⚠ PROTOTYPE</span>
-  <span class="tf-txt"><b>Internal working tool — figures are directional, not yet a source of truth.</b> Sources: <b>Adobe content extract</b> (7-day / 30-day / lifetime, windowed by publish date; cumulative pageviews to date) · <b>Smartsheet</b> go-lives &amp; revenue (today). Updated August 18, 2026.</span>
+  <span class="tf-txt"><b>Internal working tool — figures are directional, not yet a source of truth.</b> Sources: <b>Adobe content extract</b> (7-day / 30-day / lifetime, windowed by publish date; cumulative pageviews to date) · <b>Smartsheet</b> go-lives &amp; revenue (today). Updated August 19, 2026.</span>
   <span class="tf-txt tf-gaps">Pending stakeholder input: campaign/flight mapping &amp; AdOps pacing/delivery (Judy · Bernice · AdOps).</span>
 </div>
 </body>
