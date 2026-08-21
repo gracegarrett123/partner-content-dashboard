@@ -325,11 +325,11 @@
     <span class="src-chip src-smart">Smartsheet — Today's Launches (Digital + Print)</span>
   </div>
   <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr)">
-    <div class="kpi green"><div class="label">Projects · Today (Aug 20)</div><div class="value" id="live-count">0</div><div class="sub">All statuses · Digital or Print today</div></div>
+    <div class="kpi green"><div class="label">Projects · Today (Aug 21)</div><div class="value" id="live-count">0</div><div class="sub">All statuses · Digital or Print today</div></div>
     <div class="kpi blue"><div class="label">Total Revenue · These Projects</div><div class="value" id="live-rev">$0</div><div class="sub">Where revenue is recorded</div></div>
     <div class="kpi purple"><div class="label">Brands</div><div class="value" id="live-brands">0</div><div class="sub">Distinct brands today</div></div>
   </div>
-  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Every project with a Digital or Print Launch Date of today (Aug 20) — sources: Smartsheet "Digital- Today's Launches" + "Print- Today's Launches." All statuses are shown (Live/Complete, Launched, In Progress, Scheduled, Ready for Kickoff), sorted live-first. The channel tag shows Digital, Print, or both.</p>
+  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Every project with a Digital or Print Launch Date of today (Aug 21) — sources: Smartsheet "Digital- Today's Launches" + "Print- Today's Launches." All statuses are shown (Live/Complete, Launched, In Progress, Scheduled, Ready for Kickoff), sorted live-first. The channel tag shows Digital, Print, or both.</p>
   <div id="live-list"></div>
 </div>
 
@@ -820,15 +820,12 @@ brandFocus.forEach((b,i)=>{
   + `<p style="font-size:11px;color:#94a3b8;margin-top:8px">Source: Adobe content extract · median split (reach ${QMED.mx.toLocaleString()} PV, dwell ${_fmtSecQ(QMED.my)}). Dwell = subscriber seconds ÷ qualifying pages. Only the ${QMED.n} of ${QMED.total} sponsored stories with subscriber dwell data are plotted — the rest have no subscriber time recorded and are excluded rather than shown as zero.</p>`;
 })();
 
-// ===== Launching today (Aug 20) — Smartsheet "Digital- Today's Launches" + "Print- Today's Launches" =====
+// ===== Launching today (Aug 21) — Smartsheet "Digital- Today's Launches" + "Print- Today's Launches" =====
 // ALL projects whose Digital Launch Date (Digital report) or Print Launch Date (Print report) is today, regardless of status.
-// Aug 20: Digital report returned 5 rows, Print report returned 0 rows. 5 unique go-lives total, none Canceled.
+// Aug 21: Digital report returned 2 rows, Print report returned 0 rows. 2 unique go-lives total, none Canceled.
 const liveContent = [
-  { brand: "Crain's Detroit", product: "Best Places to Work Spotlight", client: "Yolles, Toal & Post- Diversified Portfolios Inc", revenue: 9500, status: "Scheduled", owner: "Brittany Brown", channel: "Digital", url: "https://www.crainsdetroit.com/crains-content-studio/publishing-partner/cdb-high-performance-culture-trust-ownership-best-places-to-work/" },
-  { brand: "Automotive News", product: "Lead Generation - Retail", client: "Car Wars", revenue: 7363.13, status: "Scheduled", owner: "Jessica Leydet", channel: "Digital", url: "http://autonews.com/resource_center/CarWars/an-2026-mid-year-review-dealership-phone-performance-trends-and-benchmarks/" },
-  { brand: "Automotive News", product: "Custom Webinar Mini", client: "Mia labs", revenue: 7344, status: "Scheduled", owner: "Jessica Leydet", channel: "Digital", url: "https://event.webcasts.com/starthere.jsp?ei=1771623&tp_key=a7ecb5072d&sti=site" },
-  { brand: "GenomeWeb", product: "Webinar", client: "SPT Labtech", revenue: 10000, status: "In Progress", owner: "Adam Eggleston", channel: "Digital" },
-  { brand: "GenomeWeb", product: "Virtual Lunch & Learns", client: "Elephas", revenue: 10000, status: "In Progress", owner: "Colin O'Connor", channel: "Digital" },
+  { brand: "Crain's Chicago", product: "Luxury Home Spotlight", client: "Golub & Company LLC", revenue: 3500, status: "Scheduled", owner: "Natalie Bonadeo", channel: "Digital", url: "https://www.chicagobusiness.com/crains-content-studio/publishing-partner/ccb-tribune-tower-luxury-residences-chicago" },
+  { brand: "GenomeWeb", product: "Webinar", client: "Bio-rad", revenue: 10000, status: "In Progress", owner: "Adam Eggleston", channel: "Digital" },
 ];
 // Sort: live/complete first, then launched, in progress, scheduled — each by revenue desc.
 const _statusRank = { "Complete": 0, "Launched": 1, "In Progress": 2, "Scheduled": 3 };
@@ -840,7 +837,7 @@ document.getElementById('live-rev').textContent = '$' + liveRevTotal.toLocaleStr
 document.getElementById('live-brands').textContent = new Set(liveContent.map(x => x.brand)).size;
 
 if (liveContent.length === 0) {
-  document.getElementById('live-list').innerHTML = `<div style="background:white;border-radius:12px;padding:28px;text-align:center;color:#94a3b8;font-size:13px;box-shadow:0 1px 3px rgba(0,0,0,0.07)">Nothing launching today (Aug 20). Neither the Digital nor Print report shows an item with a Aug 20 launch date. Check back tomorrow.</div>`;
+  document.getElementById('live-list').innerHTML = `<div style="background:white;border-radius:12px;padding:28px;text-align:center;color:#94a3b8;font-size:13px;box-shadow:0 1px 3px rgba(0,0,0,0.07)">Nothing launching today (Aug 21). Neither the Digital nor Print report shows an item with a Aug 21 launch date. Check back tomorrow.</div>`;
 } else {
 const _statusMeta = {
   "Complete":    { label: "✅ Live",        css: "background:#eff6ff;color:#1d4ed8", border: "#10b981" },
@@ -1217,7 +1214,7 @@ document.addEventListener('click', function() { document.querySelectorAll('.drop
 </script>
 <div class="tab-footer">
   <span class="tf-badge">⚠ PROTOTYPE</span>
-  <span class="tf-txt"><b>Internal working tool — figures are directional, not yet a source of truth.</b> Sources: <b>Adobe content extract</b> (7-day / 30-day / lifetime, windowed by publish date; cumulative pageviews to date) · <b>Smartsheet</b> go-lives &amp; revenue (today). Updated August 20, 2026.</span>
+  <span class="tf-txt"><b>Internal working tool — figures are directional, not yet a source of truth.</b> Sources: <b>Adobe content extract</b> (7-day / 30-day / lifetime, windowed by publish date; cumulative pageviews to date) · <b>Smartsheet</b> go-lives &amp; revenue (today). Updated August 21, 2026.</span>
   <span class="tf-txt tf-gaps">Pending stakeholder input: campaign/flight mapping &amp; AdOps pacing/delivery (Judy · Bernice · AdOps).</span>
 </div>
 </body>
