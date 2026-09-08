@@ -311,11 +311,11 @@
     <span class="src-chip src-smart">Smartsheet — Today's Launches (Digital + Print)</span>
   </div>
   <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr)">
-    <div class="kpi green"><div class="label">Projects · Today (Sep 7)</div><div class="value" id="live-count">0</div><div class="sub">All statuses · Digital or Print today</div></div>
+    <div class="kpi green"><div class="label">Projects · Today (Sep 8)</div><div class="value" id="live-count">0</div><div class="sub">All statuses · Digital or Print today</div></div>
     <div class="kpi blue"><div class="label">Total Revenue · These Projects</div><div class="value" id="live-rev">$0</div><div class="sub">Where revenue is recorded</div></div>
     <div class="kpi purple"><div class="label">Brands</div><div class="value" id="live-brands">0</div><div class="sub">Distinct brands today</div></div>
   </div>
-  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Every project with a Digital or Print Launch Date of today (Sep 7) — sources: Smartsheet "Digital- Today's Launches" + "Print- Today's Launches." All statuses are shown (Live/Complete, Launched, In Progress, Scheduled, Ready for Kickoff), sorted live-first. The channel tag shows Digital, Print, or both.</p>
+  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Every project with a Digital or Print Launch Date of today (Sep 8) — sources: Smartsheet "Digital- Today's Launches" + "Print- Today's Launches." All statuses are shown (Live/Complete, Launched, In Progress, Scheduled, Ready for Kickoff), sorted live-first. The channel tag shows Digital, Print, or both.</p>
   <div id="live-list"></div>
 </div>
 
@@ -794,51 +794,12 @@ brandFocus.forEach((b,i)=>{
   + `<p style="font-size:11px;color:#94a3b8;margin-top:8px">Source: Adobe content extract · median split (reach ${QMED.mx.toLocaleString()} PV, dwell ${_fmtSecQ(QMED.my)}). Dwell = subscriber seconds ÷ qualifying pages. Only the ${QMED.n} of ${QMED.total} sponsored stories with subscriber dwell data are plotted — the rest have no subscriber time recorded and are excluded rather than shown as zero.</p>`;
 })();
 
-// ===== Launching today (Sep 7) — Smartsheet "Digital- Today's Launches" + "Print- Today's Launches" =====
+// ===== Launching today (Sep 8) — Smartsheet "Digital- Today's Launches" + "Print- Today's Launches" =====
 // ALL projects whose Digital Launch Date (Digital report) or Print Launch Date (Print report) is today, regardless of status.
-// Sep 7: Digital report returned 29 rows, Print report returned 35 rows. 41 unique go-lives total, none Canceled.
+// Sep 8: Digital report returned 2 rows, Print report returned 0 rows. 2 unique go-lives total, none Canceled.
 const liveContent = [
-  { brand: "Modern Healthcare", product: "Gated WhitePaper: Client Supplied", client: "Equiti", revenue: 16000, status: "Scheduled", owner: "Melanie Cooper", channel: "Digital", url: "https://www.modernhealthcare.com/content-studio/white-paper/mh-pediatric-language-access-care-experience/" },
-  { brand: "Modern Healthcare", product: "Sponsored Content Posting: Client Supplied", client: "PointClickCare", revenue: 11500, status: "Scheduled", owner: "Melanie Cooper", channel: "Digital", url: "https://www.modernhealthcare.com/content-studio/publishing-partner/mh-ai-and-post-acute-care-visibility" },
-  { brand: "Modern Healthcare", product: "Sponsored Content:  Client Supplied", client: "Intuitive Health", revenue: 11500, status: "In Progress", owner: "Melanie Cooper", channel: "Digital", url: "https://www.modernhealthcare.com/content-studio/publishing-partner/mh-misaligned-triage-is-costing-your-health-system-more-than-you-think/" },
-  { brand: "Modern Healthcare", product: "Gated Content: Client Supplied", client: "Vizient", revenue: 16333, status: "Scheduled", owner: "Melanie Cooper", channel: "Digital", url: "http://modernhealthcare.com/content-studio/white-paper/mh-beyond-inflation-understanding-forces-reshaping-healthcare-spend/" },
-  { brand: "Crain's New York", product: "Digital - Client writes", client: "Under Construction News", revenue: 3500, status: "Scheduled", owner: "Jennifer Keirn", channel: "Digital", url: "https://www.crainsnewyork.com/crains-content-studio/publishing-partner/cny-why-union-laavor-matters-to-new-york-construction/" },
-  { brand: "GenomeWeb", product: "Sponsored Content Posting", client: "Golden Helix", revenue: 4617, status: "In Progress", owner: "Colin O'Connor", channel: "Digital" },
-  { brand: "GenomeWeb", product: "Sponsored Content Posting", client: "DNA Genotek", revenue: 4860, status: "In Progress", owner: "Colin O'Connor", channel: "Digital" },
-  { brand: "Modern Healthcare", product: "Executive Conversation", client: "City of Hope", revenue: 14450, status: "Scheduled", owner: "Shannon Mortland", channel: "Digital + Print", url: "https://www.modernhealthcare.com/content-studio/executive-conversation/mh-building-commercialized-engine-translate-science-real-world-care/" },
-  { brand: "Modern Healthcare", product: "Executive Conversation: Client Supplied", client: "Sutter Health", revenue: 20000, status: "Scheduled", owner: "Melanie Cooper", channel: "Digital + Print", url: "https://www.modernhealthcare.com/content-studio/executive-conversation/mh-sutter-health-culture-careers-employee-experience/" },
-  { brand: "P&I", product: "Industry Intel (3pp) & Webinar", client: "Invesco, State Street Investment Management", revenue: 85000, status: "Scheduled", owner: "Corina Lewis", channel: "Digital + Print" },
-  { brand: "Crain's Cleveland", product: "Digital + Print - Client writes", client: "MetroHealth System", revenue: 8850, status: "Scheduled", owner: "kathy carr", channel: "Digital + Print", url: "https://www.crainscleveland.com/crains-content-studio/publishing-partner/ccl-metrohealth-bridging-recovery-return-to-work/" },
-  { brand: "Crain's Chicago", product: "Private School Planner", client: "Private School Planner", revenue: 159000, status: "Scheduled", owner: "Natalie Bonadeo", channel: "Digital + Print", url: "https://www.chicagobusiness.com/crains-content-studio/private-school-planner/2026/" },
-  { brand: "Crain's Chicago", product: "Private School Planner", client: "Bennett Day School", revenue: 7800, status: "In Progress", owner: "Natalie Bonadeo", channel: "Digital + Print", url: "https://www.chicagobusiness.com/crains-content-studio/private-school-planner/2026/ccb-bennett-day-school" },
-  { brand: "Crain's Chicago", product: "Private School Planner", client: "British School of Chicago", revenue: 12000, status: "In Progress", owner: "Natalie Bonadeo", channel: "Digital + Print", url: "https://www.chicagobusiness.com/crains-content-studio/private-school-planner/2026/ccb-bisc-chicago-global-education/" },
-  { brand: "Crain's Chicago", product: "Private School Planner", client: "Chicago City Day School", revenue: 7800, status: "In Progress", owner: "Natalie Bonadeo", channel: "Digital + Print", url: "https://www.chicagobusiness.com/crains-content-studio/private-school-planner/2026/ccb-chicago-city-day-school-education/" },
-  { brand: "Crain's Chicago", product: "Private School Planner", client: "Davis School Chicago", revenue: 12000, status: "In Progress", owner: "Natalie Bonadeo", channel: "Digital + Print", url: "https://www.chicagobusiness.com/crains-content-studio/private-school-planner/2026/ccb-davis-school-chicago/" },
-  { brand: "Crain's Chicago", product: "Private School Planner", client: "Frances Xavier Warde School", revenue: 7800, status: "In Progress", owner: "Natalie Bonadeo", channel: "Digital + Print", url: "https://www.chicagobusiness.com/crains-content-studio/private-school-planner/2026/ccb-the-frances-xavier-warde-school/" },
-  { brand: "Crain's Chicago", product: "Private School Planner", client: "Francis W. Parker School", revenue: 7800, status: "In Progress", owner: "Natalie Bonadeo", channel: "Digital + Print", url: "http://chicagobusiness.com/crains-content-studio/private-school-planner/2026/ccb-francis-w-parker-school/" },
-  { brand: "Crain's Chicago", product: "Private School Planner", client: "German International School Chicago", revenue: 7800, status: "In Progress", owner: "Natalie Bonadeo", channel: "Digital + Print", url: "https://www.chicagobusiness.com/crains-content-studio/private-school-planner/2026/ccb-german-international-school-chicago/" },
-  { brand: "Crain's Chicago", product: "Private School Planner", client: "Lake Forest Country Day School", revenue: 7800, status: "In Progress", owner: "Natalie Bonadeo", channel: "Digital + Print", url: "https://www.chicagobusiness.com/crains-content-studio/private-school-planner/2026/ccl-lake-forest-country-day-school/" },
-  { brand: "Crain's Chicago", product: "Private School Planner", client: "Lycée Français de Chicago", revenue: 12000, status: "In Progress", owner: "Natalie Bonadeo", channel: "Digital + Print", url: "https://www.chicagobusiness.com/crains-content-studio/private-school-planner/2026/ccb-lycee-francais-de-chicago/" },
-  { brand: "Crain's Chicago", product: "Private School Planner", client: "The Avery Coonley School", revenue: 7800, status: "In Progress", owner: "Natalie Bonadeo", channel: "Digital + Print", url: "https://www.chicagobusiness.com/crains-content-studio/private-school-planner/2026/ccb-the-avery-coonley-school/" },
-  { brand: "Crain's Chicago", product: "Private School Planner", client: "The Latin School", revenue: 7800, status: "In Progress", owner: "Natalie Bonadeo", channel: "Digital + Print", url: "https://www.chicagobusiness.com/crains-content-studio/private-school-planner/2026/ccb-latin-school-chicago-innovative-education/" },
-  { brand: "Crain's Chicago", product: "Private School Planner", client: "University of Chicago Laboratory Schools", revenue: 7800, status: "In Progress", owner: "Natalie Bonadeo", channel: "Digital + Print", url: "https://chicagobusiness.com/crains-content-studio/private-school-planner/2026/ccb-university-of-chicago-laboratory-schools/" },
-  { brand: "Crain's Chicago", product: "Private School Planner", client: "Woodlands Academy of the Sacred Heart", revenue: 7800, status: "In Progress", owner: "Natalie Bonadeo", channel: "Digital + Print", url: "https://www.chicagobusiness.com/crains-content-studio/private-school-planner/2026/ccb-woodlands-academy-sacred-heart/" },
-  { brand: "Crain's Cleveland", product: "Digital + Print - Client writes", client: "Rudolph Libbe Group", revenue: 2610, status: "Scheduled", owner: "kathy carr", channel: "Digital + Print", url: "https://www.crainscleveland.com/crains-content-studio/publishing-partner/ccl-rudolph-libbe-advancing-manufacturing-novagard/" },
-  { brand: "Crain's Grand Rapids", product: "Digital + Print - Crain's writes", client: "Wedgwood Christian Services", revenue: 4000, status: "Scheduled", owner: "Natalie Bonadeo", channel: "Digital + Print", url: "https://www.crainsgrandrapids.com/crains-content-studio/ask-the-expert/cgr-mental-health-workforce-investment/" },
-  { brand: "Modern Healthcare", product: "Executive Conversation Digital + Print", client: "JLL", revenue: 20000, status: "Launched", owner: "Sarah Loeffler", channel: "Print", url: "https://www.modernhealthcare.com/content-studio/executive-conversation/mh-health-systems-moving-beyond-ambulatory-growth/" },
-  { brand: "Modern Healthcare", product: "Quick Take Video + Print Amp", client: "Valley Health", revenue: 15000, status: "Launched", owner: "Sarah Loeffler", channel: "Print", url: "https://www.modernhealthcare.com/content-studio/quicktake/mh-valley-health-culture-transformation/" },
-  { brand: "Crain's Chicago", product: "Private School Planner", client: "Catherine Cook School", revenue: 3000, status: "In Progress", owner: "Natalie Bonadeo", channel: "Print" },
-  { brand: "Crain's Chicago", product: "Private School Planner", client: "Chicagoland Girls' Schools", revenue: 4800, status: "In Progress", owner: "Natalie Bonadeo", channel: "Print" },
-  { brand: "Crain's Chicago", product: "Private School Planner", client: "Fusion Academy", revenue: 4800, status: "In Progress", owner: "Natalie Bonadeo", channel: "Print" },
-  { brand: "Crain's Chicago", product: "Private School Planner", client: "Lake Forest Academy", revenue: 4800, status: "In Progress", owner: "Natalie Bonadeo", channel: "Print" },
-  { brand: "Crain's Chicago", product: "Private School Planner", client: "Metropolitan Schoolhouse", revenue: 3000, status: "In Progress", owner: "Natalie Bonadeo", channel: "Print" },
-  { brand: "Crain's Chicago", product: "Private School Planner", client: "Near North Montessori School", revenue: 3000, status: "In Progress", owner: "Natalie Bonadeo", channel: "Print" },
-  { brand: "Crain's Chicago", product: "Private School Planner", client: "Neighborhood Parents Network", revenue: 4800, status: "In Progress", owner: "Natalie Bonadeo", channel: "Print" },
-  { brand: "Crain's Chicago", product: "Private School Planner", client: "North Shore Country Day School", revenue: 4800, status: "In Progress", owner: "Natalie Bonadeo", channel: "Print" },
-  { brand: "Crain's Chicago", product: "Private School Planner", client: "The Chicago Academy of the Arts", revenue: 3000, status: "In Progress", owner: "Natalie Bonadeo", channel: "Print" },
-  { brand: "Crain's Chicago", product: "Private School Planner", client: "The Chicago Waldorf School", revenue: 3000, status: "In Progress", owner: "Natalie Bonadeo", channel: "Print" },
-  { brand: "Crain's Chicago", product: "Private School Planner", client: "The School of Saints Faith, Hope & Charity", revenue: 3000, status: "In Progress", owner: "Natalie Bonadeo", channel: "Print" },
-  { brand: "Crain's Chicago", product: "Private School Planner", client: "Wolcott College Prep", revenue: 3000, status: "In Progress", owner: "Natalie Bonadeo", channel: "Print" }
+  { brand: "P&I", product: "Sponsored Content Post", client: "Mackenzie Investments", revenue: 20000, status: "Scheduled", owner: "Corina Lewis", channel: "Digital", url: "https://www.pionline.com/sponsored-content/pi-amidst-dynamic-markets-quant-makes-compelling-case-for-core-investing" },
+  { brand: "Automotive News", product: "Custom Webinar Full + Guide", client: "Automotive Mastermind", revenue: 12016.88, status: "Launched", owner: "Jessica Leydet", channel: "Digital", url: "https://www.autonews.com/sponsored/webinars/an-drive-demand-fuel-retail-growth-data-driven-insights/" }
 ];
 // Sort: live/complete first, then launched, in progress, scheduled — each by revenue desc.
 const _statusRank = { "Complete": 0, "Launched": 1, "In Progress": 2, "Scheduled": 3 };
@@ -850,7 +811,7 @@ document.getElementById('live-rev').textContent = '$' + liveRevTotal.toLocaleStr
 document.getElementById('live-brands').textContent = new Set(liveContent.map(x => x.brand)).size;
 
 if (liveContent.length === 0) {
-  document.getElementById('live-list').innerHTML = `<div style="background:white;border-radius:12px;padding:28px;text-align:center;color:#94a3b8;font-size:13px;box-shadow:0 1px 3px rgba(0,0,0,0.07)">Nothing launching today (Sep 7). Neither the Digital nor Print report shows an item with a Sep 7 launch date. Check back tomorrow.</div>`;
+  document.getElementById('live-list').innerHTML = `<div style="background:white;border-radius:12px;padding:28px;text-align:center;color:#94a3b8;font-size:13px;box-shadow:0 1px 3px rgba(0,0,0,0.07)">Nothing launching today (Sep 8). Neither the Digital nor Print report shows an item with a Sep 8 launch date. Check back tomorrow.</div>`;
 } else {
 const _statusMeta = {
   "Complete":    { label: "✅ Live",        css: "background:#eff6ff;color:#1d4ed8", border: "#10b981" },
@@ -1148,7 +1109,7 @@ document.addEventListener('click', function() { document.querySelectorAll('.drop
 </script>
 <div class="tab-footer">
   <span class="tf-badge">⚠ PROTOTYPE</span>
-  <span class="tf-txt"><b>Internal working tool — figures are directional, not yet a source of truth.</b> Sources: <b>Adobe content extract</b> (7-day / 30-day / lifetime, windowed by publish date; cumulative pageviews to date) · <b>Smartsheet</b> go-lives &amp; revenue (today). Updated September 7, 2026.</span>
+  <span class="tf-txt"><b>Internal working tool — figures are directional, not yet a source of truth.</b> Sources: <b>Adobe content extract</b> (7-day / 30-day / lifetime, windowed by publish date; cumulative pageviews to date) · <b>Smartsheet</b> go-lives &amp; revenue (today). Updated September 8, 2026.</span>
   <span class="tf-txt tf-gaps">Pending stakeholder input: campaign/flight mapping &amp; AdOps pacing/delivery (Judy · Bernice · AdOps).</span>
 </div>
 </body>
