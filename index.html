@@ -208,8 +208,8 @@
 
 <div id="stale-banner" style="max-width:1400px;margin:14px auto 0;padding:14px 18px;background:#fef2f2;border:1px solid #fecaca;border-left:5px solid #dc2626;border-radius:10px;font-size:13px;line-height:1.55;color:#7f1d1d">
   <div style="font-weight:700;font-size:13.5px;margin-bottom:4px">⚠️ Sponsored content data is frozen at Aug 19, 2026 — do not read the PV, story or audience numbers as current.</div>
-  <div>The Tableau <em>ARC Content Performance Extract</em> has not advanced in 18 consecutive daily pulls (every export since Aug 24 is byte-identical). Every sponsored, audience and brand-level figure on this dashboard reflects data through <strong>Aug 19</strong> only, and the trailing 7/30/60-day windows are incomplete. <strong>The fix is upstream:</strong> the extract needs to be republished or reconnected in Tableau.</div>
-  <div style="margin-top:6px"><strong>Today's Go-Lives is unaffected</strong> — it comes from Smartsheet and is current as of <span id="stale-golive-date">Sep 22, 2026</span>.</div>
+  <div>The Tableau <em>ARC Content Performance Extract</em> has not advanced in 18 consecutive daily pulls, Aug 24–Sep 22 (the YTD export is byte-identical every day; no new pull landed Sep 23), and now sits 35 days behind. Every sponsored, audience and brand-level figure on this dashboard reflects data through <strong>Aug 19</strong> only, and the trailing 7/30/60-day windows are incomplete. <strong>The fix is upstream:</strong> the extract needs to be republished or reconnected in Tableau.</div>
+  <div style="margin-top:6px"><strong>Today's Go-Lives is unaffected</strong> — it comes from Smartsheet and is current as of <span id="stale-golive-date">Sep 23, 2026</span>.</div>
 </div>
 
 <div class="tabs">
@@ -317,11 +317,11 @@
     <span class="src-chip src-smart">Smartsheet — Today's Launches (Digital + Print)</span>
   </div>
   <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr)">
-    <div class="kpi green"><div class="label">Projects · Today (Sep 22)</div><div class="value" id="live-count">0</div><div class="sub">All statuses · Digital or Print today</div></div>
+    <div class="kpi green"><div class="label">Projects · Today (Sep 23)</div><div class="value" id="live-count">0</div><div class="sub">All statuses · Digital or Print today</div></div>
     <div class="kpi blue"><div class="label">Total Revenue · These Projects</div><div class="value" id="live-rev">$0</div><div class="sub">Where revenue is recorded</div></div>
     <div class="kpi purple"><div class="label">Brands</div><div class="value" id="live-brands">0</div><div class="sub">Distinct brands today</div></div>
   </div>
-  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Every project with a Digital or Print Launch Date of today (Sep 22) — sources: Smartsheet "Digital- Today's Launches" + "Print- Today's Launches." All statuses are shown (Live/Complete, Launched, In Progress, Scheduled, Ready for Kickoff), sorted live-first. The channel tag shows Digital, Print, or both.</p>
+  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Every project with a Digital or Print Launch Date of today (Sep 23) — sources: Smartsheet "Digital- Today's Launches" + "Print- Today's Launches." All statuses are shown (Live/Complete, Launched, In Progress, Scheduled, Ready for Kickoff), sorted live-first. The channel tag shows Digital, Print, or both.</p>
   <div id="live-list"></div>
 </div>
 
@@ -800,25 +800,20 @@ brandFocus.forEach((b,i)=>{
   + `<p style="font-size:11px;color:#94a3b8;margin-top:8px">Source: Adobe content extract · median split (reach ${QMED.mx.toLocaleString()} PV, dwell ${_fmtSecQ(QMED.my)}). Dwell = subscriber seconds ÷ qualifying pages. Only the ${QMED.n} of ${QMED.total} sponsored stories with subscriber dwell data are plotted — the rest have no subscriber time recorded and are excluded rather than shown as zero.</p>`;
 })();
 
-// ===== Launching today (Sep 22) — Smartsheet "Digital- Today's Launches" + "Print- Today's Launches" =====
+// ===== Launching today (Sep 23) — Smartsheet "Digital- Today's Launches" + "Print- Today's Launches" =====
 // ALL projects whose Digital Launch Date (Digital report) or Print Launch Date (Print report) is today, regardless of status.
-// Sep 22 (refreshed): Digital report returned 17 rows, Print report returned 0 rows. 15 unique go-lives total (all Digital), 1 Canceled excluded (Modern Healthcare / Medline Industries) and 1 duplicate Boston Scientific row merged.
+// Sep 23 (refreshed 8:20 run): Digital report returned 10 rows, Print report returned 0 rows. 10 unique go-lives (all Digital), 0 Canceled, 0 duplicates. Blank revenue (Independent Bank, Haig) counted as $0.
 const liveContent = [
-  { brand: "Modern Healthcare", product: "Custom Event Sponsorship", client: "Akasa", revenue: 0, status: "Not Started", owner: "Andrea Straw", channel: "Digital" },
-  { brand: "Modern Healthcare", product: "Custom Event Sponsorship", client: "Premier Healthcare Solutions, Inc.", revenue: 0, status: "Not Started", owner: "Andrea Straw", channel: "Digital" },
-  { brand: "Modern Healthcare", product: "Custom Event Sponsorship", client: "Chapters Health System", revenue: 0, status: "Not Started", owner: "Andrea Straw", channel: "Digital" },
-  { brand: "Modern Healthcare", product: "Custom Event Sponsorship", client: "Lumeris", revenue: 0, status: "Not Started", owner: "Andrea Straw", channel: "Digital" },
-  { brand: "Modern Healthcare", product: "Custom Event Sponsorship", client: "Hackensack Meridian Health", revenue: 0, status: "Not Started", owner: "Andrea Straw", channel: "Digital" },
-  { brand: "Modern Healthcare", product: "Custom Event Sponsorship", client: "NAHQ", revenue: 0, status: "Not Started", owner: "Andrea Straw", channel: "Digital" },
-  { brand: "Modern Healthcare", product: "Custom Event Sponsorship", client: "Boston Scientific", revenue: 0, status: "Not Started", owner: "Andrea Straw", channel: "Digital" },
-  { brand: "Modern Healthcare", product: "Leadership Symposium Sponsor", client: "VITAL WorkLife", revenue: 15000, status: "Not Started", owner: "Andrea Straw", channel: "Digital" },
-  { brand: "Modern Healthcare", product: "Custom Event Sponsorship", client: "Premier Inc", revenue: 1, status: "Not Started", owner: "Andrea Straw", channel: "Digital" },
-  { brand: "Modern Healthcare", product: "Leadership Summit - Fireside Chat", client: "AdvaMed", revenue: 45000, status: "In Progress", owner: "Andrea Straw", channel: "Digital" },
-  { brand: "Modern Healthcare", product: "Custom Event Sponsorship", client: "Innovaccer Inc.", revenue: 40000, status: "Not Started", owner: "Andrea Straw", channel: "Digital" },
-  { brand: "Ad Age", product: "Custom Webinar", client: "Audacy", revenue: 20000, status: "In Progress", owner: "Leeza Rivkin", channel: "Digital" },
-  { brand: "Ad Age", product: "Pub Partner (CW)", client: "Tatari", revenue: 12000, status: "In Progress", owner: "Sophia Juarez", channel: "Digital", url: "https://www.adage.com/studio-30/publishing-partners/aa-what-advertisers-plans-reveal-about-2026-holiday-shopping/" },
-  { brand: "GenomeWeb", product: "Virtual Roundtable", client: "Roche CustomBiotech", revenue: 30000, status: "In Progress", owner: "Alison Caceres", channel: "Digital" },
-  { brand: "GenomeWeb", product: "Podcast", client: "Roche", revenue: 10000, status: "Ready for Kickoff", owner: "", channel: "Digital" },
+  { brand: "Modern Healthcare", product: "Quick Take Video", client: "US Bank", revenue: 12666, status: "Launched", owner: "Melanie Cooper", channel: "Digital", url: "https://www.modernhealthcare.com/content-studio/quicktake/mh-modernizing-the-hospital-revenue-cycle/" },
+  { brand: "Modern Healthcare", product: "Podcast", client: "McKesson Pharmacy", revenue: 11000, status: "Launched", owner: "Melanie Cooper", channel: "Digital", url: "https://www.modernhealthcare.com/content-studio/healthcare-insider-podcast/mh-behind-the-medicine-why-pharmaceutical-distribution-matters" },
+  { brand: "P&I", product: "Asset Class Spotlight", client: "IFM Investors", revenue: 60000, status: "In Progress", owner: "Corina Lewis", channel: "Digital", url: "https://www.pionline.com/partner-content/pi-infrastructure-essential-assets-expanding-opportunities/" },
+  { brand: "P&I", product: "Single-Sponsor Webinar", client: "Harbourvest", revenue: 57500, status: "Not Started", owner: "Bethany Ford", channel: "Digital" },
+  { brand: "Ad Age", product: "Pub Partner (CW)", client: "Amsive", revenue: 15000, status: "In Progress", owner: "Sophia Juarez", channel: "Digital", url: "https://adage.com/studio-30/publishing-partners/aa-the-audience-economy-is-already-here" },
+  { brand: "Crain's Detroit", product: "Quick Take Video", client: "Independent Bank", revenue: 0, status: "Scheduled", owner: "Brittany Brown", channel: "Digital", url: "https://www.crainsdetroit.com/crains-content-studio/quicktake/cdb-payment-treasury-fraud-quick-take-independent-bank/" },
+  { brand: "Automotive News", product: "Up to Speed Video", client: "Cox Dealertrack", revenue: 11500, status: "Scheduled", owner: "Veronica Johnson", channel: "Digital" },
+  { brand: "Automotive News Europe", product: "Rising Stars Speak Custom Video", client: "Capgemini", revenue: 25000, status: "Not Started", owner: "Veronica Johnson", channel: "Digital" },
+  { brand: "Automotive News", product: "Lead Generation - Retail", client: "Haig", revenue: 0, status: "Scheduled", owner: "Jessica Leydet", channel: "Digital", url: "https://www.autonews.com/resource_center/haigpartners/an-measure-where-franchise-creates-most-value/" },
+  { brand: "GenomeWeb", product: "Webinar", client: "Bruker", revenue: 12500, status: "In Progress", owner: "Ian Levenstein", channel: "Digital" },
 ];
 // Sort: live/complete first, then launched, in progress, scheduled — each by revenue desc.
 const _statusRank = { "Complete": 0, "Launched": 1, "In Progress": 2, "Scheduled": 3 };
@@ -830,7 +825,7 @@ document.getElementById('live-rev').textContent = '$' + liveRevTotal.toLocaleStr
 document.getElementById('live-brands').textContent = new Set(liveContent.map(x => x.brand)).size;
 
 if (liveContent.length === 0) {
-  document.getElementById('live-list').innerHTML = `<div style="background:white;border-radius:12px;padding:28px;text-align:center;color:#94a3b8;font-size:13px;box-shadow:0 1px 3px rgba(0,0,0,0.07)">Nothing launching today (Sep 22). Neither the Digital nor Print report shows an item with a Sep 22 launch date. Check back tomorrow.</div>`;
+  document.getElementById('live-list').innerHTML = `<div style="background:white;border-radius:12px;padding:28px;text-align:center;color:#94a3b8;font-size:13px;box-shadow:0 1px 3px rgba(0,0,0,0.07)">Nothing launching today (Sep 23). Neither the Digital nor Print report shows an item with a Sep 23 launch date. Check back tomorrow.</div>`;
 } else {
 const _statusMeta = {
   "Complete":    { label: "✅ Live",        css: "background:#eff6ff;color:#1d4ed8", border: "#10b981" },
@@ -1250,7 +1245,7 @@ document.addEventListener('click', function() { document.querySelectorAll('.drop
 </script>
 <div class="tab-footer">
   <span class="tf-badge">⚠ PROTOTYPE</span>
-  <span class="tf-txt"><b>Internal working tool — figures are directional, not yet a source of truth.</b> Sources: <b>Adobe content extract</b> (7-day / 30-day / lifetime, windowed by publish date; cumulative pageviews to date) · <b>Smartsheet</b> go-lives &amp; revenue (today). Updated September 22, 2026</span>
+  <span class="tf-txt"><b>Internal working tool — figures are directional, not yet a source of truth.</b> Sources: <b>Adobe content extract</b> (7-day / 30-day / lifetime, windowed by publish date; cumulative pageviews to date) · <b>Smartsheet</b> go-lives &amp; revenue (today). Updated September 23, 2026</span>
   <span class="tf-txt tf-gaps">Pending stakeholder input: campaign/flight mapping &amp; AdOps pacing/delivery (Judy · Bernice · AdOps).</span>
 </div>
 </body>
