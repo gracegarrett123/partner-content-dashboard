@@ -804,10 +804,10 @@ brandFocus.forEach((b,i)=>{
 // ALL projects whose Digital Launch Date (Digital report) or Print Launch Date (Print report) is today, regardless of status.
 // Oct 6 (8:20 run): Digital report 4 rows, Print report 0 rows. 4 unique go-lives (4 Digital), 0 Canceled, deduped by Brand+Product+Client.
 const liveContent = [
+  {"brand": "Modern Healthcare", "channel": "Digital", "product": "LinkedIn Promotional", "client": "Premier Inc", "status": "Not Started", "revenue": 5000, "owner": "Sarah Loeffler, Shannon Mortland"},
   {"brand": "Ad Age", "channel": "Digital", "product": "Pub Partner (AAW)", "client": "Amazon (Kindle)", "status": "In Progress", "revenue": 16000, "owner": "Sophia Juarez", "url": "https://www.adage.com/studio-30/publishing-partners/aa-regular-work-task-increase-social-perception"},
   {"brand": "Automotive News", "channel": "Digital", "product": "In the Driver Seat Video", "client": "Enterprise Holdings", "status": "In Progress", "revenue": 15000, "owner": "Veronica Johnson"},
-  {"brand": "GenomeWeb", "channel": "Digital", "product": "Webinar", "client": "BD", "status": "In Progress", "revenue": 13500, "owner": "Adam Eggleston"},
-  {"brand": "Modern Healthcare", "channel": "Digital", "product": "LinkedIn Promotional", "client": "Premier Inc", "status": "Not Started", "revenue": 5000, "owner": "Sarah Loeffler, Shannon Mortland"}
+  {"brand": "GenomeWeb", "channel": "Digital", "product": "Webinar", "client": "BD", "status": "In Progress", "revenue": 13500, "owner": "Adam Eggleston"}
 ];
 // Sort: live/complete first, then launched, in progress, scheduled — each by revenue desc.
 const _statusRank = { "Complete": 0, "Launched": 1, "In Progress": 2, "Scheduled": 3 };
@@ -1239,7 +1239,7 @@ document.addEventListener('click', function() { document.querySelectorAll('.drop
 </script>
 <div class="tab-footer">
   <span class="tf-badge">⚠ PROTOTYPE</span>
-  <span class="tf-txt"><b>Internal working tool — figures are directional, not yet a source of truth.</b> Sources: <b>Adobe content extract</b> (7-day / 30-day / lifetime, windowed by publish date; cumulative pageviews to date) · <b>Smartsheet</b> go-lives &amp; revenue (today). Updated September 23, 2026</span>
+  <span class="tf-txt"><b>Internal working tool — figures are directional, not yet a source of truth.</b> Sources: <b>Adobe content extract</b> (7-day / 30-day / lifetime, windowed by publish date; cumulative pageviews to date) · <b>Smartsheet</b> go-lives &amp; revenue (today). Updated October 6, 2026</span>
   <span class="tf-txt tf-gaps">Pending stakeholder input: campaign/flight mapping &amp; AdOps pacing/delivery (Judy · Bernice · AdOps).</span>
 </div>
 </body>
