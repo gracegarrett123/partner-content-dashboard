@@ -208,8 +208,8 @@
 
 <div id="stale-banner" style="max-width:1400px;margin:14px auto 0;padding:14px 18px;background:#fef2f2;border:1px solid #fecaca;border-left:5px solid #dc2626;border-radius:10px;font-size:13px;line-height:1.55;color:#7f1d1d">
   <div style="font-weight:700;font-size:13.5px;margin-bottom:4px">⚠️ Sponsored content data is frozen at Aug 19, 2026 — do not read the PV, story or audience numbers as current.</div>
-  <div>The Tableau <em>ARC Content Performance Extract</em> has not advanced in 19+ consecutive daily pulls, Aug 24–Sep 23 (the YTD export was byte-identical every day; no new extract files have landed since Sep 23, none for Oct 9), and now sits 51 days behind. Every sponsored, audience and brand-level figure on this dashboard reflects data through <strong>Aug 19</strong> only, and the trailing 7/30/60-day windows are incomplete. <strong>The fix is upstream:</strong> the extract needs to be republished or reconnected in Tableau.</div>
-  <div style="margin-top:6px"><strong>Today's Go-Lives is unaffected</strong> — it comes from Smartsheet and is current as of <span id="stale-golive-date">Oct 9, 2026</span>.</div>
+  <div>The Tableau <em>ARC Content Performance Extract</em> has not advanced in 19+ consecutive daily pulls, Aug 24–Sep 23 (the YTD export was byte-identical every day; no new extract files have landed since Sep 23, none for Oct 12), and now sits 51 days behind. Every sponsored, audience and brand-level figure on this dashboard reflects data through <strong>Aug 19</strong> only, and the trailing 7/30/60-day windows are incomplete. <strong>The fix is upstream:</strong> the extract needs to be republished or reconnected in Tableau.</div>
+  <div style="margin-top:6px"><strong>Today's Go-Lives is unaffected</strong> — it comes from Smartsheet and is current as of <span id="stale-golive-date">Oct 12, 2026</span>.</div>
 </div>
 
 <div class="tabs">
@@ -317,11 +317,11 @@
     <span class="src-chip src-smart">Smartsheet — Today's Launches (Digital + Print)</span>
   </div>
   <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr)">
-    <div class="kpi green"><div class="label">Projects · Today (Oct 9)</div><div class="value" id="live-count">0</div><div class="sub">All statuses · Digital or Print today</div></div>
+    <div class="kpi green"><div class="label">Projects · Today (Oct 12)</div><div class="value" id="live-count">0</div><div class="sub">All statuses · Digital or Print today</div></div>
     <div class="kpi blue"><div class="label">Total Revenue · These Projects</div><div class="value" id="live-rev">$0</div><div class="sub">Where revenue is recorded</div></div>
     <div class="kpi purple"><div class="label">Brands</div><div class="value" id="live-brands">0</div><div class="sub">Distinct brands today</div></div>
   </div>
-  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Every project with a Digital or Print Launch Date of today (Oct 9) — sources: Smartsheet "Digital- Today's Launches" + "Print- Today's Launches." All statuses are shown (Live/Complete, Launched, In Progress, Scheduled, Ready for Kickoff), sorted live-first. The channel tag shows Digital, Print, or both.</p>
+  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Every project with a Digital or Print Launch Date of today (Oct 12) — sources: Smartsheet "Digital- Today's Launches" + "Print- Today's Launches." All statuses are shown (Live/Complete, Launched, In Progress, Scheduled, Ready for Kickoff), sorted live-first. The channel tag shows Digital, Print, or both.</p>
   <div id="live-list"></div>
 </div>
 
@@ -800,14 +800,68 @@ brandFocus.forEach((b,i)=>{
   + `<p style="font-size:11px;color:#94a3b8;margin-top:8px">Source: Adobe content extract · median split (reach ${QMED.mx.toLocaleString()} PV, dwell ${_fmtSecQ(QMED.my)}). Dwell = subscriber seconds ÷ qualifying pages. Only the ${QMED.n} of ${QMED.total} sponsored stories with subscriber dwell data are plotted — the rest have no subscriber time recorded and are excluded rather than shown as zero.</p>`;
 })();
 
-// ===== Launching today (Oct 9) — Smartsheet "Digital- Today's Launches" + "Print- Today's Launches" =====
+// ===== Launching today (Oct 12) — Smartsheet "Digital- Today's Launches" + "Print- Today's Launches" =====
 // ALL projects whose Digital Launch Date (Digital report) or Print Launch Date (Print report) is today, regardless of status.
-// Oct 9 (8:20 run): Digital report 4 rows, Print report 0 rows. 4 unique go-lives (4 Digital), 0 Canceled, deduped by Brand+Product+Client.
+// Oct 12: Digital report returned 59 rows, Print report returned 38 rows. 58 unique go-lives (22 Digital, 2 Print, 34 Digital + Print), 0 Canceled, deduped by Brand+Product+Client.
 const liveContent = [
-  {"brand": "Modern Healthcare", "channel": "Digital", "product": "Industry Coverage \"Live From\" Breakthroughs", "client": "Premier Inc", "status": "Not Started", "revenue": 51480, "owner": "Sarah Loeffler, Shannon Mortland", "url": "https://www.modernhealthcare.com/breakthroughs/mh-premier-2026/"},
-  {"brand": "Modern Healthcare", "channel": "Digital", "product": "Video Podcast \"Live From\" Breakthroughs", "client": "Premier Inc", "status": "Not Started", "revenue": 51480, "owner": "Sarah Loeffler, Shannon Mortland", "url": "https://www.modernhealthcare.com/breakthroughs/mh-premier-2026/"},
-  {"brand": "Modern Healthcare", "channel": "Digital", "product": "Mini Video #3", "client": "Premier Inc", "status": "Not Started", "revenue": 0, "owner": "Sarah Loeffler, Shannon Mortland"},
-  {"brand": "Ad Age", "channel": "Digital", "product": "Pub Partner (CW)", "client": "Horizon Media", "status": "Scheduled", "revenue": 10000, "owner": "Sophia Juarez", "url": "https://adage.com/studio-30/publishing-partners/aa-algorithms-arent-enough-future-marketing-human-led/"}
+  {"brand": "Modern Healthcare", "channel": "Digital + Print", "product": "Executive Conversation", "client": "Community Hospital Corporation", "status": "Launched", "revenue": 20000, "owner": "Melanie Cooper", "url": "https://www.modernhealthcare.com/content-studio/executive-conversation/mh-improve-hospital-revenue-cycle-performance/"},
+  {"brand": "Modern Healthcare", "channel": "Digital", "product": "Gated Content: Client Supplied", "client": "Vizient", "status": "Launched", "revenue": 17916, "owner": "Melanie Cooper", "url": "https://www.modernhealthcare.com/content-studio/white-paper/mh-the-hospital-is-no-longer-the-whole-story/"},
+  {"brand": "Modern Healthcare", "channel": "Digital", "product": "Quick Take Video", "client": "HARTZ Search", "status": "Launched", "revenue": 0, "owner": "Alison Caceres", "url": "https://www.modernhealthcare.com/content-studio/quicktake/mh-healthcare-leadership-succession-planning/"},
+  {"brand": "Modern Healthcare", "channel": "Digital", "product": "Sponsored Content Posting: MH writes", "client": "Boston Scientific", "status": "Launched", "revenue": 0, "owner": "Alison Caceres", "url": "https://www.modernhealthcare.com/content-studio/publishing-partner/mh-beyond-breakthrough-innovation-succeed-scale/"},
+  {"brand": "Modern Healthcare", "channel": "Digital + Print", "product": "Gated Asset: Client Supplied", "client": "Med-Metrix", "status": "Launched", "revenue": 26000, "owner": "Melanie Cooper", "url": "https://www.modernhealthcare.com/content-studio/white-paper/mh-shifting-to-end-to-end-rcm/"},
+  {"brand": "Modern Healthcare", "channel": "Digital + Print", "product": "Executive Conversation", "client": "American Specialty health", "status": "Launched", "revenue": 35000, "owner": "Melanie Cooper", "url": "https://www.modernhealthcare.com/content-studio/executive-conversation/mh-health-plans-clinical-program-partners/"},
+  {"brand": "Modern Healthcare", "channel": "Digital + Print", "product": "Executive Conversation", "client": "Aetna", "status": "Launched", "revenue": 35000, "owner": "Sarah Loeffler", "url": "https://www.modernhealthcare.com/content-studio/executive-conversation/mh-how-interoperability-make-healthcare-more-human/"},
+  {"brand": "Modern Healthcare", "channel": "Digital", "product": "Sponsored Content: Client Supplied", "client": "R1 RCM", "status": "Launched", "revenue": 9666.66, "owner": "Melanie Cooper", "url": "https://www.modernhealthcare.com/content-studio/publishing-partner/mh-overcome-the-deployment-gap-derailing-healthcare-ai-investment/"},
+  {"brand": "P&I", "channel": "Digital + Print", "product": "Investment Insights (1p + ad)", "client": "Orbis", "status": "In Progress", "revenue": 44000, "owner": "Corina Lewis", "url": "https://www.pionline.com/partner-content/pi-strengthening-case-for-non-us-equities/"},
+  {"brand": "P&I", "channel": "Digital + Print", "product": "Investment Insights (1p)", "client": "Capital Fund Management", "status": "In Progress", "revenue": 38750, "owner": "Corina Lewis", "url": "https://www.pionline.com/partner-content/pi-a-systematic-view-of-how-liquidity-shapes-markets/"},
+  {"brand": "Ad Age", "channel": "Digital", "product": "Event Panel", "client": "Cluep", "status": "In Progress", "revenue": 15000, "owner": "Sophia Juarez", "url": "https://www.adage.com/studio-30/publishing-partners/aa-consumer-emotion-new-signal-marketers/"},
+  {"brand": "Ad Age", "channel": "Digital", "product": "Event Panel", "client": "Indie Consulting", "status": "In Progress", "revenue": 30000, "owner": "Andrea Straw, Sophia Juarez", "url": "https://www.adage.com/studio-30/publishing-partners/aa-what-really-takes-make-social-commerce-work/"},
+  {"brand": "Ad Age", "channel": "Digital", "product": "Event Panel", "client": "Quantilope Inc", "status": "In Progress", "revenue": 25000, "owner": "Sophia Juarez"},
+  {"brand": "Ad Age", "channel": "Digital", "product": "Event Panel", "client": "Trend Management", "status": "In Progress", "revenue": 30000, "owner": "Sophia Juarez"},
+  {"brand": "Crain's Cleveland", "channel": "Digital", "product": "Digital - Crain's writes", "client": "American Heart Association", "status": "Complete", "revenue": 5000, "owner": "kathy carr, Natalie Bonadeo", "url": "https://www.crainscleveland.com/crains-content-studio/publishing-partner/ccl-executives-with-heart-american-heart-association/"},
+  {"brand": "Crain's Chicago", "channel": "Digital + Print", "product": "Thought Leader Report - Client writes", "client": "Aprio", "status": "In Progress", "revenue": 11000, "owner": "Brittany Brown", "url": "https://www.chicagobusiness.com/crains-content-studio/thought-leader-report/ccb-three-budget-questions-next-board-vote/"},
+  {"brand": "Crain's Chicago", "channel": "Digital + Print", "product": "Thought Leader Report - Client writes", "client": "Benesch", "status": "Complete", "revenue": 12000, "owner": "Jordan Dziura", "url": "https://www.chicagobusiness.com/crains-content-studio/thought-leader-report/ccb-protect-your-business-reputation-from-defamation/"},
+  {"brand": "Crain's New York", "channel": "Digital", "product": "Digital - Client writes", "client": "Brown & Brown", "status": "Launched", "revenue": 4800, "owner": "Shannon Mortland", "url": "http://crainsnewyork.com/crains-content-studio/publishing-partner/cny-risk-management-isnt-insurance-decision-its-leadership-decision/"},
+  {"brand": "Crain's Chicago", "channel": "Digital + Print", "product": "Digital + Print - Client writes", "client": "Cigna Healthcare", "status": "Scheduled", "revenue": 16000, "owner": "Jennifer Keirn", "url": "https://www.chicagobusiness.com/crains-content-studio/publishing-partner/ccb-cigna-employees-cancer/"},
+  {"brand": "Crain's Chicago", "channel": "Digital + Print", "product": "Digital + Print - Client writes", "client": "City of Hope", "status": "In Progress", "revenue": 16135, "owner": "Jordan Dziura"},
+  {"brand": "Crain's Grand Rapids", "channel": "Digital", "product": "Quick Take Video", "client": "Clark Retirement Community", "status": "In Progress", "revenue": 4500, "owner": "Jordan Dziura"},
+  {"brand": "Crain's Chicago", "channel": "Digital", "product": "Digital - Client writes", "client": "Connect Search", "status": "Launched", "revenue": 6000, "owner": "Shannon Mortland", "url": "https://www.chicagobusiness.com/crains-content-studio/publishing-partner/ccb-illinois-menopause-law-reshapes-the-workplace"},
+  {"brand": "Crain's Detroit", "channel": "Digital", "product": "Digital - Client writes", "client": "DTE Energy", "status": "Complete", "revenue": 4080, "owner": "Natalie Bonadeo", "url": "https://www.crainsdetroit.com/crains-content-studio/publishing-partner/cdb-michigan-winter-energy-assistance/"},
+  {"brand": "Crain's Chicago", "channel": "Digital", "product": "White Paper - Client writes", "client": "Eisner Amper", "status": "In Progress", "revenue": 7200, "owner": "Jordan Dziura", "url": "http://chicagobusiness.com/crains-content-studio/white-paper/ccb-real-estate-fund-lifecycle-guide-for-managers/"},
+  {"brand": "Crain's Cleveland", "channel": "Digital + Print", "product": "Giving Guide", "client": "Giving Guide", "status": "Scheduled", "revenue": 91500, "owner": "kathy carr", "url": "https://www.crainscleveland.com/crains-content-studio/giving-guide/ccl-2026/"},
+  {"brand": "Crain's Cleveland", "channel": "Digital + Print", "product": "Giving Guide", "client": "Achievement Centers for Children", "status": "Scheduled", "revenue": 3700, "owner": "kathy carr"},
+  {"brand": "Crain's Cleveland", "channel": "Digital + Print", "product": "Giving Guide", "client": "Akron Children's Hospital", "status": "In Progress", "revenue": 7500, "owner": "kathy carr"},
+  {"brand": "Crain's Cleveland", "channel": "Digital + Print", "product": "Giving Guide", "client": "American Red Cross", "status": "Scheduled", "revenue": 3700, "owner": "kathy carr"},
+  {"brand": "Crain's Cleveland", "channel": "Digital + Print", "product": "Giving Guide", "client": "Baldwin Wallace University", "status": "Scheduled", "revenue": 2100, "owner": "kathy carr"},
+  {"brand": "Crain's Cleveland", "channel": "Digital + Print", "product": "Giving Guide", "client": "Cleveland Zoological Society", "status": "Scheduled", "revenue": 3700, "owner": "kathy carr"},
+  {"brand": "Crain's Cleveland", "channel": "Digital + Print", "product": "Giving Guide", "client": "Cleveland Metroparks", "status": "Scheduled", "revenue": 3700, "owner": "kathy carr"},
+  {"brand": "Crain's Cleveland", "channel": "Digital + Print", "product": "Giving Guide", "client": "Cleveland Orchestra", "status": "Scheduled", "revenue": 3700, "owner": "kathy carr"},
+  {"brand": "Crain's Cleveland", "channel": "Digital + Print", "product": "Giving Guide", "client": "Conservancy for Cuyahoga National Park", "status": "Scheduled", "revenue": 3700, "owner": "kathy carr"},
+  {"brand": "Crain's Cleveland", "channel": "Digital + Print", "product": "Giving Guide", "client": "Cuyahoga County Public Library", "status": "Scheduled", "revenue": 3700, "owner": "kathy carr"},
+  {"brand": "Crain's Cleveland", "channel": "Digital + Print", "product": "Giving Guide", "client": "Greater Cleveland Habitat for Humanity", "status": "Scheduled", "revenue": 2100, "owner": "kathy carr"},
+  {"brand": "Crain's Cleveland", "channel": "Digital + Print", "product": "Giving Guide", "client": "Great Lakes Science Center", "status": "Scheduled", "revenue": 2100, "owner": "kathy carr"},
+  {"brand": "Crain's Cleveland", "channel": "Digital + Print", "product": "Giving Guide", "client": "Hudson Community Foundation", "status": "Scheduled", "revenue": 3700, "owner": "kathy carr"},
+  {"brand": "Crain's Cleveland", "channel": "Digital + Print", "product": "Giving Guide", "client": "Ideastream", "status": "In Progress", "revenue": 6600, "owner": "kathy carr"},
+  {"brand": "Crain's Cleveland", "channel": "Digital + Print", "product": "Giving Guide", "client": "Julie Billiart Schools", "status": "Scheduled", "revenue": 3700, "owner": "kathy carr"},
+  {"brand": "Crain's Cleveland", "channel": "Digital + Print", "product": "Giving Guide", "client": "Legal Aid Society Of Cleveland", "status": "Scheduled", "revenue": 3700, "owner": "kathy carr"},
+  {"brand": "Crain's Cleveland", "channel": "Digital + Print", "product": "Giving Guide", "client": "Malachi House", "status": "Scheduled", "revenue": 2100, "owner": "kathy carr"},
+  {"brand": "Crain's Cleveland", "channel": "Digital + Print", "product": "Giving Guide", "client": "MetroHealth", "status": "Scheduled", "revenue": 4800, "owner": "kathy carr"},
+  {"brand": "Crain's Cleveland", "channel": "Digital + Print", "product": "Giving Guide", "client": "Rescue Village", "status": "Scheduled", "revenue": 3700, "owner": "kathy carr"},
+  {"brand": "Crain's Cleveland", "channel": "Digital + Print", "product": "Giving Guide", "client": "The Centers", "status": "Scheduled", "revenue": 3700, "owner": "kathy carr"},
+  {"brand": "Crain's Cleveland", "channel": "Digital + Print", "product": "Giving Guide", "client": "University Hospitals", "status": "Scheduled", "revenue": 3700, "owner": "kathy carr"},
+  {"brand": "Crain's Cleveland", "channel": "Digital + Print", "product": "Giving Guide", "client": "Urban Community School", "status": "Scheduled", "revenue": 2100, "owner": "kathy carr"},
+  {"brand": "Crain's Cleveland", "channel": "Digital + Print", "product": "Giving Guide", "client": "VGS Jobs", "status": "In Progress", "revenue": 6600, "owner": "kathy carr"},
+  {"brand": "Crain's Cleveland", "channel": "Digital + Print", "product": "Giving Guide", "client": "West Creek Conservancy", "status": "Scheduled", "revenue": 3700, "owner": "kathy carr"},
+  {"brand": "Crain's Chicago", "channel": "Digital", "product": "Digital - Crain's writes", "client": "Huntington Bank", "status": "In Progress", "revenue": 8500, "owner": "Brittany Brown", "url": "https://www.chicagobusiness.com/crains-content-studio/publishing-partner/ccb-chicago-winning-corporate-investments/"},
+  {"brand": "Crain's Detroit", "channel": "Digital", "product": "Digital - Client writes", "client": "MAHP", "status": "Scheduled", "revenue": 6095, "owner": "kathy carr"},
+  {"brand": "Crain's Grand Rapids", "channel": "Digital", "product": "Digital - Client writes", "client": "MAHP", "status": "Scheduled", "revenue": 1500, "owner": "kathy carr"},
+  {"brand": "Crain's Chicago", "channel": "Digital", "product": "Digital - Client writes", "client": "Old National Bank", "status": "On Hold", "revenue": 7650, "owner": "Brittany Brown", "url": "https://www.chicagobusiness.com/crains-content-studio/publishing-partner/ccb-liquidity-under-pressure-4-cash-flow-moves-chicago/"},
+  {"brand": "Crain's New York", "channel": "Digital", "product": "Digital - Client writes", "client": "Under Construction News", "status": "Scheduled", "revenue": 3500, "owner": "Jennifer Keirn"},
+  {"brand": "Automotive News", "channel": "Digital", "product": "In the Driver Seat Video", "client": "Enterprise Holdings", "status": "Complete", "revenue": 15000, "owner": "Veronica Johnson", "url": "https://www.autonews.com/sponsored/in-the-drivers-seat/an-congress-2026-how-enterprise-mobility-preparing-future-mobility/"},
+  {"brand": "Automotive News", "channel": "Digital", "product": "Publishing Partner (CW)", "client": "ReyRey Proton", "status": "Complete", "revenue": 5752.8, "owner": "Veronica Johnson", "url": "https://www.autonews.com/sponsored/publishing-partners/an-state-dealership-cybersecurity-how-new-threats-changing-game/"},
+  {"brand": "Automotive News Europe", "channel": "Digital", "product": "Publishing Partner (CW)", "client": "Influence Associates", "status": "Complete", "revenue": 0, "owner": "Veronica Johnson", "url": "https://www.autonews.com/sponsored/publishing-partners/ane-catena-x-automotive-data-network-global-supplier-needs-understand/"},
+  {"brand": "Modern Healthcare", "channel": "Print", "product": "Executive Conversation", "client": "Cencora", "status": "Launched", "revenue": 20000, "owner": "Melanie Cooper", "url": "https://www.modernhealthcare.com/content-studio/executive-conversation/mh-health-system-pharmacy-enterprise-performance"},
+  {"brand": "Crain's Detroit", "channel": "Print", "product": "Digital + Print - Client writes", "client": "First Merchants Bank", "status": "Launched", "revenue": 12300, "owner": "Shannon Mortland", "url": "https://www.crainsdetroit.com/crains-content-studio/publishing-partner/cdb-first-merchants-fitzgerald-home-improvement-grants"}
 ];
 // Sort: live/complete first, then launched, in progress, scheduled — each by revenue desc.
 const _statusRank = { "Complete": 0, "Launched": 1, "In Progress": 2, "Scheduled": 3 };
@@ -819,7 +873,7 @@ document.getElementById('live-rev').textContent = '$' + liveRevTotal.toLocaleStr
 document.getElementById('live-brands').textContent = new Set(liveContent.map(x => x.brand)).size;
 
 if (liveContent.length === 0) {
-  document.getElementById('live-list').innerHTML = `<div style="background:white;border-radius:12px;padding:28px;text-align:center;color:#94a3b8;font-size:13px;box-shadow:0 1px 3px rgba(0,0,0,0.07)">Nothing launching today (Oct 9). Neither the Digital nor Print report shows an item with an Oct 9 launch date. Check back tomorrow.</div>`;
+  document.getElementById('live-list').innerHTML = `<div style="background:white;border-radius:12px;padding:28px;text-align:center;color:#94a3b8;font-size:13px;box-shadow:0 1px 3px rgba(0,0,0,0.07)">Nothing launching today (Oct 12). Neither the Digital nor Print report shows an item with an Oct 12 launch date. Check back tomorrow.</div>`;
 } else {
 const _statusMeta = {
   "Complete":    { label: "✅ Live",        css: "background:#eff6ff;color:#1d4ed8", border: "#10b981" },
@@ -1239,7 +1293,7 @@ document.addEventListener('click', function() { document.querySelectorAll('.drop
 </script>
 <div class="tab-footer">
   <span class="tf-badge">⚠ PROTOTYPE</span>
-  <span class="tf-txt"><b>Internal working tool — figures are directional, not yet a source of truth.</b> Sources: <b>Adobe content extract</b> (7-day / 30-day / lifetime, windowed by publish date; cumulative pageviews to date) · <b>Smartsheet</b> go-lives &amp; revenue (today). Updated October 9, 2026</span>
+  <span class="tf-txt"><b>Internal working tool — figures are directional, not yet a source of truth.</b> Sources: <b>Adobe content extract</b> (7-day / 30-day / lifetime, windowed by publish date; cumulative pageviews to date) · <b>Smartsheet</b> go-lives &amp; revenue (today). Updated October 12, 2026</span>
   <span class="tf-txt tf-gaps">Pending stakeholder input: campaign/flight mapping &amp; AdOps pacing/delivery (Judy · Bernice · AdOps).</span>
 </div>
 </body>
