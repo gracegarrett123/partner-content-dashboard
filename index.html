@@ -209,12 +209,13 @@
 <div id="stale-banner" style="max-width:1400px;margin:14px auto 0;padding:14px 18px;background:#fef2f2;border:1px solid #fecaca;border-left:5px solid #dc2626;border-radius:10px;font-size:13px;line-height:1.55;color:#7f1d1d">
   <div style="font-weight:700;font-size:13.5px;margin-bottom:4px">⚠️ Sponsored content data is frozen at Aug 19, 2026 — do not read the PV, story or audience numbers as current.</div>
   <div>The Tableau <em>ARC Content Performance Extract</em> has not advanced in 19+ consecutive daily pulls, Aug 24–Sep 23 (the YTD export was byte-identical every day; no new extract files have landed since Sep 23, none for Oct 16), and now sits 55 days behind. Every sponsored, audience and brand-level figure on this dashboard reflects data through <strong>Aug 19</strong> only, and the trailing 7/30/60-day windows are incomplete. <strong>The fix is upstream:</strong> the extract needs to be republished or reconnected in Tableau.</div>
-  <div style="margin-top:6px"><strong>Today's Go-Lives is unaffected</strong> — it comes from Smartsheet and is current as of <span id="stale-golive-date">Oct 28, 2026</span>.</div>
+  <div style="margin-top:6px"><strong>Today's Go-Lives is unaffected</strong> — it comes from Smartsheet and is current as of <span id="stale-golive-date">Oct 29, 2026</span>.</div>
 </div>
 
 <div class="tabs">
-  <div class="tab active" onclick="showPage('overview')">Overview</div>
-  <div class="tab" onclick="showPage('live')">Today's Go Lives</div>
+  <div class="tab active" onclick="showPage('live')">Today's Go Lives</div>
+  <div class="tab" onclick="showPage('delivery')">2026 Delivery</div>
+  <div class="tab" onclick="showPage('overview')">Overview</div>
   <div class="tab" onclick="showPage('sponsored-extract')">Sponsored Content</div>
   <div class="tab" onclick="showPage('audience')">Audience</div>
   <div class="tab" onclick="showPage('webinars')">Webinars</div>
@@ -248,7 +249,7 @@
   <span class="fb-note">Filters drive every tab · window = publish period; figures are cumulative pageviews to date.</span>
 </div>
 
-<div class="page active" id="page-overview">
+<div class="page" id="page-overview">
   <div class="hero">
     <div class="hero-eyebrow">Sponsored Content · <span id="hero-window">Last 7 days</span></div>
     <div class="hero-head" id="ov-hero">—</div>
@@ -311,17 +312,17 @@
   </div>
 </div>
 
-<div class="page" id="page-live">
+<div class="page active" id="page-live">
   <div class="src-legend">
     <span class="leg-label">Source:</span>
     <span class="src-chip src-smart">Smartsheet — Today's Launches (Digital + Print)</span>
   </div>
   <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr)">
-    <div class="kpi green"><div class="label">Projects · Today (Oct 28)</div><div class="value" id="live-count">0</div><div class="sub">All statuses · Digital or Print today</div></div>
+    <div class="kpi green"><div class="label">Projects · Today (Oct 29)</div><div class="value" id="live-count">0</div><div class="sub">All statuses · Digital or Print today</div></div>
     <div class="kpi blue"><div class="label">Total Revenue · These Projects</div><div class="value" id="live-rev">$0</div><div class="sub">Where revenue is recorded</div></div>
     <div class="kpi purple"><div class="label">Brands</div><div class="value" id="live-brands">0</div><div class="sub">Distinct brands today</div></div>
   </div>
-  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Every project with a Digital or Print Launch Date of today (Oct 28) — sources: Smartsheet "Digital- Today's Launches" + "Print- Today's Launches." All statuses are shown (Live/Complete, Launched, In Progress, Scheduled, Ready for Kickoff), sorted live-first. The channel tag shows Digital, Print, or both.</p>
+  <p style="font-size:13px;color:#64748b;margin-bottom:16px">Every project with a Digital or Print Launch Date of today (Oct 29) — sources: Smartsheet "Digital- Today's Launches" + "Print- Today's Launches." All statuses are shown (Live/Complete, Launched, In Progress, Scheduled, Ready for Kickoff), sorted live-first. The channel tag shows Digital, Print, or both.</p>
   <div id="live-list"></div>
 </div>
 
@@ -396,6 +397,16 @@
       </table>
     </div>
   </div>
+</div>
+
+<div class="page" id="page-delivery">
+  <div class="src-legend"><span class="leg-label">Source:</span><span class="src-chip src-smart">Smartsheet — brand task trackers (2026 Brand Delivery Tracker)</span></div>
+  <p id="dl-takeaway" style="font-size:15px;font-weight:600;color:#1c3a5e;margin:0 0 16px"></p>
+  <div class="kpi-grid" id="dl-kpis"></div>
+  <div class="section-label">By brand · sorted by % complete</div>
+  <div style="overflow-x:auto;background:#fff;border:1px solid #ececea;border-radius:10px"><table id="dl-table" style="width:100%;border-collapse:collapse;font-size:12.5px"></table></div>
+  <p id="dl-updated" style="font-size:12px;color:#64748b;margin:12px 0 4px"></p>
+  <p style="font-size:11px;color:#94a3b8;line-height:1.5;margin:0 0 16px">How it's counted: 2026 digital launch date only; parent projects only, never child steps; completed = on the brand's Completed sheet or marked Complete; Launched and Post-Campaign / Reporting count as open; canceled, templates and unsold podcast slots excluded; City Brands guide listings count individually and guide header rows are excluded; revenue is the Smartsheet Project Revenue column, so blanks count as $0. <span class="src-tag src-smart">Smartsheet</span></p>
 </div>
 
 <div class="page" id="page-webinars">
@@ -800,15 +811,14 @@ brandFocus.forEach((b,i)=>{
   + `<p style="font-size:11px;color:#94a3b8;margin-top:8px">Source: Adobe content extract · median split (reach ${QMED.mx.toLocaleString()} PV, dwell ${_fmtSecQ(QMED.my)}). Dwell = subscriber seconds ÷ qualifying pages. Only the ${QMED.n} of ${QMED.total} sponsored stories with subscriber dwell data are plotted — the rest have no subscriber time recorded and are excluded rather than shown as zero.</p>`;
 })();
 
-// ===== Launching today (Oct 28) — Smartsheet "Digital- Today's Launches" + "Print- Today's Launches" =====
+// ===== Launching today (Oct 29) — Smartsheet "Digital- Today's Launches" + "Print- Today's Launches" =====
 // ALL projects whose Digital Launch Date (Digital report) or Print Launch Date (Print report) is today, regardless of status.
-// Oct 28: Digital report returned 5 rows, Print report returned 0 rows. 5 unique go-lives total (5 Digital), none Canceled.
+// Oct 29: Digital report returned 4 rows, Print report returned 0 rows. 4 unique go-lives total (4 Digital), none Canceled.
 const liveContent = [
-  {"brand": "P&I", "channel": "Digital", "product": "Single-Sponsor Webinar", "client": "TIAA", "status": "In Progress", "revenue": 57500, "owner": "Bethany Ford"},
-  {"brand": "Ad Age", "channel": "Digital", "product": "Pub Partner (CW)", "client": "IAB", "status": "In Progress", "revenue": 11000, "owner": "Sophia Juarez", "url": "https://www.adage.com//studio-30/publishing-partners/aa-video-advertising-needs-shared-vocabulary/"},
-  {"brand": "Ad Age", "channel": "Digital", "product": "Custom Conversation Video", "client": "Quad", "status": "In Progress", "revenue": 37000, "owner": "Leeza Rivkin", "url": "https://adage.com/studio-30/custom-conversation/aa-growth-debunked-national-averages-killing-strategy/"},
-  {"brand": "GenomeWeb", "channel": "Digital", "product": "Webinar", "client": "Countable Labs", "status": "In Progress", "revenue": 20000, "owner": "Alison Caceres"},
-  {"brand": "Plastics News", "channel": "Digital", "product": "Webinar", "client": "Asaclean", "status": "In Progress", "revenue": 7500, "owner": "Daniela Rubalcava", "url": "https://event.webcasts.com/starthere.jsp?ei=1776787&tp_key=daf262acb0&sti=arc"}
+  {"brand": "Automotive News Canada", "channel": "Digital", "product": "Publishing Partner (CW)", "client": "Trans Union Canada", "status": "In Progress", "revenue": 4800, "owner": "Veronica Johnson"},
+  {"brand": "GenomeWeb", "channel": "Digital", "product": "Virtual Roundtable", "client": "FMI", "status": "In Progress", "revenue": 30000, "owner": "Alison Caceres"},
+  {"brand": "GenomeWeb", "channel": "Digital", "product": "Webinar", "client": "Clinton Health Access Initiative (CHAI)", "status": "In Progress", "revenue": 15000, "owner": "Ian Levenstein"},
+  {"brand": "Plastics News", "channel": "Digital", "product": "Webinar", "client": "Holland Colours", "status": "In Progress", "revenue": 7500, "owner": "Daniela Rubalcava", "url": "https://www.plasticsnews.com/events/webinars/pn-from-aesthetics-to-performance-the-changing-demands-of-building-exteriors/"}
 ];
 // Sort: live/complete first, then launched, in progress, scheduled — each by revenue desc.
 const _statusRank = { "Complete": 0, "Launched": 1, "In Progress": 2, "Scheduled": 3 };
@@ -820,7 +830,7 @@ document.getElementById('live-rev').textContent = '$' + liveRevTotal.toLocaleStr
 document.getElementById('live-brands').textContent = new Set(liveContent.map(x => x.brand)).size;
 
 if (liveContent.length === 0) {
-  document.getElementById('live-list').innerHTML = `<div style="background:white;border-radius:12px;padding:28px;text-align:center;color:#94a3b8;font-size:13px;box-shadow:0 1px 3px rgba(0,0,0,0.07)">Nothing launching today (Oct 28). Neither the Digital nor Print report shows an item with an Oct 28 launch date. Check back tomorrow.</div>`;
+  document.getElementById('live-list').innerHTML = `<div style="background:white;border-radius:12px;padding:28px;text-align:center;color:#94a3b8;font-size:13px;box-shadow:0 1px 3px rgba(0,0,0,0.07)">Nothing launching today (Oct 29). Neither the Digital nor Print report shows an item with an Oct 29 launch date. Check back tomorrow.</div>`;
 } else {
 const _statusMeta = {
   "Complete":    { label: "✅ Live",        css: "background:#eff6ff;color:#1d4ed8", border: "#10b981" },
@@ -1213,6 +1223,35 @@ var _wbb=document.getElementById('web-brand'); if(_wbb) _wbb.addEventListener('c
 renderWebinars("All brands");
 const _charts = { overview: [_cOvExtract], webinars: [_cWeb], traffic: [_cYesterday], stories: [_cFormats], audience: [_cArrive, _cSections, _cNeeds], focus: _quadCharts };
 
+const deliveryData = {"asOf": "2026-10-29", "prevDate": null, "rows": [{"brand": "Crain's Cleveland", "completed": 115, "open": 29, "total": 144, "pct": 0.7986111111111112, "revCompleted": 584416, "revOpen": 177800, "revTotal": 762216, "revPct": 0.7667327896554258, "dCompleted": null, "dOpen": null, "dRev": null, "note": "Guide listings count as projects; guide header rows excluded."}, {"brand": "Crain's New York", "completed": 63, "open": 20, "total": 83, "pct": 0.7590361445783133, "revCompleted": 503060, "revOpen": 185720, "revTotal": 688780, "revPct": 0.7303638317024304, "dCompleted": null, "dOpen": null, "dRev": null, "note": "Guide header rows excluded."}, {"brand": "GenomeWeb", "completed": 124, "open": 48, "total": 172, "pct": 0.7209302325581395, "revCompleted": 1413293.9, "revOpen": 783539.14, "revTotal": 2196833.04, "revPct": 0.6433324127353801, "dCompleted": null, "dOpen": null, "dRev": null, "note": "From the GW 2026 All Projects report. 27 booked projects with TBD launch dates are excluded; 13 dated projects have no revenue entered."}, {"brand": "Tire Business", "completed": 5, "open": 2, "total": 7, "pct": 0.7142857142857143, "revCompleted": 0, "revOpen": 11900, "revTotal": 11900, "revPct": 0.0, "dCompleted": null, "dOpen": null, "dRev": null, "note": "Completed postings have no revenue entered. Webinar tracking starts late Aug 2026."}, {"brand": "Modern Healthcare", "completed": 174, "open": 80, "total": 254, "pct": 0.6850393700787402, "revCompleted": 2528798, "revOpen": 966089, "revTotal": 3494887, "revPct": 0.7235707477809726, "dCompleted": null, "dOpen": null, "dRev": null, "note": "Includes 1 project nested under On Hold / Waiting for Date."}, {"brand": "Crain's Detroit", "completed": 120, "open": 57, "total": 177, "pct": 0.6779661016949152, "revCompleted": 924557.48, "revOpen": 347717, "revTotal": 1272274.48, "revPct": 0.7266965537185026, "dCompleted": null, "dOpen": null, "dRev": null, "note": "Guide header rows excluded."}, {"brand": "Rubber News", "completed": 8, "open": 4, "total": 12, "pct": 0.6666666666666666, "revCompleted": 23950, "revOpen": 31900, "revTotal": 55850, "revPct": 0.4288272157564906, "dCompleted": null, "dOpen": null, "dRev": null, "note": "Only 1 of 6 completed postings has revenue entered."}, {"brand": "Sustainable Plastics", "completed": 4, "open": 2, "total": 6, "pct": 0.6666666666666666, "revCompleted": 0, "revOpen": 14450, "revTotal": 14450, "revPct": 0.0, "dCompleted": null, "dOpen": null, "dRev": null, "note": "Completed postings have no revenue entered. Possible duplicate Tekniplex posting on 3/23."}, {"brand": "Ad Age", "completed": 120, "open": 63, "total": 183, "pct": 0.6557377049180327, "revCompleted": 2074583, "revOpen": 1065487, "revTotal": 3140070, "revPct": 0.6606804943838832, "dCompleted": null, "dOpen": null, "dRev": null, "note": "Excludes 2 New York rows misfiled on the Ad Age Completed sheet."}, {"brand": "Hart Energy", "completed": 13, "open": 7, "total": 20, "pct": 0.65, "revCompleted": 130800, "revOpen": 62000, "revTotal": 192800, "revPct": 0.6784232365145229, "dCompleted": null, "dOpen": null, "dRev": null, "note": "All projects on one tracker; completed = Complete status."}, {"brand": "Automotive News", "completed": 191, "open": 117, "total": 308, "pct": 0.6201298701298701, "revCompleted": 1561443.71, "revOpen": 834570.45, "revTotal": 2396014.16, "revPct": 0.651683840633062, "dCompleted": null, "dOpen": null, "dRev": null, "note": "Includes AN Canada and Europe. Unsold podcast slots excluded. About 55 projects have no revenue entered."}, {"brand": "Crain's Chicago", "completed": 163, "open": 101, "total": 264, "pct": 0.6174242424242424, "revCompleted": 1229723.6, "revOpen": 585187, "revTotal": 1814910.6, "revPct": 0.6775670382882771, "dCompleted": null, "dOpen": null, "dRev": null, "note": "Guide header rows excluded."}, {"brand": "Plastics News", "completed": 28, "open": 20, "total": 48, "pct": 0.5833333333333334, "revCompleted": 40195.91, "revOpen": 101887.73, "revTotal": 142083.64, "revPct": 0.28290315478967176, "dCompleted": null, "dOpen": null, "dRev": null, "note": "Only 8 of 28 completed postings have revenue entered. Possible duplicate RJG webinar on 11/3."}, {"brand": "Crain's Grand Rapids", "completed": 86, "open": 63, "total": 149, "pct": 0.5771812080536913, "revCompleted": 343015.32, "revOpen": 148665, "revTotal": 491680.32, "revPct": 0.6976389048884446, "dCompleted": null, "dOpen": null, "dRev": null, "note": "Guide header rows excluded."}, {"brand": "Pensions & Investments", "completed": 51, "open": 66, "total": 117, "pct": 0.4358974358974359, "revCompleted": 2168950, "revOpen": 1888228, "revTotal": 4057178, "revPct": 0.5345957214595958, "dCompleted": null, "dOpen": null, "dRev": null, "note": "Launched TLPs in Post-Campaign / Reporting count as open. MetLife 6/3 webinar marked Shift may be a leftover."}], "totals": {"completed": 1265, "open": 679, "total": 1944, "pct": 0.6507201646090535, "revCompleted": 13526786.92, "revOpen": 7205140.32, "revTotal": 20731927.24, "revPct": 0.6524616242093274, "dCompleted": null, "dOpen": null, "dRev": null}};
+
+// ===== 2026 Delivery tab — renders from deliveryData =====
+function renderDelivery(){
+  var d=deliveryData,t=d.totals;
+  var N=function(v){return Math.round(v).toLocaleString('en-US');}, M=function(v){return '$'+Math.round(v).toLocaleString('en-US');}, P=function(v){return (v*100).toFixed(1)+'%';};
+  var sg=function(v,f){return v>0?'+'+f(v):v<0?'-'+f(-v):f(0);};
+  var esc=function(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;');};
+  document.getElementById('dl-takeaway').textContent='Booked 2026 custom projects are '+Math.round(t.pct*100)+'% complete, with '+N(t.open)+' projects and '+M(t.revOpen)+' in revenue left to deliver.';
+  var nc='No change yet';
+  var k=function(cls,l,v,s){return '<div class="kpi '+cls+'"><div class="label">'+l+'</div><div class="value">'+v+'</div><div class="sub">'+s+'</div></div>';};
+  document.getElementById('dl-kpis').innerHTML=
+    k('green','Projects complete',P(t.pct),N(t.completed)+' of '+N(t.total)+' booked')+
+    k('','Projects left to deliver',N(t.open),t.dOpen==null?nc:sg(t.dOpen,N)+' since last run')+
+    k('blue','Revenue delivered',P(t.revPct),M(t.revCompleted)+' of '+M(t.revTotal)+' booked')+
+    k('purple','Completed since last run',t.dCompleted==null?'—':sg(t.dCompleted,N),t.dCompleted==null?nc:sg(t.dRev,M)+' in revenue');
+  var th='font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:#94a3b8;font-weight:600;padding:10px 12px;border-bottom:1px solid #ececea;white-space:nowrap;';
+  var td='padding:9px 12px;border-bottom:1px solid #f1f5f9;vertical-align:top;';
+  var chg=function(v){if(v==null)return '<span style="color:#94a3b8">—</span>';return '<span style="color:'+(v>0?'#059669;font-weight:600':'#94a3b8')+'">'+(v>0?'+'+N(v):N(v))+'</span>';};
+  var bar=function(p){return '<div style="display:flex;align-items:center;gap:8px"><div style="width:70px;height:6px;background:#e2e8f0;border-radius:3px"><div style="width:'+Math.round(p*100)+'%;height:6px;background:#1c3a5e;border-radius:3px"></div></div><span>'+P(p)+'</span></div>';};
+  var hdr=['Brand','Completed','Open','% complete','Completed change','Revenue delivered','Open revenue','% revenue','Notes'];
+  var html='<thead><tr>'+hdr.map(function(x,i){return '<th style="'+th+'text-align:'+(i==0||i==8?'left':'right')+'">'+x+'</th>';}).join('')+'</tr></thead><tbody>';
+  d.rows.forEach(function(r){html+='<tr><td style="'+td+'font-weight:600">'+esc(r.brand)+'</td><td style="'+td+'text-align:right">'+N(r.completed)+'</td><td style="'+td+'text-align:right">'+N(r.open)+'</td><td style="'+td+'">'+bar(r.pct)+'</td><td style="'+td+'text-align:right">'+chg(r.dCompleted)+'</td><td style="'+td+'text-align:right">'+M(r.revCompleted)+'</td><td style="'+td+'text-align:right">'+M(r.revOpen)+'</td><td style="'+td+'text-align:right">'+P(r.revPct)+'</td><td style="'+td+'color:#64748b;font-size:11.5px;min-width:240px">'+esc(r.note)+'</td></tr>';});
+  var tt=td+'font-weight:700;background:#f8fafc;';
+  html+='<tr><td style="'+tt+'">Total</td><td style="'+tt+'text-align:right">'+N(t.completed)+'</td><td style="'+tt+'text-align:right">'+N(t.open)+'</td><td style="'+tt+'">'+bar(t.pct)+'</td><td style="'+tt+'text-align:right">'+chg(t.dCompleted)+'</td><td style="'+tt+'text-align:right">'+M(t.revCompleted)+'</td><td style="'+tt+'text-align:right">'+M(t.revOpen)+'</td><td style="'+tt+'text-align:right">'+P(t.revPct)+'</td><td style="'+tt+'"></td></tr></tbody>';
+  document.getElementById('dl-table').innerHTML=html;
+  document.getElementById('dl-updated').textContent='Updated '+d.asOf+' from Smartsheet'+(d.prevDate?' · changes since '+d.prevDate:'');
+}
+renderDelivery();
 function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -1238,10 +1277,11 @@ function toggleDrop(e, id) {
   if (!wasOpen) m.classList.add('open');
 }
 document.addEventListener('click', function() { document.querySelectorAll('.dropmenu').forEach(m => m.classList.remove('open')); });
+document.addEventListener('DOMContentLoaded', function(){ showPage('live'); });
 </script>
 <div class="tab-footer">
   <span class="tf-badge">⚠ PROTOTYPE</span>
-  <span class="tf-txt"><b>Internal working tool — figures are directional, not yet a source of truth.</b> Sources: <b>Adobe content extract</b> (7-day / 30-day / lifetime, windowed by publish date; cumulative pageviews to date) · <b>Smartsheet</b> go-lives &amp; revenue (today). Updated October 28, 2026</span>
+  <span class="tf-txt"><b>Internal working tool — figures are directional, not yet a source of truth.</b> Sources: <b>Adobe content extract</b> (7-day / 30-day / lifetime, windowed by publish date; cumulative pageviews to date) · <b>Smartsheet</b> go-lives &amp; revenue (today). Updated October 29, 2026</span>
   <span class="tf-txt tf-gaps">Pending stakeholder input: campaign/flight mapping &amp; AdOps pacing/delivery (Judy · Bernice · AdOps).</span>
 </div>
 </body>
